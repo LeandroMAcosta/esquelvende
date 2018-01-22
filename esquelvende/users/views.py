@@ -42,7 +42,7 @@ def login_view(request):
 				login(request, access)
 				return HttpResponseRedirect('/')
 			else:
-				return HttpResponse("error")
+				return HttpResponse("Error al loguearse")
 	elif request.user.is_authenticated():
 		return HttpResponseRedirect('/')
 	else:
