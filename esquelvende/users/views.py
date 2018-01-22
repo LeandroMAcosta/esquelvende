@@ -43,6 +43,8 @@ def login_view(request):
 				return HttpResponseRedirect('/')
 			else:
 				return HttpResponse("error")
+	elif request.user.is_authenticated():
+		return HttpResponseRedirect('/')
 	else:
 		form = AuthenticationForm()
 	return render(request, 'login.html', {'form': form})
