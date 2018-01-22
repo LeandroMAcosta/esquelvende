@@ -10,13 +10,6 @@ from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from products.urls import home
 
-#import pdb; pdb.set_trace()
-
-#Test para ver usuario actual conectado, borrar def, url y html mas adelante
-#def test_login(request):
-#	user = request.user
-#	return render(request, 'test.html', {'user':user, 'test':request.resolver_match})
-
 def new_user(request):
     if request.POST:
         form = FormRegister(request.POST)
@@ -40,7 +33,7 @@ def login_view(request):
 			access = authenticate(request, username=username, password=key)
 			if access is not None:
 				login(request, access)
-				return HttpResponseRedirect('/')
+				return HttpResponseRedirect(request.GET.get('next'))
 			else:
 				return HttpResponse("Error al loguearse")
 	elif request.user.is_authenticated():
