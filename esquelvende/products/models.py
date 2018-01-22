@@ -8,12 +8,12 @@ from categories.models import Category, Subcategory, Filter
 
 class Product(models.Model):
 	title = models.CharField(max_length=50)
-	user = models.ForeignKey('auth.User')
-	category = models.ForeignKey(Category)
-	subcategory = models.ForeignKey(Subcategory)
+	user = models.ForeignKey(User)
+	category = models.ForeignKey(Category, null=True)
+	subcategory = models.ForeignKey(Subcategory, null=True)
 	filter = models.ForeignKey(Filter, null=True)
 	description	= models.TextField()
-	price = models.IntegerField()
+	price = models.IntegerField(null=True)
 	created_date = models.DateTimeField(default=timezone.now)
 	published_date = models.DateTimeField(blank=True, null=True)
 	
