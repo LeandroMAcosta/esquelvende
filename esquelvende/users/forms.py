@@ -3,10 +3,15 @@ from .models import User
 
 
 class FormRegister(forms.ModelForm):
+	
+	def __init__(self, *args, **kwargs):
+		super(FormRegister, self).__init__(*args, **kwargs)
+		self.fields['first_name'].required = True
+		self.fields['last_name'].required = True
 
-    class Meta:
-        model = User
-        help_texts = {
-            'username': None,
-        }
-        fields = ('username', 'password', 'email', 'last_name', 'first_name')
+	class Meta:
+		model = User
+		help_texts = {
+		    'username': None,
+		}
+		fields = ('username', 'password', 'email', 'last_name', 'first_name')
