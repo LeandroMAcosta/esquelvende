@@ -16,6 +16,7 @@ class Product(models.Model):
 	price = models.IntegerField(null=True)
 	created_date = models.DateTimeField(default=timezone.now)
 	published_date = models.DateTimeField(blank=True, null=True)
+	count_report = models.IntegerField(default=0)
 	
 	def __str__(self):
 		return self.title
