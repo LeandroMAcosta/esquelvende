@@ -6,7 +6,8 @@
 </head>
 <body>
     <h1>Publicar producto</h1>
-    <form method="POST" class="post-form">{% csrf_token %}
+    <form method="POST" class="post-form" enctype="multipart/form-data">{% csrf_token %}
+        {{ form_image.as_p }}
         {{ form.as_p }}
         <button type="submit" class="save btn btn-default">publicar</button>
     </form>

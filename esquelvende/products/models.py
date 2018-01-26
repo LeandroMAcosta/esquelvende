@@ -17,10 +17,12 @@ class Product(models.Model):
 	created_date = models.DateTimeField(default=timezone.now)
 	published_date = models.DateTimeField(blank=True, null=True)
 	count_report = models.IntegerField(default=0)
-	
+
 	def __str__(self):
 		return self.title
 
-    #def publish(self):
-    #	self.published_date = timezone.now()	
-    #    self.save 
+
+class ImagesProduct(models.Model):
+    product = models.ForeignKey(Product)
+    image = models.ImageField(upload_to='products/')
+
