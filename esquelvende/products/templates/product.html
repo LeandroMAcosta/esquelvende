@@ -11,5 +11,11 @@
     {% for image in images %}
         <img src="/media/{{ image.image }}" height="42" width="42">
     {% endfor %}
+
+    <form action="/reportar/{{ product.id }}" class="form" method="post">
+        {% csrf_token %}
+        {{ FormReport }}
+        <button>Denunciar</button>  
+    </form>
 </body>
 </html>

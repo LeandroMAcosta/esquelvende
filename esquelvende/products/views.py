@@ -6,6 +6,7 @@ from users.models import User
 from .models import Product, ImagesProduct
 from django.contrib.auth.decorators import login_required
 from categories.models import Category, Subcategory, Filter
+from reports.forms import FormReport
 
 
 def home(request):
@@ -39,7 +40,7 @@ def publish(request):
 def product_view(request, id):
     product = get_object_or_404(Product, pk=id)
     images = product.imagesproduct_set.all()
-    return render(request, 'product.html', {'product': product, 'images': images})
+    return render(request, 'product.html', {'product': product, 'images': images, 'FormReport': FormReport})
 
 
 @login_required(login_url='/login/')
