@@ -8,7 +8,7 @@ from categories.models import Category, Subcategory, Filter
 
 class Product(models.Model):
 	title = models.CharField(max_length=50)
-	user = models.ForeignKey(User)
+	user = models.ForeignKey(User, blank=True, null=True)
 	category = models.ForeignKey(Category, null=True)
 	subcategory = models.ForeignKey(Subcategory, null=True)
 	filter = models.ForeignKey(Filter, null=True)

@@ -6,7 +6,10 @@
 <body>
     {{ product.title }} <br>
     {{ product.description }} <br>
-    {{ product.price }}
-    {{ images.image }}
+    {{ product.price }} <br>
+    
+    {% for image in images %}
+        <img src="/media/{{ image.image }}" height="42" width="42">
+    {% endfor %}
 </body>
 </html>

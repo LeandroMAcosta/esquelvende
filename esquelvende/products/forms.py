@@ -10,7 +10,7 @@ class FormProduct(forms.ModelForm):
 
 class FormImagesProduct(forms.ModelForm):
     image = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
-    
+
     class Meta:
         model = ImagesProduct
         fields = ('image',)
