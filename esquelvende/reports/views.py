@@ -51,6 +51,5 @@ def notificationModerator(product_id):
 
 
 def delProduct(product_id):
-    product = Product.objects.get(id=product_id)
-    product.delete()
+    Product.objects.get(id=product_id).delete()
     return None
