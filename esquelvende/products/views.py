@@ -15,7 +15,6 @@ def home(request):
 @login_required(login_url='/login/')
 def publish(request):
     if request.POST:
-        print("POSSSSSTTT", request.POST)
         form = FormProduct(request.POST)
         form_image = FormImagesProduct(request.POST, request.FILES)
         if form.is_valid() and form_image.is_valid():
