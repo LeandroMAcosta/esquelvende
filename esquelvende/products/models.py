@@ -4,6 +4,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from categories.models import Category, Subcategory, Filter
+from django.core.validators import MinValueValidator
 
 
 class Product(models.Model):
@@ -13,7 +14,9 @@ class Product(models.Model):
 	subcategory = models.ForeignKey(Subcategory, null=True)
 	filter = models.ForeignKey(Filter, null=True)
 	description	= models.TextField()
-	price = models.IntegerField(null=True)
+	contact_phone = models.CharField(max_length=50, null=True)
+	contact_email = models.EmailField()
+	price = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0)])
 	created_date = models.DateTimeField(default=timezone.now)
 	published_date = models.DateTimeField(blank=True, null=True)
 	count_report = models.IntegerField(default=0)
