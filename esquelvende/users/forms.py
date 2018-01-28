@@ -21,5 +21,5 @@ class FormEditUser(forms.ModelForm):
 
 	class Meta:
 		model = User
-		fields = ('last_name', 'first_name')   
+		fields = ('last_name', 'first_name', 'email')   
 		#fields = '__all__'
