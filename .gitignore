@@ -3,3 +3,4 @@ test.html
 db.sqlite3
 *.jpg
 *.png
+*/migrations
