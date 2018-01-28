@@ -1,5 +1,6 @@
 from django import forms
 from .models import User
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 
 class FormRegister(forms.ModelForm):
@@ -15,3 +16,10 @@ class FormRegister(forms.ModelForm):
 		    'username': None,
 		}
 		fields = ('username', 'password', 'email', 'last_name', 'first_name')
+
+class FormEditUser(forms.ModelForm):
+
+	class Meta:
+		model = User
+		fields = ('last_name', 'first_name')   
+		#fields = '__all__'

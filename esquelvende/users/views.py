@@ -5,13 +5,30 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import FormRegister
+from .forms import FormEditUser
 from .utils import my_login
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from products.urls import home
 
+
+@login_required
+def edit_user(request):
+	#user = UserProfile.objects.get(username=request.user)
+	if request.POST:
+		form = FormEditUser(request.POST, instance=request.user)
+		#form.actual_user = request.user
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect("/")
+	else:
+		form = FormEditUser()
+	return render(request, 'edit_user.html', {'form': form})
+
+
 def new_user(request):
     if request.POST:
+        
         form = FormRegister(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
@@ -22,6 +39,7 @@ def new_user(request):
             return my_login(request, username, key)
     else:
         form = FormRegister()
+        
     return render(request, 'create_user.html', {'form': form})
 
 def login_view(request):
