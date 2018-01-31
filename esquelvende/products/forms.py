@@ -18,3 +18,13 @@ class FormImagesProduct(forms.ModelForm):
     class Meta:
         model = ImagesProduct
         fields = ('image',)
+
+
+class FormEditProduct(forms.ModelForm):
+    title = forms.CharField(
+        max_length = 30
+    )
+
+    class Meta:
+        model = Product
+        fields = ('title', 'category', 'subcategory', 'filter', 'contact_phone', 'contact_email', 'description', 'price')

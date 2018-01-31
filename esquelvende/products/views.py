@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals 
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect, get_object_or_404
-from .forms import FormProduct, FormImagesProduct
+from .forms import FormProduct, FormImagesProduct, FormEditProduct
 from users.models import User
 from .models import Product, ImagesProduct
 from django.contrib.auth.decorators import login_required
 from categories.models import Category, Subcategory, Filter
+from django.http import Http404
 
 
 def home(request):
@@ -44,3 +45,17 @@ def product_view(request, id):
 def delete_product(request, id):
     get_object_or_404(Product, id=id, user=request.user).delete()
     return HttpResponseRedirect('/')
+
+
+@login_required(login_url='/login/')
+def edit_product(request, id):
+    product = get_object_or_404(Product, pk=id, user=request.user)
+    if request.POST:
+        form = FormEditProduct(request.POST, instance = product)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/")
+    else:
+        form = FormEditProduct(instance = product)
+        return render(request, 'edit_product.html', {'form': form})
+
