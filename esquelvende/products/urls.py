@@ -3,7 +3,7 @@ from .views import publish, home, product_view, delete_product
 
 
 urlpatterns = [
-    url(r'^$', home),
+    url(r'^$', home, name='inicio'),
     url(r'^publicar/$', publish),
     url(r'^producto/(?P<id>\d+)/$', product_view),
     url(r'^producto/borrar/(?P<id>\d+)/$', delete_product)

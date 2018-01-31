@@ -8,11 +8,10 @@ from .forms import FormRegister
 from .forms import FormEditUser
 from .utils import my_login
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
-from django.urls import reverse
 from products.urls import home
 
 
-@login_required
+@login_required(login_url='/login/')
 def edit_user(request):
 	user = request.user
 	if request.POST:
