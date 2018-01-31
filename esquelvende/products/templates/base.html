@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/flexboxgrid/6.3.0/flexboxgrid.min.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <a class="nav-logo" href="{% url "inicio" %}">
+                    <img src="http://127.0.0.1:8000/media/header_opt.png">
+                </a>
+            </div>
+            <div class="col-md-7">
+                <form class="form-search">
+                    <input type="text" class="input-search" name="busqueda" placeholder="Buscar productos" maxlength="120" data-autofocus="false" tabindex="2" autocomplete="off">
+                </form>
+            </div>
+        </div>
+    </div>
+</nav>
+
+{% block content %}{% endblock %}
+
+</body>
+</html>
