@@ -21,16 +21,6 @@ class FormRegister(forms.ModelForm):
 
 class FormEditUser(forms.ModelForm):
 
-	#def __init__(self, *args, **kwargs):
-	#	super(FormEditUser, self).__init__(*args, **kwargs)
-	#	user = self.instance
-	#	print user
-	#	self.fields['first_name'].initial=user.first_name
-		
-	#last_name = forms.CharField(initial='apellido',label="Apellido")
-	#first_name = forms.CharField(initial='nombre',label="Nombre")
-	#email = forms.CharField(initial='mail',label="Email")
-
 	class Meta:
 		model = User
 		fields = ('last_name', 'first_name', 'email')   

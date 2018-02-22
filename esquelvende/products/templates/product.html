@@ -17,5 +17,9 @@
         {{ FormReport }}
         <button>Denunciar</button>  
     </form>
+    <form action="/favorito/nuevo/{{ product.id }}" class="form" method="post">
+        {% csrf_token %}
+        <button>Favorito</button>  
+    </form>
 </body>
 </html>
