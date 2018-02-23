@@ -2,6 +2,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
+    <script
+  src="http://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
 </head>
 <body>
     {{ product.title }} <br>
@@ -12,14 +16,57 @@
         <img src="/media/{{ image.image }}" height="42" width="42">
     {% endfor %}
 
-    <form action="/reportar/{{ product.id }}" class="form" method="post">
+    <!--<form action="/reportar/{{ product.id }}" class="form" method="post">
         {% csrf_token %}
         {{ FormReport }}
         <button>Denunciar</button>  
-    </form>
-    <form action="/favorito/nuevo/{{ product.id }}" class="form" method="post">
+    </form>-->
+
+    <form action="/favorito/{{ product.id }}" id="favorite-form" class="form" method="post">
         {% csrf_token %}
-        <button>Favorito</button>  
+        <button id="fav">Favorito</button>      
     </form>
+
+
+<script>
+
+$('#favorite-form').on('submit', function(event){
+    var $csrf = $('[name=csrfmiddlewaretoken]');
+    event.preventDefault(); 
+    $.ajax({
+        type: "POST",
+        url: '/favorito/{{ product.id }}',
+        data: {
+            'csrfmiddlewaretoken': $csrf.attr('value')
+        },
+    });
+    
+});
+
+
+// document.getElementById('favorite-form').onsubmit = function(event) {
+//     var xhr = new XMLHttpRequest();
+//     xhr.open('POST', '127.0.0.1:8000/favorito/1', true);
+//     xhr.withCredentials = true
+//     xhr.send()
+//     event.preventDefault();
+// };
+
+
+/*$(document).on('submit', 'form.favorite-form', function(form) {
+  var $form = $(form);
+  $.ajax({
+    type: form.method,
+    url: form.action,
+    data: $form.serialize(),
+    success: function(data) {
+      $form.replace(data);
+    }
+  });
+});*/
+</script>
+
+
+
 </body>
 </html>

@@ -15,21 +15,29 @@ def create_favorite(request, product_id):
 		form = FavoriteForm(request.POST)
 		if form.is_valid():
 			try:
-				existFavorite = Favorite.objects.get(product=product_id, user=request.user.id)
+				existFavorite = Favorite.objects.get(product=product_id, user=request.user)
 			except Favorite.DoesNotExist:
 				existFavorite = None
 
 			if existFavorite is None: 
 				favorite = form.save(commit=False)
-				product = Product.objects.get(id=product_id)
+				product = Product.objects.get(pk=product_id)
 				favorite.user = request.user
 				favorite.product = product
 				favorite.save()
-				return HttpResponse("guardado")
+				if not request.is_ajax():
+					return HttpResponse("guarda3")
 			else:
 				existFavorite.delete()
-				return HttpResponse("elimina3")
+				if not request.is_ajax():
+					return HttpResponse("elimina3")
 	else:
 		form = FavoriteForm()
-		return HttpResponse("GET")
+		return HttpResponse("No valido")
 
+
+@login_required(login_url='/login/')
+def list_favorites(request):
+	favorites = Favorite.objects.filter(user=request.user)
+	print favorites
+	return render(request, 'favorites.html', {'favorites': favorites})
