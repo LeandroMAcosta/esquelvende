@@ -11,7 +11,7 @@ from .models import Favorite
 
 @login_required(login_url='/login/')
 def create_favorite(request, product_id):
-	if request.method == 'POST':
+	if request.POST:
 		form = FavoriteForm(request.POST)
 		if form.is_valid():
 			try:
@@ -25,12 +25,8 @@ def create_favorite(request, product_id):
 				favorite.user = request.user
 				favorite.product = product
 				favorite.save()
-				if not request.is_ajax():
-					return HttpResponse("guarda3")
 			else:
 				existFavorite.delete()
-				if not request.is_ajax():
-					return HttpResponse("elimina3")
 	else:
 		form = FavoriteForm()
 		return HttpResponse("No valido")
