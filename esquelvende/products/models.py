@@ -9,10 +9,6 @@ from django.core.validators import MinValueValidator
 
 class Product(models.Model):
 	title = models.CharField(max_length=50)
-	user = models.ForeignKey(User, blank=True, null=True)
-	category = models.ForeignKey(Category, null=True)
-	subcategory = models.ForeignKey(Subcategory, null=True)
-	filter = models.ForeignKey(Filter, null=True)
 	description	= models.TextField()
 	contact_phone = models.CharField(max_length=50, null=True)
 	contact_email = models.EmailField()
@@ -20,12 +16,16 @@ class Product(models.Model):
 	created_date = models.DateTimeField(default=timezone.now)
 	published_date = models.DateTimeField(blank=True, null=True)
 	count_report = models.IntegerField(default=0)
+	category = models.ForeignKey(Category, null=True)
+	filter = models.ForeignKey(Filter, null=True)
+	subcategory = models.ForeignKey(Subcategory, null=True)
+	user = models.ForeignKey(User, blank=True, null=True)
 
 	def __str__(self):
 		return self.title
 
 
 class ImagesProduct(models.Model):
-    product = models.ForeignKey(Product)
-    image = models.ImageField(upload_to='products/')
+	product = models.ForeignKey(Product)
+	image = models.ImageField(upload_to='products/')
 
