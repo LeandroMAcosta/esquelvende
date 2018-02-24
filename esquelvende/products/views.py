@@ -6,6 +6,7 @@ from users.models import User
 from .models import Product, ImagesProduct
 from django.contrib.auth.decorators import login_required
 from categories.models import Category, Subcategory, Filter
+from last_seen.models import LastSeen
 from django.http import Http404
 
 
@@ -38,6 +39,16 @@ def publish(request):
 def product_view(request, id):
     product = get_object_or_404(Product, pk=id)
     images = product.imagesproduct_set.all()
+    try:
+        lastseen = LastSeen.objects.filter(user=request.user)   #List of LastSeen objects
+        list_product = [ p.product for p in lastseen]           #List of Products objects
+        if product not in list_product:
+            if len(list_product) > 10:
+                LastSeen.objects.all().first().delete()
+            LastSeen.objects.create(user=request.user, product=product)
+    except:
+        print "Usuario no logueado"
+
     return render(request, 'product.html', {'product': product, 'images': images})
 
 

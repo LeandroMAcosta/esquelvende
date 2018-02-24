@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'categories',
     'reports',
     'favorites',
+    'last_seen'
 ]
 
 MIDDLEWARE = [
