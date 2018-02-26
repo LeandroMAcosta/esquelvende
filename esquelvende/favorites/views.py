@@ -18,7 +18,6 @@ def create_favorite(request, product_id):
 				existFavorite = Favorite.objects.get(product=product_id, user=request.user)
 			except Favorite.DoesNotExist:
 				existFavorite = None
-
 			if existFavorite is None: 
 				favorite = form.save(commit=False)
 				product = Product.objects.get(pk=product_id)
@@ -35,5 +34,4 @@ def create_favorite(request, product_id):
 @login_required(login_url='/login/')
 def list_favorites(request):
 	favorites = Favorite.objects.filter(user=request.user)
-	print favorites
 	return render(request, 'favorites.html', {'favorites': favorites})

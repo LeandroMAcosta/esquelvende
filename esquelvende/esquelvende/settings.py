@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'reports',
     'hitcount',
     'favorites',
-    'last_seen'
+    'last_seen',
 ]
 
 MIDDLEWARE = [

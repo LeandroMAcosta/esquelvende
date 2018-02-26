@@ -40,7 +40,8 @@ def publish(request):
 
 
 def product_view(request, product_id):
-	product = Product.object_product.filter(pk=product_id).not_expired()
+	query_product = Product.objects.filter(pk=product_id).not_expired()
+	product = query_product.first()
 	try:
 		lastseen = LastSeen.objects.filter(user=request.user)   #List of LastSeen objects
 		list_product = [ p.product for p in lastseen]           #List of Products objects
@@ -51,10 +52,10 @@ def product_view(request, product_id):
 	except:
 		pass
 	if product:
-		images = product.first().imagesproduct_set.all()
-		hit_count = HitCount.objects.get_for_object(product.first())
+		images = product.imagesproduct_set.all()
+		hit_count = HitCount.objects.get_for_object(product)
 		hit_count_response = HitCountMixin.hit_count(request, hit_count)
-		return render(request, 'product_view.html', {'product': product.first(), 'images': images})
+		return render(request, 'product_view.html', {'product': product, 'images': images})
 	raise Http404 
 
 
@@ -73,7 +74,7 @@ def edit_product(request, product_id):
 		form_images_set = ImagesFormSet(request.POST, request.FILES, queryset=product.imagesproduct_set.all())
 		if form.is_valid() and form_images_set.is_valid():
 			form.save()
-			formset.save()
+			form_images_set.save()
 		return HttpResponseRedirect("/")
 	else:
 		form = FormProduct(instance=product)
@@ -83,6 +84,6 @@ def edit_product(request, product_id):
 	
 @login_required(login_url='/login/')
 def list_products(request): 
-	products_not_expired = Product.object_product.filter(user=request.user).not_expired()
-	products_expired = Product.object_product.filter(user=request.user).expired()
+	products_not_expired = Product.objects.filter(user=request.user).not_expired()
+	products_expired = Product.objects.filter(user=request.user).expired()
 	return render(request,'list_products.html', {'products_expired': products_expired, 'products_not_expired': products_not_expired})

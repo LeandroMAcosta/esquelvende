@@ -7,5 +7,5 @@ if [ -f "db.sqlite3" ]; then
 fi
 
 rm -rf */migrations
-python manage.py makemigrations categories products reports users
+python manage.py makemigrations categories products reports favorites last_seen users
 python manage.py migrate

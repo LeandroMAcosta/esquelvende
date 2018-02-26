@@ -8,22 +8,26 @@ from django.core.validators import MinValueValidator
 from datetime import datetime, timedelta
 
 class ProductQuerySet(models.QuerySet):
-    def not_expired(self):
-        return self.filter(created_date__gte= datetime.today() - timedelta(days=30))
-    def expired(self):
-    	return self.filter(created_date__lte= datetime.today() - timedelta(days=30))
+	def not_expired(self):
+		return self.filter(created_date__gte= datetime.today() - timedelta(days=30))
+	def expired(self):
+		return self.filter(created_date__lte= datetime.today() - timedelta(days=30))
 
 class ProductManager(models.Manager):
-    def get_queryset(self):
-        return ProductQuerySet(self.model, using=self._db)
-    def not_expired(self):
-        return self.get_queryset().not_expired()
-    def expired(self):
-        return self.get_queryset().expired()
+	def get_queryset(self):
+		return ProductQuerySet(self.model, using=self._db)
+	def not_expired(self):
+		return self.get_queryset().not_expired()
+	def expired(self):
+		return self.get_queryset().expired()
 
 
 class Product(models.Model):
-	title = models.CharField(max_length=50)
+	title = models.CharField(max_length=30)
+	user = models.ForeignKey(User, blank=True, null=True)
+	category = models.ForeignKey(Category, null=True)
+	subcategory = models.ForeignKey(Subcategory, null=True)
+	filter = models.ForeignKey(Filter, null=True)
 	description	= models.TextField()
 	contact_phone = models.CharField(max_length=50, null=True)
 	contact_email = models.EmailField()
@@ -31,10 +35,7 @@ class Product(models.Model):
 	created_date = models.DateTimeField(default=timezone.now)
 	published_date = models.DateTimeField(blank=True, null=True)
 	count_report = models.IntegerField(default=0)
-	category = models.ForeignKey(Category, null=True)
-	filter = models.ForeignKey(Filter, null=True)
-	subcategory = models.ForeignKey(Subcategory, null=True)
-	user = models.ForeignKey(User, blank=True, null=True)
+	objects = ProductManager()
 
 	def __str__(self):
 		return self.title
@@ -43,4 +44,3 @@ class Product(models.Model):
 class ImagesProduct(models.Model):
 	product = models.ForeignKey(Product)
 	image = models.ImageField(upload_to='products/')
-
