@@ -7,6 +7,7 @@
 <body>
     <form method="POST" action="">
         {% csrf_token %}
+        <p>¿Quiere elimianar esta publicacion? {{product.title}}</p>
         <button type="submit">Eliminar</button>
     </form> 
 </body>

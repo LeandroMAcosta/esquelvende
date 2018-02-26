@@ -61,8 +61,12 @@ def product_view(request, product_id):
 
 @login_required(login_url='/login/')
 def delete_product(request, product_id):
-	get_object_or_404(Product, pk=product_id, user=request.user).delete()
-	return HttpResponseRedirect('/')
+	product = get_object_or_404(Product, pk=product_id, user=request.user)
+	if request.POST:
+		product.delete()
+		return HttpResponseRedirect("/")
+	else:
+		return render(request, 'delete_product.html', {'product': product})
 
 
 @login_required(login_url='/login/')
