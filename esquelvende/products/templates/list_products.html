@@ -1,0 +1,16 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <p>habilitados</p>
+    {% for product_1 in products_not_expired %}
+        <div>{{ product_1.title }}</div>
+    {% endfor %}
+    <p>no habilitados</p>
+    {% for product_2 in products_expired %}
+            <div>{{ product_2.title }}</div>
+    {% endfor %}
+</body>
+</html>

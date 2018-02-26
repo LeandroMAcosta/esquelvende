@@ -5,10 +5,11 @@
     <title>Document</title>
 </head>
 <body>
-    <form method="POST" action="">
+    <form method="POST" class="post-form" enctype="multipart/form-data">
         {% csrf_token %}
+        {{ form_images_set.as_p }}      
         {{ form.as_p }}
-    <input type="submit" value="Guardar" />
-    </form> 
+        <button type="submit" class="save btn btn-default">Guardar</button>
+    </form>
 </body>
 </html>

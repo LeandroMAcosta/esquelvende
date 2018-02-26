@@ -25,7 +25,7 @@ SECRET_KEY = 'i4nb&02v%0_pb+9931ci-z@bjo1t!$u0072zt55hk0j#3+)7(2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'products',
     'categories',
     'reports',
+    'hitcount'
 ]
 
 MIDDLEWARE = [
@@ -103,6 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+HITCOUNT_KEEP_HIT_ACTIVE = { 'days': 1 }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/

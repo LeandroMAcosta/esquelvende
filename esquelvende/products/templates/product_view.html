@@ -4,6 +4,11 @@
     <title>Document</title>
 </head>
 <body>
+    <div>
+        {% load hitcount_tags %}
+        visitas: {% get_hit_count for product %}    
+    </div>
+    
     {{ product.title }} <br>
     {{ product.description }} <br>
     {{ product.price }} <br>
