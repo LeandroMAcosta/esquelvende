@@ -43,15 +43,14 @@ def publish(request):
 def product_view(request, product_id):
 	query_product = Product.objects.filter(pk=product_id).not_expired()
 	product = query_product.first()
-	if request.user.is_authenticated:
-		lastseen = LastSeen.objects.filter(user=request.user)   #List of LastSeen objects
-		list_product = [ p.product for p in lastseen]           #List of Products objects
-		if product not in list_product:
-			if len(list_product) > 10:
-				LastSeen.objects.all().first().delete()
-			LastSeen.objects.create(user=request.user, product=product)
-
 	if product:
+		if request.user.is_authenticated:
+			lastseen = LastSeen.objects.filter(user=request.user)   #List of LastSeen objects
+			list_product = [ p.product for p in lastseen]           #List of Products objects
+			if product not in list_product:
+				if len(list_product) > 10:
+					LastSeen.objects.all().first().delete()
+				LastSeen.objects.create(user=request.user, product=product)
 		images = product.imagesproduct_set.all()
 		hit_count = HitCount.objects.get_for_object(product)
 		hit_count_response = HitCountMixin.hit_count(request, hit_count)
