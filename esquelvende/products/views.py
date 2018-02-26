@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from categories.models import Category, Subcategory, Filter
 from hitcount.models import HitCount
 from hitcount.views import HitCountMixin
+from last_seen.models import LastSeen
 from django.http import Http404
 from django.forms import modelformset_factory
 
@@ -40,12 +41,21 @@ def publish(request):
 
 def product_view(request, product_id):
 	product = Product.object_product.filter(pk=product_id).not_expired()
+	try:
+		lastseen = LastSeen.objects.filter(user=request.user)   #List of LastSeen objects
+		list_product = [ p.product for p in lastseen]           #List of Products objects
+		if product not in list_product:
+			if len(list_product) > 10:
+				LastSeen.objects.all().first().delete()
+			LastSeen.objects.create(user=request.user, product=product)
+	except:
+		pass
 	if product:
 		images = product.first().imagesproduct_set.all()
 		hit_count = HitCount.objects.get_for_object(product.first())
 		hit_count_response = HitCountMixin.hit_count(request, hit_count)
 		return render(request, 'product_view.html', {'product': product.first(), 'images': images})
-	raise Http404  
+	raise Http404 
 
 
 @login_required(login_url='/login/')

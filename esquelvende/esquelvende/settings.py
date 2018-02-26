@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'products',
     'categories',
     'reports',
-    'hitcount'
+    'hitcount',
+    'favorites',
+    'last_seen'
 ]
 
 MIDDLEWARE = [
