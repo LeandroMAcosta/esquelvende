@@ -1,0 +1,51 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script
+  src="http://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+</head>
+<body>
+    {{ product.title }} <br>
+    {{ product.description }} <br>
+    {{ product.price }} <br>
+    
+    {% for image in images %}
+        <img src="/media/{{ image.image }}" height="42" width="42">
+    {% endfor %}
+
+    <form action="/reportar/{{ product.id }}" class="form" method="post">
+        {% csrf_token %}
+        {{ FormReport }}
+        <button>Denunciar</button>  
+    </form>
+
+    <form action="/favorito/{{ product.id }}" id="favorite-form" class="form" method="post">
+        {% csrf_token %}
+        <button id="fav">Favorito</button>      
+    </form>
+
+
+<script>
+
+$('#favorite-form').on('submit', function(event){
+    var $csrf = $('[name=csrfmiddlewaretoken]');
+    event.preventDefault(); 
+    $.ajax({
+        type: "POST",
+        url: '/favorito/{{ product.id }}',
+        data: {
+            'csrfmiddlewaretoken': $csrf.attr('value')
+        },
+    });
+    
+});
+
+</script>
+
+
+
+</body>
+</html>
