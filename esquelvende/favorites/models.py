@@ -9,7 +9,6 @@ class Favorite(models.Model):
 	
 	user = models.ForeignKey(User, null=True)
 	product = models.OneToOneField(Product)
-
-		# def __str__(self):
-		# 	product = Product.objects.get(id=self.id)
-		# 	return product.title
+	
+	def __str__(self):
+		return self.product.title+" de "+self.user.username
