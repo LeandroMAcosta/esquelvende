@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.models import User
@@ -9,6 +8,7 @@ from .models import Report
 from .forms import FormReport
 from .constants import MODNOTIFICATION, DELPRODUCT
 from products.models import Product
+from notifications.signals import notify
 
 
 @login_required
@@ -34,7 +34,7 @@ def report(request, product_id):
 
                 # Verificacion sobre la cantidad de denuncias
                 if MODNOTIFICATION <= product.count_report < DELPRODUCT:
-                    notificationModerator(product_id)
+                    notificationModerator(request, product_id)
                 elif product.count_report == DELPRODUCT:
                     delProduct(product_id)
                 return HttpResponse("Producto denunciado")
@@ -46,8 +46,9 @@ def report(request, product_id):
         return HttpResponse("GET")
 
 
-def notificationModerator(product_id):
-    pass
+def notificationModerator(request, product_id):
+    notify.send(request.user, recipient=request.user, verb='Verificar producto con id ' + product_id)
+    return None
 
 
 def delProduct(product_id):
