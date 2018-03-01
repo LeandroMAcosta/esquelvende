@@ -54,7 +54,7 @@ def product_view(request, product_id):
 		images = product.imagesproduct_set.all()
 		hit_count = HitCount.objects.get_for_object(product)
 		hit_count_response = HitCountMixin.hit_count(request, hit_count)
-		return render(request, 'product_view.html', {'product': product, 'images': images, 'FormReport': FormReport})
+		return render(request, 'product_view.html', {'product': product, 'images': images})
 	raise Http404
 
 

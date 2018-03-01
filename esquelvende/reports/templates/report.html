@@ -1,0 +1,12 @@
+<html lang="en">
+    <head>
+    </head>
+    <body>
+        <form action="/reportar/{{ product.id }}" class="form" method="post">
+            {% csrf_token %}
+            {{ FormReport.as_p }}
+            <button>Denunciar</button> 
+        </form>
+        <a> </a>
+    </body>
+</html>

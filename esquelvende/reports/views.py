@@ -42,8 +42,8 @@ def report(request, product_id):
             # El usuario ya denuncio el producto
             return HttpResponse("No se puede volver a denunciar")
     else:
-        form = FormReport()
-        return HttpResponse("GET")
+        product = Product.objects.get(id=product_id)
+        return render(request, 'report.html', {'FormReport': FormReport, 'product': product})
 
 
 def notificationModerator(request, product_id):
