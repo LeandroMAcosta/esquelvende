@@ -7,6 +7,7 @@ from .models import Product, ImagesProduct
 from django.contrib.auth.decorators import login_required
 from categories.models import Category, Subcategory, Filter
 from django.http import Http404
+from reports.forms import FormReport
 
 
 def home(request):
@@ -23,7 +24,7 @@ def publish(request):
             obj_product = form.save(commit=False)
             obj_product.user = request.user
             obj_product.save()
-            # request.FILES is a dictionary 
+            # request.FILES is a dictionary
             for cont, image in enumerate(request.FILES.getlist('image')):
                 if cont < 6:
                     image_product = ImagesProduct.objects.create(product=obj_product, image=image)
@@ -38,7 +39,7 @@ def publish(request):
 def product_view(request, id):
     product = get_object_or_404(Product, pk=id)
     images = product.imagesproduct_set.all()
-    return render(request, 'product.html', {'product': product, 'images': images})
+    return render(request, 'product.html', {'product': product, 'images': images, 'FormReport': FormReport})
 
 
 @login_required(login_url='/login/')
