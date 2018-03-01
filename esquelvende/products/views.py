@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals 
+from __future__ import unicode_literals
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect, get_object_or_404
 from .forms import FormProduct, FormImagesProduct
 from users.models import User
@@ -11,10 +11,10 @@ from hitcount.views import HitCountMixin
 from last_seen.models import LastSeen
 from django.http import Http404
 from django.forms import modelformset_factory
+from reports.forms import FormReport
 
 
 def home(request):
-
 	return render(request, 'home.html', {})
 
 
@@ -46,7 +46,7 @@ def product_view(request, product_id):
 	if product:
 		if request.user.is_authenticated:
 			lastseen = LastSeen.objects.filter(user=request.user)   #List of LastSeen objects
-			list_product = [ p.product for p in lastseen]           #List of Products objects
+			list_product = [p.product for p in lastseen]           #List of Products objects
 			if product not in list_product:
 				if len(list_product) > 10:
 					LastSeen.objects.all().first().delete()
@@ -54,8 +54,8 @@ def product_view(request, product_id):
 		images = product.imagesproduct_set.all()
 		hit_count = HitCount.objects.get_for_object(product)
 		hit_count_response = HitCountMixin.hit_count(request, hit_count)
-		return render(request, 'product_view.html', {'product': product, 'images': images})
-	raise Http404 
+		return render(request, 'product_view.html', {'product': product, 'images': images, 'FormReport': FormReport})
+	raise Http404
 
 
 @login_required(login_url='/login/')

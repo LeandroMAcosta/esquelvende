@@ -2,3 +2,4 @@ Django==1.11.7
 IPython==5.5.0
 Pillow==4.3.0
 django-hitcount==1.2.4
+social-auth-app-django==2.1.0

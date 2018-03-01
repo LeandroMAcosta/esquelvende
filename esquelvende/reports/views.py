@@ -23,7 +23,7 @@ def report(request, product_id):
             # El usuario no denuncio el producto
             form = FormReport(request.POST)
             if form.is_valid():
-                reporter = User.objects.get(id=request.user.id)
+                reporter = request.user
                 product = Product.objects.get(id=product_id)
                 report = form.save(commit=False)
                 report.reporter = reporter
