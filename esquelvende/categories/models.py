@@ -9,15 +9,22 @@ class Category(models.Model):
 		return self.category_name
 
 
-class Subcategory(models.Model):
+class SubA(models.Model):
 	category = models.ForeignKey(Category, null=True)
-	subcategory_name = models.CharField(max_length=100, null=True)
+	subA_name = models.CharField(max_length=100, null=True)
 	def __str__(self):
-		return self.subcategory_name
+		return self.subA_name
 
 
-class Filter(models.Model):
-	subcategory = models.ForeignKey(Subcategory, null=True)
-	filter_name = models.CharField(max_length=100, null=True)
+class SubB(models.Model):
+	subA = models.ForeignKey(SubA, null=True)
+	subB_name = models.CharField(max_length=100, null=True)
 	def __str__(self):
-		return self.filter_name
+		return self.subB_name
+
+
+class SubC(models.Model):
+	subB = models.ForeignKey(SubB, null=True)
+	subC_name = models.CharField(max_length=100, null=True)
+	def __str__(self):
+		return self.subC_name

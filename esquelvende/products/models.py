@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-from categories.models import Category, Subcategory, Filter
+from categories.models import Category, SubA, SubB, SubC
 from django.core.validators import MinValueValidator
 from datetime import datetime, timedelta
 
@@ -26,8 +26,9 @@ class Product(models.Model):
 	title = models.CharField(max_length=30)
 	user = models.ForeignKey(User, blank=True, null=True)
 	category = models.ForeignKey(Category, null=True)
-	subcategory = models.ForeignKey(Subcategory, null=True)
-	filter = models.ForeignKey(Filter, null=True)
+	subA = models.ForeignKey(SubA, null=True)
+	subB = models.ForeignKey(SubB, null=True)
+	subC = models.ForeignKey(SubC, null=True)
 	description	= models.TextField()
 	contact_phone = models.CharField(max_length=50, null=True)
 	contact_email = models.EmailField()

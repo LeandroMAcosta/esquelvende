@@ -5,7 +5,7 @@ from .forms import FormProduct, FormImagesProduct
 from users.models import User
 from .models import Product, ImagesProduct
 from django.contrib.auth.decorators import login_required
-from categories.models import Category, Subcategory, Filter
+from categories.models import Category, SubA, SubB, SubC
 from hitcount.models import HitCount
 from hitcount.views import HitCountMixin
 from last_seen.models import LastSeen
