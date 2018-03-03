@@ -6,6 +6,9 @@ from django.contrib.auth.models import User
 from categories.models import Category, SubA, SubB, SubC
 from django.core.validators import MinValueValidator
 from datetime import datetime, timedelta
+from hitcount.models import HitCountMixin, HitCount
+from django.contrib.contenttypes.fields import GenericRelation
+
 
 class ProductQuerySet(models.QuerySet):
 	def not_expired(self):
@@ -22,7 +25,8 @@ class ProductManager(models.Manager):
 		return self.get_queryset().expired()
 
 
-class Product(models.Model):
+class Product(models.Model, HitCountMixin):
+	hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk', related_query_name='hit_count_generic_relation')
 	title = models.CharField(max_length=30)
 	user = models.ForeignKey(User, blank=True, null=True)
 	category = models.ForeignKey(Category, null=True)

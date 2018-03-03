@@ -42,6 +42,10 @@ def home(request):
 		# 1- muestro A
 		# 2- muestro los productos mas vistos de la categoria
 		elif category and not search:
+			"""
+			Product.objects.filter(category__category_name='Vehiculos').order_by("hit_count_generic__hit")
+
+			"""
 			# show: cantidad de productos a mostrar
 			show = 2
 			query_hitcount = HitCount.objects.all()
