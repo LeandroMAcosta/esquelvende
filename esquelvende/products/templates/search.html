@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+
+
+
+	{% if found_products %}
+	<h3>productos encontrados con "{{ search }}" </h3>
+		{% for product in found_products %}
+			<div>{{ product }}</div>
+		{% endfor %}
+	{% endif %}
+
+	{% if categories %}
+		<h3>categorias</h3>
+		{% for category in categories %}
+			<div>{{ category }}</div>
+		{% endfor %}
+	{% endif %}
+
+	{% if subcategories %}
+		<h3>Subcategorias</h3>
+		{% for subcategory in subcategories %}
+			<div>{{ subcategory }}</div>
+		{% endfor %}
+	{% endif %}
+
+	{% if list_product %}
+		<h3>Productos</h3>
+		{% for product in list_product %}
+			<div>{{ product }}</div>
+		{% endfor %}
+	{% endif%}
+
+
+</body>
+</html>

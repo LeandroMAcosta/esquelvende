@@ -20,8 +20,15 @@
                 </a>
             </div>
             <div class="col-md-7">
-                <form class="form-search">
-                    <input type="text" class="input-search" name="busqueda" placeholder="Buscar productos" maxlength="120" data-autofocus="false" tabindex="2" autocomplete="off">
+                <form class="form-search" method="GET">
+                    <select name="category">
+                        <option selected="selected" disabled>Categorias</option>
+                        {% for category in categories %}
+                           <option value="{{ category.id }}">{{ category }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="text" class="input-search" name="search" placeholder="Buscar productos" maxlength="120" data-autofocus="false" tabindex="2" autocomplete="off">
+                    <button type="submit" class="save btn btn-default">Buscar</button>
                 </form>
             </div>
         </div>

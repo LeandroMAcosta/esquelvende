@@ -12,10 +12,52 @@ from last_seen.models import LastSeen
 from django.http import Http404
 from django.forms import modelformset_factory
 from reports.forms import FormReport
+from django.db.models import Q
 
 
 def home(request):
-	return render(request, 'home.html', {})
+	query_categories = Category.objects.all()
+	if request.GET:
+		category = request.GET.get('category')
+		search = request.GET.get('search')
+		# 1- muestro A
+		# 2- muestro lo buscado en base search
+		if search and category:
+			query_search = Product.objects.filter(
+													Q(category=category, title__contains=search) |
+													Q(category=category, title__istartswith=search) |
+													Q(category=category, title__iendswith=search))
+			query_subA = SubA.objects.filter(category=category)
+			return render(request, 'search.html', {'subA': query_subA, 'found_products': query_search, 'search': search})
+		
+		# 1- muestro categorias
+		# 2- muestro lo buscado en base search
+		elif not category and search:
+			query_search = Product.objects.filter(
+													Q(title__contains=search) |
+													Q(title__istartswith=search) |
+													Q(title__iendswith=search))
+			return render(request, 'search.html', {'categories': query_categories, 'found_products': query_search, 'search': search})
+		
+		# 1- muestro A
+		# 2- muestro los productos mas vistos de la categoria
+		elif category and not search:
+			# show: cantidad de productos a mostrar
+			show = 2
+			query_hitcount = HitCount.objects.all()
+			# productos de hitcount con esa categoria
+			hitcount_product = [product for product in query_hitcount if int(product.content_object.category.id) == int(category)]
+			# muestro los productos
+
+			print hitcount_product
+
+			productos = [HitCount.objects.filter(content_object=product).order_by(hits) for product in hitcount_product]
+			print "HOLAAA", productos
+
+
+			
+			return render(request, 'search.html', {})
+	return render(request, 'home.html', {'categories': query_categories})
 
 
 @login_required(login_url='/login/')
