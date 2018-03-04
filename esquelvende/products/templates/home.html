@@ -19,7 +19,11 @@
 		<div class="col-md-9">
 			<div class="inicio well">
 			{% if user.is_authenticated %}
-		        <p class="display-4">Hola, {{ user.username }}</p>
+		        <p class="display-4">Hola, {{ user.username }}
+		        
+		        <img src="media/{{ user.userprofile.avatar }}" height="80"></img>
+
+		        </p>
 			{% else %}
 				<a class="lead" href="{% url 'login' %}">Log in</a>
 			{% endif %}
