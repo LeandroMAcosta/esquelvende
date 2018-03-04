@@ -7,7 +7,6 @@
 <body>
 
 
-
 	{% if found_products %}
 	<h3>productos encontrados con "{{ search }}" </h3>
 		{% for product in found_products %}
@@ -22,10 +21,10 @@
 		{% endfor %}
 	{% endif %}
 
-	{% if subcategories %}
-		<h3>Subcategorias</h3>
-		{% for subcategory in subcategories %}
-			<div>{{ subcategory }}</div>
+	{% if subA %}
+		<h3>subA</h3>
+		{% for a in subA %}
+			<div>{{ a }}</div>
 		{% endfor %}
 	{% endif %}
 

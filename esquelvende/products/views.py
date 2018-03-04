@@ -13,6 +13,7 @@ from django.http import Http404
 from django.forms import modelformset_factory
 from reports.forms import FormReport
 from django.db.models import Q
+from .constants import MAX_VIEW_PRODUCT
 
 
 def home(request):
@@ -29,7 +30,6 @@ def home(request):
 													Q(category=category, title__iendswith=search))
 			query_subA = SubA.objects.filter(category=category)
 			return render(request, 'search.html', {'subA': query_subA, 'found_products': query_search, 'search': search})
-		
 		# 1- muestro categorias
 		# 2- muestro lo buscado en base search
 		elif not category and search:
@@ -38,29 +38,12 @@ def home(request):
 													Q(title__istartswith=search) |
 													Q(title__iendswith=search))
 			return render(request, 'search.html', {'categories': query_categories, 'found_products': query_search, 'search': search})
-		
 		# 1- muestro A
 		# 2- muestro los productos mas vistos de la categoria
 		elif category and not search:
-			"""
-			Product.objects.filter(category__category_name='Vehiculos').order_by("hit_count_generic__hit")
-
-			"""
-			# show: cantidad de productos a mostrar
-			show = 2
-			query_hitcount = HitCount.objects.all()
-			# productos de hitcount con esa categoria
-			hitcount_product = [product for product in query_hitcount if int(product.content_object.category.id) == int(category)]
-			# muestro los productos
-
-			print hitcount_product
-
-			productos = [HitCount.objects.filter(content_object=product).order_by(hits) for product in hitcount_product]
-			print "HOLAAA", productos
-
-
-			
-			return render(request, 'search.html', {})
+			list_product = Product.objects.filter(category__pk=category).order_by("-hit_count_generic__hit")[:MAX_VIEW_PRODUCT]		
+			query_subA = SubA.objects.filter(category=category)
+			return render(request, 'search.html', {'list_product': list_product, 'subA':query_subA})
 	return render(request, 'home.html', {'categories': query_categories})
 
 
