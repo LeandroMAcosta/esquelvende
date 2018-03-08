@@ -24,6 +24,8 @@ def edit_user(request):
 			form.save()
 			form_avatar.save(commit=False)
 			form_avatar.avatar = request.FILES['avatar']
+			print type(request.FILES['avatar'])
+			print type(form_avatar.avatar)
 			form_avatar.save()	
 		return HttpResponseRedirect(reverse('edit_user'))
 	else:

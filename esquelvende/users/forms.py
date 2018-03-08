@@ -13,6 +13,7 @@ class FormRegister(forms.ModelForm):
 	
 	def __init__(self, *args, **kwargs):
 		super(FormRegister, self).__init__(*args, **kwargs)
+		# self.fields['email'].unique=True
 		self.fields['first_name'].required = True
 		self.fields['last_name'].required = True
 		self.fields['password'].widget = forms.PasswordInput()
@@ -22,7 +23,16 @@ class FormRegister(forms.ModelForm):
 		help_texts = {
 			'username': None,
 		}
+
 		fields = ('username', 'password', 'email', 'last_name', 'first_name')
+
+	def clean_email(self):
+		email = self.cleaned_data.get('email')
+		username = self.cleaned_data.get('username')
+		if email and User.objects.filter(email=email).exclude(username=username).exists():
+			raise forms.ValidationError(u'Email ya esta en uso')
+		return email
+
 
 class FormEditUser(forms.ModelForm):
 
