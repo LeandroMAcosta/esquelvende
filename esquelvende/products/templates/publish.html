@@ -5,12 +5,127 @@
     <title>Document</title>
 </head>
 <body>
+    <script
+          src="http://code.jquery.com/jquery-3.3.1.min.js"
+          integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+          crossorigin="anonymous">
+    </script>
+    <style type="text/css">
+        .selected{
+            display: none;
+        }
+    </style>
     <h1>Publicar producto</h1>
     <form method="POST" class="post-form" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form_image.as_p }}
-        {{ form.as_p }}
+        <div class="fieldWrapper">
+            {{form_image.image.errors}}
+            <label for="{{ form.image.id_for_label }}">Imagenes:</label>
+            {{ form_image.image }}
+        </div>
+        {{ form.non_field_errors }}
+        <div class="fieldWrapper">
+            {{ form.title.errors }}
+            <label for="{{ form.title.id_for_label }}">Titulo:</label>
+            {{ form.title }}
+        </div>
+        <div id="category_div"> 
+            {{ form.category.errors }}
+            <label for="{{ form.category.id_for_label }}">Categorias:</label>
+            {{ form.category }}
+            <div id="subA_div">
+                {{ form.subA.errors }}
+                <label for="{{ form.subA.id_for_label }}"></label>
+                {{ form.subA }}
+                <div id="subB_div">
+                    {{ form.subB.errors }}
+                    <label for="{{ form.subB.id_for_label }}"></label>
+                    {{ form.subB }}
+                    <div id="subC_div">
+                        {{ form.subC.errors }}
+                        <label for="{{ form.subC.id_for_label }}"></label>
+                        {{ form.subC }}
+                    </div>
+                    <div id="brand_div">
+                            {{ form.brands.errors }}
+                            <label for="{{ form.brands.id_for_label }}"></label>
+                            {{ form.brands }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fieldWrapper">
+            {{ form.status.errors }}
+            <label for="{{ form.status.id_for_label }}">Nuevo/Usado: </label>
+            {{ form.status }}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.contact_phone.errors }}
+            <label for="{{ form.contact_phone.id_for_label }}">Telefono de contacto:</label>
+            {{ form.contact_phone }}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.contact_email.errors }}
+            <label for="{{ form.contact_email.id_for_label }}">Email de contacto:</label>
+            {{ form.contact_email }}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.description.errors }}
+            <label for="{{ form.description.id_for_label }}">Descripcion:</label>
+            {{ form.description }}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.price.errors }}
+            <label for="{{ form.price.id_for_label }}">Precio:</label>
+            {{ form.price }}
+        </div>
         <button type="submit" class="save btn btn-default">publicar</button>
     </form>
+    {% block javascript %}
+        <script>
+            $(".selected").ready(function() {
+                $('#id_subA').empty();
+                $('#id_subB').empty();
+                $('#id_subC').empty();
+                $('#id_brands').empty();
+            });
+            function category_selector(event){
+                // El nodo donde estoy parado
+                var node = event.target;
+                // Padre del node
+                parent_node = node.parentNode
+                // Vemos todos los select hijos apartir de mi ubicacion con padre
+                var list_node_select = parent_node.getElementsByTagName('SELECT');
+                // Vacio y oculto todos los select empezando en el siguiente de donde estoy parado
+                for(var i=1; i<list_node_select.length; ++i){
+                    $('#'+list_node_select[i].id).empty();
+                    document.getElementById(list_node_select[i].id).style.display = "none";
+                }
+                // Seleciono el nodo siguiente de donde estoy (donde estoy [0]) para mostrar los datos
+                var select_node = list_node_select[1];
+                // Sacamos su ID y su VALOR
+                var id_generic = node.id;
+                var value_generic = node.value;
+                if (typeof(select_node) !== 'undefined') {
+                    var show = select_node.id
+                    $.get('/publicar/', { id_generic: id_generic, value_generic: value_generic }, function(data){
+                        if (Object.keys(data).length !== 0){
+                            // Compruebo si data es marcas
+                            if (data[1] == 0){
+                                show = 'id_brands';
+                                delete data[1];
+                            }
+                            $('#'+show).append('<option selected="selected" disabled>---------</option>');
+                            $.each(data, function(index, sub){                                    
+                                $('#'+show).append('<option value='+index+'>'+sub+'</option>');
+                            });
+                            // Lo mostramos
+                            document.getElementById(show).style.display = "block";
+                        }
+                    });
+                };
+            };
+      </script>
+    {% endblock %}
 </body>
 </html>

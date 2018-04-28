@@ -16,26 +16,38 @@
         <div class="row">
             <div class="col-md-2">
                 <a class="nav-logo" href="{% url "inicio" %}">
-                    <img src="http://127.0.0.1:8000/media/header_opt.png">
                 </a>
             </div>
             <div class="col-md-7">
-                <form class="form-search" method="GET">
-                    <select name="category">
+                <form action="" class="form-search" method="GET" name="search">
+                    <select id="cate">
                         <option selected="selected" disabled>Categorias</option>
                         {% for category in categories %}
-                           <option value="{{ category.id }}">{{ category }}</option>
+                           <option value="{{ category.slug }}">{{ category }}</option>
                         {% endfor %}
                     </select>
                     <input type="text" class="input-search" name="search" placeholder="Buscar productos" maxlength="120" data-autofocus="false" tabindex="2" autocomplete="off">
-                    <button type="submit" class="save btn btn-default">Buscar</button>
+                    <button type="submit" class="save btn btn-default" onclick="redirect();">Buscar</button>
                 </form>
             </div>
         </div>
     </div>
 </nav>
-
+<script type="text/javascript">
+    function redirect(){
+        var array = ['casa-y-jardin', 'ropa-y-accesorios', 'electronica',
+                    'familia', 'aficiones', 'entretenimiento', 'vehiculos',
+                    'servicios', 'inmuebles']
+        select = document.getElementById("cate")
+        if (select.value == 'Categorias'){
+            document.search.action = '/categorias/';
+            document.search.submit()
+        } else if (array.indexOf(select.value) != -1){
+            document.search.action = select.value + '/';
+            document.search.submit()
+        }
+    }
+</script>
 {% block content %}{% endblock %}
-
 </body>
 </html>

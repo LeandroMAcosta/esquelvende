@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Categorias</title>
+</head>
+<body>
+	{% for category in categories %}	
+		<h1>{{ category }}</h1>
+		{% for suba in category.suba_set.all %}
+			<div>
+				<a href="/{{ category.slug }}/{{ suba.slug }}/">{{ suba }}</a>
+			</div>	
+		{% endfor %}
+	{% endfor %}	
+</body>
+</html>

@@ -4,3 +4,5 @@ models.pyc
 urls.pyc
 views.pyc
 forms.pyc
+constants.pyc
+utils.pyc

@@ -3,11 +3,12 @@ from __future__ import unicode_literals
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-from categories.models import Category, SubA, SubB, SubC
+from categories.models import Category, SubA, SubB, SubC, Brand
 from django.core.validators import MinValueValidator
 from datetime import datetime, timedelta
 from hitcount.models import HitCountMixin, HitCount
 from django.contrib.contenttypes.fields import GenericRelation
+from .constants import STATUS_CHOICES
 
 
 class ProductQuerySet(models.QuerySet):
@@ -33,8 +34,10 @@ class Product(models.Model, HitCountMixin):
 	subA = models.ForeignKey(SubA, null=True, blank=True)
 	subB = models.ForeignKey(SubB, null=True, blank=True)
 	subC = models.ForeignKey(SubC, null=True, blank=True)
+	brands = models.ForeignKey(Brand, null=True, blank=True)
 	description	= models.TextField()
 	contact_phone = models.CharField(max_length=50, null=True)
+	status = models.CharField(max_length=2, choices=STATUS_CHOICES, null=True, blank=True)
 	contact_email = models.EmailField()
 	price = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0)])
 	created_date = models.DateTimeField(default=timezone.now)
