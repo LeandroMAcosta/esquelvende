@@ -110,19 +110,17 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-#HitCount
+# HitCount
 
 HITCOUNT_KEEP_HIT_ACTIVE = { 'days': 1 }
 
-#Django SocialAuth
+# Django SocialAuth
 
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.open_id.OpenIdAuth',  # for Google authentication
-    'social_core.backends.google.GoogleOpenId',  # for Google authentication
-    'social_core.backends.google.GoogleOAuth2',  # for Google authentication
-    'social_core.backends.twitter.TwitterOAuth',   
-    'social_core.backends.facebook.FacebookOAuth2',  # for Facebook authentication
-
+    'social_core.backends.open_id.OpenIdAuth',
+    'social_core.backends.google.GoogleOpenId',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -132,6 +130,11 @@ LOGIN_REDIRECT_URL = 'inicio'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ='1063990601253-4vci3d73c2mqrmln4d14h5aqsalpt8em.apps.googleusercontent.com'  #Paste CLient Key
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'U7Hd9MKp3L7DeyqvJYEhg26F'
+SOCIAL_AUTH_GOOGLE_OAUTH2_IGNORE_DEFAULT_SCOPE = True
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile'
+]
 
 SOCIAL_AUTH_FACEBOOK_KEY = '548109182040282'  # App ID
 SOCIAL_AUTH_FACEBOOK_SECRET = '372116829fb504573670f7f55013e962'  # App Secret
@@ -140,12 +143,23 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'id,name,email', 
 }
 
-#SOCIAL_AUTH_TWITTER_KEY = ''
-#SOCIAL_AUTH_TWITTER_SECRET = ''
-
-
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.social_auth.associate_by_email',
+    'social_core.pipeline.user.create_user',
+    'users.utils.create_profile',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+    'users.utils.get_avatar'
+)
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
+
 
 LANGUAGE_CODE = 'es'
 
