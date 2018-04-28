@@ -13,7 +13,6 @@ class FormRegister(forms.ModelForm):
 	
 	def __init__(self, *args, **kwargs):
 		super(FormRegister, self).__init__(*args, **kwargs)
-		# self.fields['email'].unique=True
 		self.fields['first_name'].required = True
 		self.fields['last_name'].required = True
 		self.fields['password'].widget = forms.PasswordInput()

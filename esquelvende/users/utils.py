@@ -3,7 +3,6 @@ from django.urls import reverse
 from django.shortcuts import HttpResponse, HttpResponseRedirect
 from .models import UserProfile
 from users.models import User
-
 from urlparse import urlparse
 import urllib2
 from django.core.files import File

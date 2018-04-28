@@ -5,16 +5,11 @@
     <title>Editar usuario</title>
 </head>
 <body>
-  	<form method="POST" action="">
+  	<form method="POST" action="" enctype="multipart/form-data">
 	    {% csrf_token %}
 	    {{ form.as_p }}
-	    <input type="submit" value="Guardar" />
-	</form>
-
-	<form method="POST" action="" enctype="multipart/form-data">
-		{% csrf_token %}
 		{{ form_avatar.as_p }}
-		<input type="submit" value="Subir" />
+	    <input type="submit" value="Guardar" />
 	</form>
 
 </body>
