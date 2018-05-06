@@ -1,6 +1,6 @@
+from django.utils.translation import ugettext_lazy as _
 from django import forms
 from .models import Report
-from django.utils.translation import ugettext_lazy as _
 
 
 class FormReport(forms.ModelForm):
