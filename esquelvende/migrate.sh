@@ -14,4 +14,4 @@ echo ---------------------------------------
 echo -- Llenando Cateogrias/ Sub/ Filtros --
 echo ---------------------------------------
 
-#python manage.py loaddata categories/initial_data/initial.json
+python manage.py loaddata categories/initial_data/initial.json
