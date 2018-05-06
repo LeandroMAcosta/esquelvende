@@ -8,7 +8,9 @@ from .constants import REASON_CHOICES
 
 
 class Report(models.Model):
-    product = models.ForeignKey(Product, related_name="report", null=True, blank=True)
-    reporter = models.ForeignKey(User, related_name="reporter", null=True, blank=True)
+    product = models.ForeignKey(Product, related_name="report", null=True,
+    							blank=True)
+    reporter = models.ForeignKey(User, related_name="reporter", null=True,
+    							blank=True)
     reason = models.CharField(max_length=3, choices=REASON_CHOICES)
     description = models.TextField(blank=True)
