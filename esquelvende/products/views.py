@@ -1,19 +1,23 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.shortcuts import render, HttpResponse, HttpResponseRedirect, get_object_or_404
-from .forms import FormProduct, FormImagesProduct, FormEditProduct
-from users.models import User
-from .models import Product, ImagesProduct
+
 from django.contrib.auth.decorators import login_required
-from categories.models import Category, SubA, SubB, SubC, Brand
+from django.db.models import Q
+from django.forms import modelformset_factory
+from django.http import Http404, JsonResponse
+from django.shortcuts import (HttpResponse, HttpResponseRedirect,
+                              get_object_or_404, render)
 from hitcount.models import HitCount
 from hitcount.views import HitCountMixin
+
+from categories.models import Brand, Category, SubA, SubB, SubC
 from last_seen.models import LastSeen
-from django.http import Http404, JsonResponse
-from django.forms import modelformset_factory
 from reports.forms import FormReport
-from django.db.models import Q
+from users.models import User
+
 from .constants import MAX_VIEW_PRODUCT
+from .forms import FormEditProduct, FormImagesProduct, FormProduct
+from .models import ImagesProduct, Product
 from .utils import json_selector
 
 
@@ -24,14 +28,20 @@ def home(request):
 
 @login_required(login_url='/login/')
 def publish(request):
-    if request.GET.get('id_generic') is not None and request.GET.get('value_generic') is not None:
+    if request.GET.get('id_generic') is not None and
+    request.GET.get('value_generic') is not None:
         if request.GET.get('id_generic') == 'id_category':
-            return json_selector(request.GET.get('value_generic'), 'id_category', request.GET.get('value_generic'))
+            return json_selector(request.GET.get('value_generic'),
+                                 'id_category',
+                                 request.GET.get('value_generic'))
         elif request.GET.get('id_generic') == 'id_subA':
-            return json_selector(request.GET.get('value_generic'), 'id_subA', request.GET.get('value_generic'))
+            return json_selector(request.GET.get('value_generic'),
+                                 'id_subA',
+                                 request.GET.get('value_generic'))
         elif request.GET.get('id_generic') == 'id_subB':
-            return json_selector(request.GET.get('value_generic'), 'id_subB', request.GET.get('value_generic'))
-            
+            return json_selector(request.GET.get('value_generic'),
+                                 'id_subB',
+                                 request.GET.get('value_generic'))
     if request.POST:
         form = FormProduct(request.POST)
         form_image = FormImagesProduct(request.POST, request.FILES)
@@ -40,10 +50,11 @@ def publish(request):
             obj_product = form.save(commit=False)
             obj_product.user = request.user
             obj_product.save()
-            # request.FILES is a dictionary 
+            # request.FILES is a dictionary
             for cont, image in enumerate(request.FILES.getlist('image')):
                 if cont < 6:
-                    image_product = ImagesProduct.objects.create(product=obj_product, image=image)
+                    image_product = ImagesProduct.objects.create(
+                                    product=obj_product, image=image)
                     image_product.save()
             return HttpResponseRedirect('/')
     else:
@@ -110,16 +121,17 @@ def edit_product(request, product_id):
                 'edit_product.html',
                 {'form': form, 'form_images_set': form_images_set})
 
-    
+
 @login_required(login_url='/login/')
-def list_products(request): 
+def list_products(request):
     query_not_expired = Product.objects.filter(user=request.user).not_expired()
     query_expired = Product.objects.filter(user=request.user).expired()
-    return render(
-        request,
-        'list_products.html',
-        {'products_expired': query_expired,
-        'products_not_expired': query_not_expired})
+    return render(request,
+                  'list_products.html',
+                  {
+                    'products_expired': query_expired,
+                    'products_not_expired': query_not_expired
+                  })
 
 
 def categories(request, slug_category=None, slug_suba=None, slug_subb=None):
@@ -133,7 +145,7 @@ def categories(request, slug_category=None, slug_suba=None, slug_subb=None):
         if slug_category and not (slug_suba or slug_subb or id_brand):
             if not Category.objects.filter(slug=slug_category).exists():
                 raise Http404
-            obj = Category.objects.get(slug=slug_category) 
+            obj = Category.objects.get(slug=slug_category)
         elif slug_category and slug_suba and id_brand and not slug_subb:
             if not (
                     Category.objects.filter(slug=slug_category).exists() and
@@ -142,13 +154,12 @@ def categories(request, slug_category=None, slug_suba=None, slug_subb=None):
                 raise Http404
             obj = Brand.objects.get(id=id_brand)
         elif slug_category and slug_suba and not (slug_subb or id_brand):
-            if not (
-                Category.objects.filter(slug=slug_category).exists() and 
-                Category.objects.filter(suba__slug=slug_suba).exists()):
+            if not (Category.objects.filter(slug=slug_category).exists() and
+                    Category.objects.filter(suba__slug=slug_suba).exists()):
                 raise Http404
             obj = SubA.objects.get(
                                 category__slug=slug_category,
-                                slug=slug_suba) 
+                                slug=slug_suba)
         elif slug_category and slug_suba and slug_subb and id_brand:
             if not(
                     Category.objects.filter(slug=slug_category).exists() and
@@ -167,8 +178,10 @@ def categories(request, slug_category=None, slug_suba=None, slug_subb=None):
         else:
             raise Http404
 
-    list_dict = [{'category__slug': slug_category}, {'subA__slug': slug_suba},
-                {'subB__slug': slug_subb}, {'brands__id': id_brand}]
+    list_dict = [{'category__slug': slug_category},
+                 {'subA__slug': slug_suba},
+                 {'subB__slug': slug_subb},
+                 {'brands__id': id_brand}]
 
     if search:
         query_products = Product.objects.all()

@@ -2,18 +2,18 @@
 from __future__ import unicode_literals
 
 from django.conf import settings
-from django.core.mail import send_mail
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from django.http import HttpResponse
+from django.shortcuts import render
+
 from products.models import Product
-from .models import Report
+
+from .constants import (DELPRODUCT, MESSAGE_MOD, MESSAGE_USER, MODNOTIFICATION,
+                        SUBJECT_MOD, SUBJECT_USER)
 from .forms import FormReport
-from .constants import (
-    MODNOTIFICATION, DELPRODUCT, SUBJECT_USER, MESSAGE_USER, SUBJECT_MOD,
-    MESSAGE_MOD,
-)
+from .models import Report
 
 
 @login_required
@@ -21,7 +21,7 @@ def report(request, product_id):
     if request.method == 'POST':
         try:
             existReport = Report.objects.get(product=product_id,
-                                            reporter=request.user.id)
+                                             reporter=request.user.id)
         except Report.DoesNotExist:
             existReport = None
 
@@ -62,7 +62,7 @@ def report(request, product_id):
     else:
         product = Product.objects.get(id=product_id)
         return render(request, 'report.html', {'FormReport': FormReport,
-                                                'product': product})
+                                               'product': product})
 
 
 def delProduct(product_id):

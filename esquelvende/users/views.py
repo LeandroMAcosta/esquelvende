@@ -4,13 +4,15 @@ from __future__ import unicode_literals
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+from django.core.urlresolvers import reverse
+from django.shortcuts import HttpResponse, HttpResponseRedirect, render
+
+from products.urls import home
 from users.models import User
-from .forms import FormRegister, FormAvatar, FormEditUser
+
+from .forms import FormAvatar, FormEditUser, FormRegister
 from .models import UserProfile
 from .utils import my_login
-from django.core.urlresolvers import reverse
-from django.shortcuts import render, HttpResponse, HttpResponseRedirect
-from products.urls import home
 
 
 @login_required(login_url='/login/')
@@ -31,7 +33,8 @@ def edit_user(request):
     else:
         form = FormEditUser(instance=user)
         form_avatar = FormAvatar(instance=user_info)
-    return render(request, 'edit_user.html', {'form': form, 'form_avatar': form_avatar})
+    return render(request, 'edit_user.html', {'form': form,
+                                              'form_avatar': form_avatar})
 
 
 def new_user(request):
