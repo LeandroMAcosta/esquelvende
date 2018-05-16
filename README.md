@@ -1,9 +1,9 @@
 # Esquel vende
 
-#### InstalaciÃ³n de PostgreSQL
+#### Instalación de PostgreSQL
 
 ```bash
-$ sudo apt-get install postgresql postgreslq-contrib
+$ sudo apt-get install postgresql postgresql-contrib
 ```
 
 ```bash
@@ -15,7 +15,7 @@ Interprete de postgreSQL
 ```
 $ psql
 ``` 
-Cambiamos contraseÃ±a de usuario postgres
+Cambiamos contraseña de usuario postgres
 ```
 postgres=# \password postgres
 postgres=# \q
