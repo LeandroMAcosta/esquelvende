@@ -11,6 +11,8 @@
         {% include "category_parser/suba.html" %}
     {% elif object.class_name == "SubB" %}
         {% include "category_parser/subb.html" %}
+    {% elif query.class_name == "QuerySet" %}
+        {% include "category_parser/search_all.html" %}
     {% endif %}
     {% include "category_parser/products.html" %}
 </body>

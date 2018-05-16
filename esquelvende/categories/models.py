@@ -3,7 +3,18 @@ from __future__ import unicode_literals
 from django.db import models
 
 
+class QuerySet(models.QuerySet):
+    def class_name(self):
+        return self.__class__.__name__
+
+class QuerySetManager(models.Manager):
+    def get_queryset(self):
+        return QuerySet(self.model, using=self._db)
+    def class_name(self):
+        return self.get_queryset().class_name()
+
 class Category(models.Model):
+    objects = QuerySetManager()
     category_name = models.CharField(max_length=100, null=True)
     slug = models.SlugField(max_length=100, null=True)
     def __str__(self):
@@ -12,6 +23,7 @@ class Category(models.Model):
         return self.__class__.__name__
 
 class Brand(models.Model):
+    objects = QuerySetManager()
     brand_name =  models.CharField(max_length=100, null=True)
     slug = models.SlugField(max_length=100, null=True)
     def __str__(self):
@@ -20,6 +32,7 @@ class Brand(models.Model):
         return self.__class__.__name__
 
 class SubA(models.Model):
+    objects = QuerySetManager()
     category = models.ForeignKey(Category, null=True)
     brand = models.ManyToManyField(Brand, blank=True)
     subA_name = models.CharField(max_length=100, null=True)
@@ -31,6 +44,7 @@ class SubA(models.Model):
 
 
 class SubB(models.Model):
+    objects = QuerySetManager()
     subA = models.ForeignKey(SubA, null=True)
     brand = models.ManyToManyField(Brand, blank=True)
     subB_name = models.CharField(max_length=100, null=True)

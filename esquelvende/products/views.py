@@ -19,6 +19,16 @@ from .utils import json_selector
 
 def home(request):
     query = Category.objects.all()
+    search = request.GET.get('search')
+    if search:
+        query_products = Product.objects.filter(
+                                        Q(title__contains=search) |
+                                        Q(title__istartswith=search) |
+                                        Q(title__iendswith=search))
+        return render(
+            request,
+            'category_parser/category_parser.html',
+            {'query': query, 'search_products': query_products})
     return render(request, 'home.html', {'categories': query})
 
 
@@ -80,7 +90,7 @@ def product_view(request, product_id):
 def delete_product(request, product_id):
     obj = get_object_or_404(Product, pk=product_id, user=request.user)
     if request.POST:
-        product.delete()
+        obj.delete()
         return HttpResponseRedirect("/")
     return render(request, 'delete_product.html', {'product': obj})
 
@@ -128,44 +138,46 @@ def categories(request, slug_category=None, slug_suba=None, slug_subb=None):
     query_products = None
     if not(slug_category or slug_suba or slug_subb or id_brand):
         query = Category.objects.all()
-        return render(request, 'categories.html', {'categories': query})
-    else:
-        if slug_category and not (slug_suba or slug_subb or id_brand):
-            if not Category.objects.filter(slug=slug_category).exists():
-                raise Http404
-            obj = Category.objects.get(slug=slug_category) 
-        elif slug_category and slug_suba and id_brand and not slug_subb:
-            if not (
-                    Category.objects.filter(slug=slug_category).exists() and
-                    Category.objects.filter(suba__slug=slug_suba).exists() and
-                    SubA.objects.filter(brand__id=id_brand).exists()):
-                raise Http404
-            obj = Brand.objects.get(id=id_brand)
-        elif slug_category and slug_suba and not (slug_subb or id_brand):
-            if not (
-                Category.objects.filter(slug=slug_category).exists() and 
-                Category.objects.filter(suba__slug=slug_suba).exists()):
-                raise Http404
-            obj = SubA.objects.get(
-                                category__slug=slug_category,
-                                slug=slug_suba) 
-        elif slug_category and slug_suba and slug_subb and id_brand:
-            if not(
-                    Category.objects.filter(slug=slug_category).exists() and
-                    Category.objects.filter(suba__slug=slug_suba).exists() and
-                    SubA.objects.filter(subb__slug=slug_subb).exists() and
-                    SubB.objects.filter(brand__id=id_brand).exists()):
-                raise Http404
-            obj = Brand.objects.get(id=id_brand)
-        elif slug_category and slug_suba and slug_subb and not id_brand:
-            if not(
-                    Category.objects.filter(slug=slug_category).exists() and
-                    Category.objects.filter(suba__slug=slug_suba).exists() and
-                    SubA.objects.filter(subb__slug=slug_subb).exists()):
-                raise Http404
-            obj = SubB.objects.get(subA__slug=slug_suba, slug=slug_subb)
-        else:
+        return render(
+            request,
+            'category_parser/categories.html',
+            {'query': query})
+    elif slug_category and not (slug_suba or slug_subb or id_brand):
+        if not Category.objects.filter(slug=slug_category).exists():
             raise Http404
+        obj = Category.objects.get(slug=slug_category) 
+    elif slug_category and slug_suba and id_brand and not slug_subb:
+        if not (
+                Category.objects.filter(slug=slug_category).exists() and
+                Category.objects.filter(suba__slug=slug_suba).exists() and
+                SubA.objects.filter(brand__id=id_brand).exists()):
+            raise Http404
+        obj = Brand.objects.get(id=id_brand)
+    elif slug_category and slug_suba and not (slug_subb or id_brand):
+        if not (
+            Category.objects.filter(slug=slug_category).exists() and 
+            Category.objects.filter(suba__slug=slug_suba).exists()):
+            raise Http404
+        obj = SubA.objects.get(
+                            category__slug=slug_category,
+                            slug=slug_suba) 
+    elif slug_category and slug_suba and slug_subb and id_brand:
+        if not(
+                Category.objects.filter(slug=slug_category).exists() and
+                Category.objects.filter(suba__slug=slug_suba).exists() and
+                SubA.objects.filter(subb__slug=slug_subb).exists() and
+                SubB.objects.filter(brand__id=id_brand).exists()):
+            raise Http404
+        obj = Brand.objects.get(id=id_brand)
+    elif slug_category and slug_suba and slug_subb and not id_brand:
+        if not(
+                Category.objects.filter(slug=slug_category).exists() and
+                Category.objects.filter(suba__slug=slug_suba).exists() and
+                SubA.objects.filter(subb__slug=slug_subb).exists()):
+            raise Http404
+        obj = SubB.objects.get(subA__slug=slug_suba, slug=slug_subb)
+    else:
+        raise Http404
 
     list_dict = [{'category__slug': slug_category}, {'subA__slug': slug_suba},
                 {'subB__slug': slug_subb}, {'brands__id': id_brand}]
