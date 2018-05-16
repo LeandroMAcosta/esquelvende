@@ -51,6 +51,7 @@ class Product(models.Model, HitCountMixin):
     brands = models.ForeignKey(Brand, null=True, blank=True)
     description = models.TextField()
     contact_phone = models.CharField(max_length=50, null=True)
+    whatsapp = models.CharField(max_length=50, null=True)
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, null=True,
                               blank=True)
     contact_email = models.EmailField()

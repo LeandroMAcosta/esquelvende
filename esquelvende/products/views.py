@@ -28,8 +28,8 @@ def home(request):
 
 @login_required(login_url='/login/')
 def publish(request):
-    if request.GET.get('id_generic') is not None and
-    request.GET.get('value_generic') is not None:
+    if (request.GET.get('id_generic') is not None and
+            request.GET.get('value_generic') is not None):
         if request.GET.get('id_generic') == 'id_category':
             return json_selector(request.GET.get('value_generic'),
                                  'id_category',

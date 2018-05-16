@@ -31,4 +31,5 @@ class ProductAdmin(admin.ModelAdmin):
     actions = [delete_product_report]
 
 
-admin.site.register(Product, ProductAdmin, ImagesProduct)
+admin.site.register(Product, ProductAdmin)
+admin.site.register(ImagesProduct)

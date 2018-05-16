@@ -65,6 +65,11 @@
             {{ form.contact_phone }}
         </div>
         <div class="fieldWrapper">
+            {{ form.whatsapp.errors }}
+            <label for="{{ form.whatsapp.id_for_label }}">Whatsapp:</label>
+            {{ form.whatsapp }}
+        </div>
+        <div class="fieldWrapper">
             {{ form.contact_email.errors }}
             <label for="{{ form.contact_email.id_for_label }}">Email de contacto:</label>
             {{ form.contact_email }}

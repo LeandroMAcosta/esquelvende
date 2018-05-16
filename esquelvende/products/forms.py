@@ -29,6 +29,7 @@ class FormProduct(forms.ModelForm):
             'brands',
             'status',
             'contact_phone',
+            'whatsapp',
             'contact_email',
             'description',
             'price'
@@ -54,6 +55,7 @@ class FormEditProduct(forms.ModelForm):
             'title',
             'status',
             'contact_phone',
+            'whatsapp',
             'contact_email',
             'description',
             'price'
