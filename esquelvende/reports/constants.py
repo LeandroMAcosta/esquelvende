@@ -17,7 +17,7 @@ DELPRODUCT = 2
 
 SUBJECT_USER = 'Esquel Vende'
 MESSAGE_USER = 'Su producto ha sido eliminado por no respetar las politicas\
-				y condiciones de Esquel Vende\n'
+                y condiciones de Esquel Vende\n'
 
 
 SUBJECT_MOD = 'Producto o servicio reportado'
