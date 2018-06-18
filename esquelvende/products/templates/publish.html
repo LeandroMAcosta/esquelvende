@@ -41,11 +41,6 @@
                     {{ form.subB.errors }}
                     <label for="{{ form.subB.id_for_label }}"></label>
                     {{ form.subB }}
-                    <div id="subC_div">
-                        {{ form.subC.errors }}
-                        <label for="{{ form.subC.id_for_label }}"></label>
-                        {{ form.subC }}
-                    </div>
                     <div id="brand_div">
                             {{ form.brands.errors }}
                             <label for="{{ form.brands.id_for_label }}"></label>
@@ -91,7 +86,6 @@
             $(".selected").ready(function() {
                 $('#id_subA').empty();
                 $('#id_subB').empty();
-                $('#id_subC').empty();
                 $('#id_brands').empty();
             });
             function category_selector(event){

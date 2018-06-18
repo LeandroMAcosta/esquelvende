@@ -27,16 +27,6 @@
 			{% else %}
 				<a class="lead" href="{% url 'login' %}">Log in</a>
 			{% endif %}
-
-
-			{% for category in categories %}
-				{{ category.category_name }}
-				{% for subcategory in category.subcategory_set.all %}
-					{{ subcategory.subcategory_name }}
-				{% endfor %}
-			{% endfor %}
-
-
 				<p></p>
 			</div>
 		</div>

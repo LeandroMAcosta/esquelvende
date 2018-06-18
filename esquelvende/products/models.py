@@ -10,7 +10,7 @@ from django.db import models
 from django.utils import timezone
 from hitcount.models import HitCount, HitCountMixin
 
-from categories.models import Brand, Category, SubA, SubB, SubC
+from categories.models import Brand, Category, SubA, SubB
 
 from .constants import STATUS_CHOICES
 
@@ -47,7 +47,6 @@ class Product(models.Model, HitCountMixin):
     category = models.ForeignKey(Category, null=True)
     subA = models.ForeignKey(SubA, null=True, blank=True)
     subB = models.ForeignKey(SubB, null=True, blank=True)
-    subC = models.ForeignKey(SubC, null=True, blank=True)
     brands = models.ForeignKey(Brand, null=True, blank=True)
     description = models.TextField()
     contact_phone = models.CharField(max_length=50, null=True)

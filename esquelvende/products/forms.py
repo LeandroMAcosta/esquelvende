@@ -14,8 +14,6 @@ class FormProduct(forms.ModelForm):
             {'onChange': 'category_selector(event)', 'class': 'selected'})
         self.fields['subB'].widget.attrs.update(
             {'onChange': 'category_selector(event)', 'class': 'selected'})
-        self.fields['subC'].widget.attrs.update(
-            {'onChange': 'category_selector(event)', 'class': 'selected'})
         self.fields['brands'].widget.attrs.update({'class': 'selected'})
 
     class Meta:
@@ -25,7 +23,6 @@ class FormProduct(forms.ModelForm):
             'category',
             'subA',
             'subB',
-            'subC',
             'brands',
             'status',
             'contact_phone',

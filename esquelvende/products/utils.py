@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 
-from categories.models import Brand, Category, SubA, SubB, SubC
+from categories.models import Brand, Category, SubA, SubB
 
 
 def json_selector(id_generic, id_pertain, value_generic):

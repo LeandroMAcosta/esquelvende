@@ -10,7 +10,7 @@ from django.shortcuts import (HttpResponse, HttpResponseRedirect,
 from hitcount.models import HitCount
 from hitcount.views import HitCountMixin
 
-from categories.models import Brand, Category, SubA, SubB, SubC
+from categories.models import Brand, Category, SubA, SubB
 from last_seen.models import LastSeen
 from reports.forms import FormReport
 from users.models import User
