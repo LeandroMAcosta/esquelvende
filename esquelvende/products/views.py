@@ -7,15 +7,16 @@ from django.forms import modelformset_factory
 from django.http import Http404, JsonResponse
 from django.shortcuts import (HttpResponse, HttpResponseRedirect,
                               get_object_or_404, render)
+from django.utils import timezone
 from hitcount.models import HitCount
 from hitcount.views import HitCountMixin
 
 from categories.models import Brand, Category, SubA, SubB
 from last_seen.models import LastSeen
+from last_seen.views import add_last_seen
 from reports.forms import FormReport
 from users.models import User
 
-from .constants import MAX_VIEW_PRODUCT
 from .forms import FormEditProduct, FormImagesProduct, FormProduct
 from .models import ImagesProduct, Product
 from .utils import json_selector
@@ -25,15 +26,52 @@ def home(request):
     query = Category.objects.all()
     search = request.GET.get('search')
     if search:
-        query_products = Product.objects.filter(
-                                        Q(title__contains=search) |
-                                        Q(title__istartswith=search) |
-                                        Q(title__iendswith=search))
-        return render(
-            request,
-            'category_parser/category_parser.html',
-            {'query': query, 'search_products': query_products})
+        products = Product.objects.filter(Q(title__contains=search) |
+                                          Q(title__istartswith=search) |
+                                          Q(title__iendswith=search))
+        return render(request, 'category_parser/category_parser.html',
+                      {'query': query, 'search_products': products})
     return render(request, 'home.html', {'categories': query})
+
+
+@login_required(login_url='/login/')
+def user_products(request):
+    query = Product.objects.filter(user=request.user, enable=True)
+    return render(request, 'list_products.html', {'user_products': query})
+
+
+def product_view(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    if not product.is_expired():
+        # Agrega Lastseen
+        add_last_seen(request, product)
+        images = product.imagesproduct_set.all()
+        hit_count = HitCount.objects.get_for_object(product)
+        hit_count_response = HitCountMixin.hit_count(request, hit_count)
+        return render(request, 'product_view.html', {'product': product,
+                                                     'images': images})
+    raise Http404
+
+
+@login_required(login_url='/login/')
+def delete_product(request, product_id):
+    product = get_object_or_404(Product, pk=product_id, user=request.user)
+    if request.POST:
+        product.enable = False
+        product.save()
+        return HttpResponseRedirect("/")
+    return render(request, 'delete_product.html', {'product': product})
+
+
+@login_required(login_url='/login/')
+def republish(request, product_id):
+    product = get_object_or_404(Product, pk=product_id, user=request.user)
+    if request.POST:
+        product.enable = True
+        product.published_date = timezone.now()
+        product.save()
+        return HttpResponseRedirect("/productos/")
+    return render(request, 'republish.html', {'product': product})
 
 
 @login_required(login_url='/login/')
@@ -59,6 +97,7 @@ def publish(request):
             image_product = form_image.save(commit=False)
             obj_product = form.save(commit=False)
             obj_product.user = request.user
+            obj_product.published_date = timezone.now()
             obj_product.save()
             # request.FILES is a dictionary
             for cont, image in enumerate(request.FILES.getlist('image')):
@@ -70,54 +109,19 @@ def publish(request):
     else:
         form = FormProduct(initial={'contact_email': request.user.email})
         form_image = FormImagesProduct()
-    return render(
-            request,
-            'publish.html',
-            {'form': form, 'form_image': form_image})
-
-
-def product_view(request, product_id):
-    query_product = Product.objects.filter(pk=product_id).not_expired()
-    product = query_product.first()
-    if product:
-        if request.user.is_authenticated:
-            lastseen = LastSeen.objects.filter(user=request.user)
-            list_product = [p.product for p in lastseen]
-            if product not in list_product:
-                if len(list_product) > 10:
-                    LastSeen.objects.all().first().delete()
-                LastSeen.objects.create(user=request.user, product=product)
-        images = product.imagesproduct_set.all()
-        hit_count = HitCount.objects.get_for_object(product)
-        hit_count_response = HitCountMixin.hit_count(request, hit_count)
-        return render(
-                request,
-                'product_view.html',
-                {'product': product, 'images': images})
-    raise Http404
-
-
-@login_required(login_url='/login/')
-def delete_product(request, product_id):
-    obj = get_object_or_404(Product, pk=product_id, user=request.user)
-    if request.POST:
-        obj.delete()
-        return HttpResponseRedirect("/")
-    return render(request, 'delete_product.html', {'product': obj})
+    return render(request, 'publish.html', {'form': form,
+                                            'form_image': form_image})
 
 
 @login_required(login_url='/login/')
 def edit_product(request, product_id):
     product = get_object_or_404(Product, pk=product_id, user=request.user)
-    ImagesFormSet = modelformset_factory(
-                                        ImagesProduct,
-                                        fields=('product', 'image'), extra=0)
+    ImagesFormSet = modelformset_factory(ImagesProduct,
+                                         fields=('product', 'image'), extra=0)
     if request.POST:
         form = FormEditProduct(request.POST, instance=product)
-        form_images_set = ImagesFormSet(
-                                    request.POST,
-                                    request.FILES,
-                                    queryset=product.imagesproduct_set.all())
+        form_images_set = ImagesFormSet(request.POST, request.FILES,
+                                        queryset=product.imagesproduct_set.all())
         if form.is_valid() and form_images_set.is_valid():
             form.save()
             form_images_set.save()
@@ -126,22 +130,8 @@ def edit_product(request, product_id):
         form = FormEditProduct(instance=product)
         form_images_set = ImagesFormSet(
                                     queryset=product.imagesproduct_set.all())
-    return render(
-                request,
-                'edit_product.html',
-                {'form': form, 'form_images_set': form_images_set})
-
-
-@login_required(login_url='/login/')
-def list_products(request):
-    query_not_expired = Product.objects.filter(user=request.user).not_expired()
-    query_expired = Product.objects.filter(user=request.user).expired()
-    return render(request,
-                  'list_products.html',
-                  {
-                    'products_expired': query_expired,
-                    'products_not_expired': query_not_expired
-                  })
+    return render(request, 'edit_product.html', {'form': form,
+                                                 'form_images_set': form_images_set})
 
 
 def categories(request, slug_category=None, slug_suba=None, slug_subb=None):

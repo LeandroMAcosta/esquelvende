@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+
 from managers import QuerySet, QuerySetManager
 
 
@@ -33,6 +34,10 @@ class Sub(models.Model):
         return self.__class__.__name__
 
 
+class Brand(Sub):
+    pass
+
+
 class SubA(Sub):
     category = models.ForeignKey(Category, null=True)
     brand = models.ManyToManyField(Brand, blank=True)
@@ -41,7 +46,3 @@ class SubA(Sub):
 class SubB(Sub):
     subA = models.ForeignKey(SubA, null=True)
     brand = models.ManyToManyField(Brand, blank=True)
-
-
-class Brand(models.Model):
-    pass
