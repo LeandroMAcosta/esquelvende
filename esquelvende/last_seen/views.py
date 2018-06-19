@@ -15,5 +15,5 @@ def add_last_seen(request, product):
         if product not in list_product:
             if len(list_product) > 10:
                 LastSeen.objects.filter(user=request.user).first().delete()
-                LastSeen.objects.create(user=request.user, product=product)
+            LastSeen.objects.create(user=request.user, product=product)
     return None

@@ -22,13 +22,17 @@ from .models import ImagesProduct, Product
 from .utils import json_selector
 
 
+def product_filter(search):
+    return Product.objects.filter(Q(title__istartswith=search) |
+                                  Q(title__contains=search) |
+                                  Q(title__iendswith=search))
+
+
 def home(request):
     query = Category.objects.all()
     search = request.GET.get('search')
     if search:
-        products = Product.objects.filter(Q(title__contains=search) |
-                                          Q(title__istartswith=search) |
-                                          Q(title__iendswith=search))
+        products = product_filter(search)
         return render(request, 'category_parser/category_parser.html',
                       {'query': query, 'search_products': products})
     return render(request, 'home.html', {'categories': query})
@@ -75,6 +79,30 @@ def republish(request, product_id):
 
 
 @login_required(login_url='/login/')
+def edit_product(request, product_id):
+    product = get_object_or_404(Product, pk=product_id, user=request.user)
+    ImagesFormSet = modelformset_factory(ImagesProduct,
+                                         fields=('product', 'image'), extra=0)
+    if request.POST:
+        form = FormEditProduct(request.POST, instance=product)
+        form_images_set = ImagesFormSet(
+                                    request.POST, request.FILES,
+                                    queryset=product.imagesproduct_set.all())
+        if form.is_valid() and form_images_set.is_valid():
+            form.save()
+            form_images_set.save()
+        return HttpResponseRedirect("/")
+    else:
+        form = FormEditProduct(instance=product)
+        form_images_set = ImagesFormSet(
+                                    queryset=product.imagesproduct_set.all())
+    return render(request,
+                  'edit_product.html',
+                  {'form': form,
+                   'form_images_set': form_images_set})
+
+
+@login_required(login_url='/login/')
 def publish(request):
     if (request.GET.get('id_generic') is not None and
             request.GET.get('value_generic') is not None):
@@ -113,69 +141,36 @@ def publish(request):
                                             'form_image': form_image})
 
 
-@login_required(login_url='/login/')
-def edit_product(request, product_id):
-    product = get_object_or_404(Product, pk=product_id, user=request.user)
-    ImagesFormSet = modelformset_factory(ImagesProduct,
-                                         fields=('product', 'image'), extra=0)
-    if request.POST:
-        form = FormEditProduct(request.POST, instance=product)
-        form_images_set = ImagesFormSet(request.POST, request.FILES,
-                                        queryset=product.imagesproduct_set.all())
-        if form.is_valid() and form_images_set.is_valid():
-            form.save()
-            form_images_set.save()
-        return HttpResponseRedirect("/")
-    else:
-        form = FormEditProduct(instance=product)
-        form_images_set = ImagesFormSet(
-                                    queryset=product.imagesproduct_set.all())
-    return render(request, 'edit_product.html', {'form': form,
-                                                 'form_images_set': form_images_set})
-
-
 def categories(request, slug_category=None, slug_suba=None, slug_subb=None):
     id_brand = request.GET.get('i_b')
     search = request.GET.get('search')
     query_products = None
     if not(slug_category or slug_suba or slug_subb or id_brand):
         query = Category.objects.all()
-        return render(
-            request,
-            'category_parser/categories.html',
-            {'query': query})
+        return render(request, 'category_parser/categories.html',
+                      {'query': query})
     elif slug_category and not (slug_suba or slug_subb or id_brand):
         if not Category.objects.filter(slug=slug_category).exists():
             raise Http404
         obj = Category.objects.get(slug=slug_category)
     elif slug_category and slug_suba and id_brand and not slug_subb:
-        if not (
-                Category.objects.filter(slug=slug_category).exists() and
-                Category.objects.filter(suba__slug=slug_suba).exists() and
+        if not (Category.objects.filter(slug=slug_category, suba__slug=slug_suba).exists() and
                 SubA.objects.filter(brand__id=id_brand).exists()):
             raise Http404
         obj = Brand.objects.get(id=id_brand)
     elif slug_category and slug_suba and not (slug_subb or id_brand):
-        if not (
-            Category.objects.filter(slug=slug_category).exists() and
-                Category.objects.filter(suba__slug=slug_suba).exists()):
+        if not Category.objects.filter(slug=slug_category, suba__slug=slug_suba).exists():
             raise Http404
-        obj = SubA.objects.get(
-                            category__slug=slug_category,
-                            slug=slug_suba)
+        obj = SubA.objects.get(category__slug=slug_category, slug=slug_suba)
     elif slug_category and slug_suba and slug_subb and id_brand:
-        if not(
-                Category.objects.filter(slug=slug_category).exists() and
-                Category.objects.filter(suba__slug=slug_suba).exists() and
-                SubA.objects.filter(subb__slug=slug_subb).exists() and
-                SubB.objects.filter(brand__id=id_brand).exists()):
+        if not(Category.objects.filter(slug=slug_category, suba__slug=slug_suba).exists() and
+               SubA.objects.filter(subb__slug=slug_subb).exists() and
+               SubB.objects.filter(brand__id=id_brand).exists()):
             raise Http404
         obj = Brand.objects.get(id=id_brand)
     elif slug_category and slug_suba and slug_subb and not id_brand:
-        if not(
-                Category.objects.filter(slug=slug_category).exists() and
-                Category.objects.filter(suba__slug=slug_suba).exists() and
-                SubA.objects.filter(subb__slug=slug_subb).exists()):
+        if not(Category.objects.filter(slug=slug_category, suba__slug=slug_suba).exists() and
+               SubA.objects.filter(subb__slug=slug_subb).exists()):
             raise Http404
         obj = SubB.objects.get(subA__slug=slug_suba, slug=slug_subb)
     else:
