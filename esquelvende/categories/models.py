@@ -6,19 +6,7 @@ from django.db import models
 from managers import QuerySet, QuerySetManager
 
 
-class Category(models.Model):
-    name = models.CharField(max_length=100, null=True)
-    slug = models.SlugField(max_length=100, null=True)
-    objects = QuerySetManager()
-
-    def __str__(self):
-        return self.name
-
-    def class_name(self):
-        return self.__class__.__name__
-
-
-class Sub(models.Model):
+class Categories(models.Model):
     name = models.CharField(max_length=100, null=True)
     slug = models.SlugField(max_length=100, null=True)
     objects = QuerySetManager()
@@ -34,15 +22,19 @@ class Sub(models.Model):
         return self.__class__.__name__
 
 
-class Brand(Sub):
+class Category(Categories):
     pass
 
 
-class SubA(Sub):
+class Brand(Categories):
+    pass
+
+
+class SubA(Categories):
     category = models.ForeignKey(Category, null=True)
     brand = models.ManyToManyField(Brand, blank=True)
 
 
-class SubB(Sub):
+class SubB(Categories):
     subA = models.ForeignKey(SubA, null=True)
     brand = models.ManyToManyField(Brand, blank=True)

@@ -20,6 +20,7 @@ class Product(models.Model, HitCountMixin):
     contact_email = models.EmailField()
     title = models.CharField(max_length=30)
     enable = models.BooleanField(default=True)
+    delete = models.BooleanField(default=False)
     count_report = models.IntegerField(default=0)
     category = models.ForeignKey(Category, null=True)
     user = models.ForeignKey(User, blank=True, null=True)

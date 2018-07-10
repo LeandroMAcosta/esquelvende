@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 from django.db.models import Q
 from django.forms import modelformset_factory
 from django.http import Http404, JsonResponse
@@ -23,7 +24,8 @@ from .utils import json_selector
 
 
 def product_filter(search):
-    return Product.objects.filter(Q(title__istartswith=search) |
+    return Product.objects.filter(Q(enable=True, delete=False),
+                                  Q(title__istartswith=search) |
                                   Q(title__contains=search) |
                                   Q(title__iendswith=search))
 
@@ -40,12 +42,12 @@ def home(request):
 
 @login_required(login_url='/login/')
 def user_products(request):
-    query = Product.objects.filter(user=request.user, enable=True)
+    query = Product.objects.filter(user=request.user, enable=True, delete=False)
     return render(request, 'list_products.html', {'user_products': query})
 
 
 def product_view(request, product_id):
-    product = get_object_or_404(Product, pk=product_id)
+    product = get_object_or_404(Product, pk=product_id, delete=False)
     if not product.is_expired():
         # Agrega Lastseen
         add_last_seen(request, product)
@@ -61,6 +63,7 @@ def product_view(request, product_id):
 def delete_product(request, product_id):
     product = get_object_or_404(Product, pk=product_id, user=request.user)
     if request.POST:
+        product.delete = True
         product.enable = False
         product.save()
         return HttpResponseRedirect("/")
@@ -85,21 +88,17 @@ def edit_product(request, product_id):
                                          fields=('product', 'image'), extra=0)
     if request.POST:
         form = FormEditProduct(request.POST, instance=product)
-        form_images_set = ImagesFormSet(
-                                    request.POST, request.FILES,
+        form_images = ImagesFormSet(request.POST, request.FILES,
                                     queryset=product.imagesproduct_set.all())
-        if form.is_valid() and form_images_set.is_valid():
+        if form.is_valid() and form_images.is_valid():
             form.save()
-            form_images_set.save()
+            form_images.save()
         return HttpResponseRedirect("/")
     else:
         form = FormEditProduct(instance=product)
-        form_images_set = ImagesFormSet(
-                                    queryset=product.imagesproduct_set.all())
-    return render(request,
-                  'edit_product.html',
-                  {'form': form,
-                   'form_images_set': form_images_set})
+        form_images = ImagesFormSet(queryset=product.imagesproduct_set.all())
+    return render(request, 'edit_product.html', {'form': form,
+                                                 'form_images': form_images})
 
 
 @login_required(login_url='/login/')
@@ -123,15 +122,15 @@ def publish(request):
         form_image = FormImagesProduct(request.POST, request.FILES)
         if form.is_valid() and form_image.is_valid():
             image_product = form_image.save(commit=False)
-            obj_product = form.save(commit=False)
-            obj_product.user = request.user
-            obj_product.published_date = timezone.now()
-            obj_product.save()
+            product = form.save(commit=False)
+            product.user = request.user
+            product.published_date = timezone.now()
+            product.save()
             # request.FILES is a dictionary
             for cont, image in enumerate(request.FILES.getlist('image')):
                 if cont < 6:
                     image_product = ImagesProduct.objects.create(
-                                    product=obj_product, image=image)
+                                    product=product, image=image)
                     image_product.save()
             return HttpResponseRedirect('/')
     else:
@@ -144,7 +143,7 @@ def publish(request):
 def categories(request, slug_category=None, slug_suba=None, slug_subb=None):
     id_brand = request.GET.get('i_b')
     search = request.GET.get('search')
-    query_products = None
+    query_products = Product.objects.filter(enable=True, delete=False)
     if not(slug_category or slug_suba or slug_subb or id_brand):
         query = Category.objects.all()
         return render(request, 'category_parser/categories.html',
@@ -182,7 +181,6 @@ def categories(request, slug_category=None, slug_suba=None, slug_subb=None):
                  {'brands__id': id_brand}]
 
     if search:
-        query_products = Product.objects.all()
         for dict in list_dict:
             if dict.values()[0] is not None:
                 query_products = query_products.filter(
@@ -192,4 +190,4 @@ def categories(request, slug_category=None, slug_suba=None, slug_subb=None):
     return render(
         request,
         'category_parser/category_parser.html',
-        {'object': obj, 'search_products': query_products})
+        {'object': obj, 'products': query_products})

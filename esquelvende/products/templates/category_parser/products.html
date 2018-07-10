@@ -1,29 +1,13 @@
-{% if request.GET.search %}
-	{% with search_products|length as len %}     
-    	{% if len > 1 or len == 0 %}
-    	    <h4> {{ len }} Resultados </h4>
-    	{% else %}
-        	<h4> {{ len }} Resultado </h4>
-    	{% endif %}
-	{% endwith %}
-    <h3> Productos </h3>
-    {% for product in search_products %}
-        <div>
-            {{ product }}
-        </div>            
-    {% endfor %}
-{% else %}
-	{% with object.product_set.all|length as len %}     
-    	{% if len > 1 or len == 0 %}
-    	    <h4> {{ len }} Resultados </h4>
-    	{% else %}
-    	    <h4> {{ len }} Resultado </h4>
-    	{% endif %}
-	{% endwith %}
-    <h3> Productos </h3>
-    {% for product in object.product_set.all %}
-        <div>
-        	{{ product }}
-        </div>
-    {% endfor %}
-{% endif %}
+{% with products|length as len %}     
+	{% if len > 1 or len == 0 %}
+	    <h4> {{ len }} Resultados </h4>
+	{% else %}
+	    <h4> {{ len }} Resultado </h4>
+	{% endif %}
+{% endwith %}
+<h3> Productos </h3>
+{% for product in products %}
+    <div>
+        {{ product }}
+    </div>
+{% endfor %}
