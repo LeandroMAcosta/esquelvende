@@ -22,9 +22,6 @@
       </div>
       {% endfor %}
       {% endif %}
-      {% if form.first_name.help_text %}
-      {{ form.first_name.help_text }}
-      {% endif %}
     </div>
     <div class="col">
       
@@ -38,10 +35,6 @@
       </div>
       {% endfor %}
       {% endif %}
-      {% if form.last_name.help_text %}
-      {{ form.last_name.help_text }}
-      {% endif %}
-      
     </div>  
     
   </div>
@@ -56,9 +49,6 @@
   </div>
   {% endfor %}
   {% endif %}
-  {% if form.username.help_text %}
-  {{ form.username.help_text }}
-  {% endif %}
 
 
   <div class="form-group">
@@ -70,9 +60,6 @@
     {{ error }}
   </div>
   {% endfor %}
-  {% endif %}
-  {% if form.email.help_text %}
-  {{ form.email.help_text }}
   {% endif %}
 
 
@@ -86,9 +73,6 @@
   </div>
   {% endfor %}
   {% endif %}
-  {% if form.password.help_text %}
-  {{ form.password.help_text }}
-  {% endif %}
 
   <div class="form-group">
     {{ form.password2 }}
@@ -99,9 +83,6 @@
     {{ error }}
   </div>
   {% endfor %}
-  {% endif %}
-  {% if form.password2.help_text %}
-  {{ form.password2.help_text }}
   {% endif %}
 
 
