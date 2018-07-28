@@ -1,18 +1,112 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Registrar</title>
-</head>
-<body>
-    <div>
-        <h1>Registro</h1>
-        <form method="POST">
-        	
-        	{% csrf_token %}
-            {{ form.as_p }}
-            
-            <button type="submit">Registrar</button>
-        </form>
+{% extends 'base_users.html' %}
+
+{% block title%}Registrarse{% endblock %}
+
+{% block content %} 
+
+<h1>Registro</h1>
+<form method="POST">
+  {% csrf_token %}
+
+  <div class="row">
+    
+    <div class="col">
+      
+      <div class="form-group">
+        {{ form.first_name }}
+      </div>
+      {% if form.first_name.errors %}
+      {% for error in form.first_name.errors %}
+      <div class="alert alert-danger">
+        {{ error }}
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% if form.first_name.help_text %}
+      {{ form.first_name.help_text }}
+      {% endif %}
     </div>
-</body>
-</html>
+    <div class="col">
+      
+      <div class="form-group">
+        {{ form.last_name }}
+      </div>
+      {% if form.last_name.errors %}
+      {% for error in form.last_name.errors %}
+      <div class="alert alert-danger">
+        {{ error }}
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% if form.last_name.help_text %}
+      {{ form.last_name.help_text }}
+      {% endif %}
+      
+    </div>  
+    
+  </div>
+
+  <div class="form-group">
+    {{ form.username }}
+  </div>
+  {% if form.username.errors %}
+  {% for error in form.username.errors %}
+  <div class="alert alert-danger">
+    {{ error }}
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% if form.username.help_text %}
+  {{ form.username.help_text }}
+  {% endif %}
+
+
+  <div class="form-group">
+    {{ form.email }}
+  </div>
+  {% if form.email.errors %}
+  {% for error in form.email.errors %}
+  <div class="alert alert-danger">
+    {{ error }}
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% if form.email.help_text %}
+  {{ form.email.help_text }}
+  {% endif %}
+
+
+  <div class="form-group">
+    {{ form.password }}
+  </div>
+  {% if form.password.errors %}
+  {% for error in form.password.errors %}
+  <div class="alert alert-danger">
+    {{ error }}
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% if form.password.help_text %}
+  {{ form.password.help_text }}
+  {% endif %}
+
+  <div class="form-group">
+    {{ form.password2 }}
+  </div>
+  {% if form.password2.errors %}
+  {% for error in form.password2.errors %}
+  <div class="alert alert-danger">
+    {{ error }}
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% if form.password2.help_text %}
+  {{ form.password2.help_text }}
+  {% endif %}
+
+
+  <button type="submit" class="btn btn-signup btn-raised">Registrar</button>
+
+</form>
+
+{% endblock %}

@@ -6,11 +6,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.urlresolvers import reverse
 from django.shortcuts import HttpResponse, HttpResponseRedirect, render
+from django.contrib import messages
 
 from products.urls import home
 from users.models import User
 
-from .forms import FormAvatar, FormEditUser, FormRegister
+from .forms import FormAvatar, FormEditUser, FormRegister, FormLogin
 from .models import UserProfile
 from .utils import my_login
 
@@ -56,15 +57,22 @@ def new_user(request):
 
 def login_view(request):
     if request.POST:
-        form = AuthenticationForm(request.POST)
+        form = FormLogin(request.POST)
         if form.is_valid:
             username = request.POST['username']
             key = request.POST['password']
-            return my_login(request, username, key)
+            access = authenticate(username=username, password=key)
+            if access is not None:
+                login(request, access)
+                url = request.GET.get('next') or reverse('inicio')
+                return HttpResponseRedirect(url)
+            else:
+                messages.error(request, 'Usuario o contraseñas no validos')
+
     elif request.user.is_authenticated():
         return HttpResponseRedirect('/')
     else:
-        form = AuthenticationForm()
+        form = FormLogin()
     return render(request, 'login.html', {'form': form})
 
 

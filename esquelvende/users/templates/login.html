@@ -1,17 +1,50 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<body>
+{% extends 'base_users.html' %}
+
+{% block title%}Login{% endblock %}
+
+{% block content %} 
+<div id="login">
+  <p class="card-text">Esquelvende</p>
+  <h1>Iniciar sesion</h1>
+  <!-- Login Forms -->
   <form method="POST" action="">
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Login" />
-</form>
- <a href="{% url 'social:begin' 'google-oauth2' %}">Login con Google</a><br>
- <a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a><br>
- {#<a href="{% url 'social:begin' 'twitter' %}">Login with Twitter</a>#}
-</body>
-</html>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-danger m-0 mt-5">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+    
+    {% for field in form.visible_fields %}
+        
+      <div class="form-group">
+        {{ field }}
+      </div>
+      <!-- {% if field.help_text %}
+        {{ field.help_text }}
+      {% endif %} -->
+    {% endfor %}
+
+    <button type="submit" value="Login" class="btn btn-login btn-raised">Ingresar</button>
+  </form>
+  <!-- Login Forms end-->
+  
+  <!-- Social login buttons -->
+  <div class="row social-login">
+    <div class="col-6 pr-2 pt-3">
+      <a href="{% url 'social:begin' 'facebook' %}">
+          <button type="button" class="fa fa-facebook-square btn btn-login-fb btn-raised"></button>
+      </a>
+    </div>
+    <div class="col-6 pl-2 pt-3">                  
+      <a href="{% url 'social:begin' 'google-oauth2' %}">
+          <button type="button" class="fa fa-google btn btn-login-g btn-raised"></button>
+      </a>
+    </div>
+  </div>
+</div> 
+<!-- Social login buttons end -->
+{% endblock %}
