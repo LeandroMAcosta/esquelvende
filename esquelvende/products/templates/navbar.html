@@ -1,0 +1,72 @@
+<header>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg custom-toggler">
+            <div class="row">
+                <div class="col-2"><a class="navbar-brand" href="/">E</a></div>
+                <div class="col-9 col-lg-7">
+                    <form action="/" method="GET">
+                        <div class="input-group shadow-sm">
+                        <input type="search" name="search" class="form-control" placeholder="Buscar">
+                        <div class="input-group-append">
+                            <button class="btn btn-default py-2 separator"
+                                    type="submit">B
+                            </button>
+                        </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- navbarTogglerCategories = ntc -->
+                <div class="col-1 col-lg-3 d-flex justify-content-center p-0">
+                    <button class="navbar-toggler p-0"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target="#ntc"
+                            aria-controls="ntc"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="collapse navbar-collapse" id="ntc">
+                    <div class="col-12 col-lg-7 offset-lg-2">
+                        <div class="navbar-nav a">
+                            <a class="nav-item nav-link menu-categories" href="/categorias">Categoría</a>
+                            <div class="dropdown">
+                                <a class="nav-link dropdown-toggle pl-0"
+                                    href="#" id="ddc"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false">Categorías
+                                </a>
+                                <!-- dropdownCategories = ddc-->
+                                <div class="dropdown-menu shadow-sm" aria-labelledby="ddc">
+                                    {% for category in categories %}
+                                        <a class="dropdown-item" href="#">{{ category.category_name }}</a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <a class="nav-item nav-link" href="#">Tu historial</a>
+                            <a class="nav-item nav-link" href="#">Tus publicaciones</a>
+                            <a class="nav-item nav-link" href="/publicar">Vender</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="navbar-nav">
+                            <span class="separator-collapse"></span>
+                            {% if user.is_authenticated %}
+                                <a class="nav-item nav-link" href="#">Hola, {{ user.username }}</a>
+                                <a class="nav-item nav-link separator" href="/salir">Salir</a> 
+                            {% else %}
+                                <a class="nav-item nav-link" href="/registrar">Registrate</a>
+                                <a class="nav-item nav-link separator" href="/login">Ingresá</a> 
+                            {% endif %}
+                            <a class="nav-item nav-link separator" href="#">Ayuda</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>

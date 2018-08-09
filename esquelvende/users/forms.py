@@ -56,6 +56,16 @@ class FormRegister(forms.ModelForm):
 
 class FormEditUser(forms.ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        super(FormEditUser, self).__init__(*args, **kwargs)
+        # self.fields['first_name'].required = True
+        # self.fields['last_name'].required = True
+        # self.fields['password'].widget  = forms.PasswordInput(attrs = {'class': 'form-control', 'placeholder': u'Contraseña'})
+        # self.fields['username'].widget  = forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'Nombre de usuario'})
+        self.fields['first_name'].widget= forms.TextInput(attrs = {'class': 'form-control','placeholder': 'Nombre'})
+        self.fields['last_name'].widget = forms.TextInput(attrs = {'class': 'form-control','placeholder': 'Apellido'})
+        self.fields['email'].widget     = forms.TextInput(attrs = {'class': 'form-control','placeholder': 'Email'})
+
     class Meta:
         model = User
         fields = ('last_name', 'first_name', 'email')
