@@ -1,0 +1,21 @@
+<form method="POST" action="">
+{% csrf_token %}
+
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-danger">
+        {{ message }}
+    </div>
+    {% endfor %}
+{% endif %}
+
+{% for field in form.visible_fields %}
+    
+    <div class="form-group">
+    {{ field }}
+    </div>
+
+{% endfor %}
+
+<button type="submit" value="Login" class="btn btn-primary">Ingresar</button>
+</form>

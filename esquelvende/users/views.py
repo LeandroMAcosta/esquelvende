@@ -13,6 +13,7 @@ from users.models import User
 
 from .forms import FormAvatar, FormEditUser, FormRegister, FormLogin
 from .models import UserProfile
+from categories.models import Category
 from .utils import my_login
 
 
@@ -20,6 +21,7 @@ from .utils import my_login
 def edit_user(request):
     user = request.user
     user_info = UserProfile.objects.get(user=user)
+    query = Category.objects.all()
     if request.POST:
         form = FormEditUser(request.POST, instance=user)
         form_avatar = FormAvatar(
@@ -35,7 +37,8 @@ def edit_user(request):
         form = FormEditUser(instance=user)
         form_avatar = FormAvatar(instance=user_info)
     return render(request, 'edit_user.html', {'form': form,
-                                              'form_avatar': form_avatar})
+                                              'form_avatar': form_avatar,
+                                              'categories': query})
 
 
 def new_user(request):

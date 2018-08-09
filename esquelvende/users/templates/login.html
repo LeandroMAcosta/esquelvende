@@ -1,50 +1,35 @@
-{% extends 'base_users.html' %}
-
+{% extends 'base.html' %}
+{% load staticfiles %}
 {% block title%}Login{% endblock %}
+{% block navbar %}{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/users.css' %}"> 
+{% endblock%}
 
 {% block content %} 
-<div id="login">
-  <p class="card-text">Esquelvende</p>
-  <h1>Iniciar sesion</h1>
-  <!-- Login Forms -->
-  <form method="POST" action="">
-    {% csrf_token %}
 
-    {% if messages %}
-      {% for message in messages %}
-        <div class="alert alert-danger m-0 mt-5">
-          {{ message }}
-        </div>
-      {% endfor %}
-    {% endif %}
+<div class="bg-grad justify-content-center">
+  <div id="login" class="ev-white">
+    <div class="container">
+    <p class="">Esquelvende</p>
+
+    <h1>Iniciar sesion</h1>
     
-    {% for field in form.visible_fields %}
-        
-      <div class="form-group">
-        {{ field }}
-      </div>
-      <!-- {% if field.help_text %}
-        {{ field.help_text }}
-      {% endif %} -->
-    {% endfor %}
+    {% include "form/form-login.html" %}
 
-    <button type="submit" value="Login" class="btn btn-login btn-raised">Ingresar</button>
-  </form>
-  <!-- Login Forms end-->
-  
-  <!-- Social login buttons -->
-  <div class="row social-login">
-    <div class="col-6 pr-2 pt-3">
-      <a href="{% url 'social:begin' 'facebook' %}">
-          <button type="button" class="fa fa-facebook-square btn btn-login-fb btn-raised"></button>
-      </a>
-    </div>
-    <div class="col-6 pl-2 pt-3">                  
-      <a href="{% url 'social:begin' 'google-oauth2' %}">
-          <button type="button" class="fa fa-google btn btn-login-g btn-raised"></button>
-      </a>
-    </div>
+    <div class="row social-login">
+      <div class="col-6">
+        <a href="{% url 'social:begin' 'facebook' %}">
+            <button type="button" class="fa fa-facebook-square btn btn-login-fb btn-raised"></button>
+        </a>
+      </div>
+        <div class="col-6">                  
+          <a href="{% url 'social:begin' 'google-oauth2' %}">
+              <button type="button" class="fa fa-google btn"></button>
+          </a>
+        </div>
+      </div>
+    </div> 
   </div>
-</div> 
-<!-- Social login buttons end -->
+</div>
 {% endblock %}

@@ -1,8 +1,13 @@
-{% extends 'base_users.html' %}
+{% extends 'base.html' %}
 
 {% block title%}Registrarse{% endblock %}
 
 {% block content %} 
+{% comment %} <div class="bg-grad">
+    <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="card p-5" style="width: 40rem;">
+        <div class="card-body p-5 peach-gradient">
 
 <h1>Registro</h1>
 <form method="POST">
@@ -22,9 +27,6 @@
       </div>
       {% endfor %}
       {% endif %}
-      {% if form.first_name.help_text %}
-      {{ form.first_name.help_text }}
-      {% endif %}
     </div>
     <div class="col">
       
@@ -38,10 +40,6 @@
       </div>
       {% endfor %}
       {% endif %}
-      {% if form.last_name.help_text %}
-      {{ form.last_name.help_text }}
-      {% endif %}
-      
     </div>  
     
   </div>
@@ -56,9 +54,6 @@
   </div>
   {% endfor %}
   {% endif %}
-  {% if form.username.help_text %}
-  {{ form.username.help_text }}
-  {% endif %}
 
 
   <div class="form-group">
@@ -70,9 +65,6 @@
     {{ error }}
   </div>
   {% endfor %}
-  {% endif %}
-  {% if form.email.help_text %}
-  {{ form.email.help_text }}
   {% endif %}
 
 
@@ -86,9 +78,6 @@
   </div>
   {% endfor %}
   {% endif %}
-  {% if form.password.help_text %}
-  {{ form.password.help_text }}
-  {% endif %}
 
   <div class="form-group">
     {{ form.password2 }}
@@ -100,13 +89,16 @@
   </div>
   {% endfor %}
   {% endif %}
-  {% if form.password2.help_text %}
-  {{ form.password2.help_text }}
-  {% endif %}
 
 
   <button type="submit" class="btn btn-signup btn-raised">Registrar</button>
 
 </form>
+</div>
+</div>     
+</div>
+</div>
+</div>  {% endcomment %}
+
 
 {% endblock %}

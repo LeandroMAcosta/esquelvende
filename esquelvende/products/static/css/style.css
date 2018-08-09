@@ -1,77 +1,149 @@
-/*Navbar*/
-nav.navbar {
-	background-color: #ed7710;
-	height: auto;
+/* ######################################################################## */
+/*                            Estilos Generales                             */
+/* ######################################################################## */
+
+body {
+  background: #ebebeb;
+  font-family: 'Roboto', sans-serif;
+}
+.ev-orange {
+  background-color: #ed7710!important;
+}
+.ev-white {
+  background-color: #ebebeb!important;
 }
 
-form.form-search {
-    padding: 11px 1px;
-    margin-left: 2em;
-    overflow: auto;
-    height: 100%;
-    position: relative;
-    left: -1px;
+/* ######################################################################## */
+/*                                  Header                                  */
+/* ######################################################################## */
+
+header {
+  background: #ED7710;
+}
+header nav a {
+  color: #fff !important;
 }
 
-input[type=text].input-search {
-    padding: 3px 60px 3px 15px;
-    -webkit-border-radius: 2px;
-    border-radius: 2px;
-    background-color: #fff;
-    border: 0 rgba(0,0,0,.2);
-    height: 39px;
-    width: 70%;
+input[type="search"] {
+  border-radius: 1px 0px 0px 1px !important;
+  color: #666 !important;
+  border: 0px;
 }
-
-a.nav-logo {
-	/*background: url(http://127.0.0.1:8000/media/header_opt.png) center top no-repeat;*/
-	background-repeat: no-repeat;
-	height: 51px;
-	width: 140px;
-	color: transparent;
+form button {
+  border-radius: 0px 1px 1px 0px !important;
+  background: #fff;
+  color: #999; /* Esto cuando se ponga el icono del buscar se elimina */
 }
-
-a.nav-logo img{
-	height: 100%;
+button.separator::after {
+  border-left: 1px solid #999; 
 }
-
-/*Container css*/
-.container {
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
+.menu-categories {
+  display: none;
 }
-@media (min-width: 768px) {
+.dropdown-menu {
+  background: #EBEBEB;
+  border: 0;
+  border-radius: 0px 1px 1px 0px !important;
+  width: 225px !important;
+}
+.dropdown-item {
+  color: #666 !important;
+  padding-top: 4%; 
+  padding-bottom: 4%;
+}
+div.dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 37.2%;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent; 
+  border-bottom: 10px solid #EBEBEB;
+}
+@media only screen and (max-width : 992px) {
+  /* all: unset: 
+    Cambia las prop. aplicables al elemento, o a su elemento padre,
+    a los valores de los elementos padres, si son heredadas,
+    o a sus valores iniciales en caso contrario.
+  */
+  a.separator::after {
+    all: unset;
+  }
+  .separator-collapse {
+        height: 1px;
+        margin: 9px 0;
+        overflow: hidden;
+        background-color: #e5e5e5;
+  }
   .container {
-    width: 750px;
+    margin: 0;
+    max-width: 100%;
+  }
+  .dropdown {
+    display: none;
+  }
+  .menu-categories {
+    display: block;
   }
 }
-@media (min-width: 992px) {
-  .container {
-    width: 970px;
-  }
+
+/* Estilos para el placeholder. */
+.form-control::-moz-placeholder{
+  color: #999;
+  opacity: 1;
 }
-@media (min-width: 1200px) {
-  .container {
-    width: 1170px;
-  }
+.form-control:-ms-input-placeholder{
+  color: #999;
+}
+.form-control::-webkit-input-placeholder{
+  color: #999;
 }
 
-/* Home */
-.home {
-	padding-top: 40px;
+/* Utilidad */
+.separator {
+  position: relative
+}
+.separator::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  height: 50%;
+  top: 25%;
+  border-left: 1px solid #fff;
 }
 
-/* Estilos */
-
-.well {
-    min-height: 20px;
-    padding: 19px;
-    margin-bottom: 20px;
-    background-color: #f5f5f5;
-    border: 1px solid #e3e3e3;
-    border-radius: 4px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+/* Estilos de bootstrap modificados. */
+.navbar {
+  display: block;
 }
+textarea,
+input,
+button,
+button:active,
+button:focus,
+button:hover,
+.btn,
+.btn:active, 
+.btn:focus,
+.btn:hover {   
+    /* Quita la marca al clickear */
+    outline: none !important;
+    box-shadow: none !important;
+}
+.custom-toggler .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8, %3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+.custom-toggler.navbar-toggler {
+  border-color: rgb(255,255,255);
+}
+.dropdown-item:focus,
+.dropdown-item:hover,
+.dropdown-item:active {
+  background: inherit;
+  color: #333 !important;
+}
+
+/* ######################################################################## */
+/*                                  Footer                                 */
+/* ######################################################################## */
+
