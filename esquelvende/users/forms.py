@@ -84,7 +84,7 @@ class FormAvatar(forms.ModelForm):
         image_file = StringIO.StringIO(image_field.read())
         image = Image.open(image_file)
         w, h = image.size
-        image = image.resize((w/2, h/2), Image.ANTIALIAS)
+        image = image.resize((w, h), Image.ANTIALIAS)
         image_file = StringIO.StringIO()
         image.save(image_file, 'JPEG', quality=90)
         image_field.file = image_file
@@ -97,7 +97,9 @@ class FormLogin(AuthenticationForm):
         super(FormLogin, self).__init__(*args, **kwargs)
         self.fields['username'].widget=forms.TextInput(attrs = {'class': 'form-control', 
                                                                 'placeholder': 'Nombre de usuario'})
-
+        self.fields['username'].label = ""
+        
         self.fields['password'].widget=forms.PasswordInput(attrs = {'class': 'form-control', 
                                                                     'placeholder': u'Contraseña'})
+        self.fields['password'].label = "¿Olvidó su contraseña?"
 
