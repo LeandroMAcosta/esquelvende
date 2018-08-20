@@ -13,17 +13,13 @@
   <div class="billboard-container ev-orange"></div>
   <div class="content container">
     <div class="row justify-content-center">
-      <div class="card p-5" style="width: 40rem;">
+      <div class="card p-5">
         <div class="p-5">
           
           <div id="my-data">
-            
-            <div class="avatar text-center">
-              <img class="img-responsive rounded-circle" src="/media/{{ user.userprofile.avatar }}" alt="avatar">
-            </div>
 
-            <h1>{{ user.first_name }}</h1>
-            
+{% comment %} <input type="file" name="avatar" id="id_avatar" class="avatar rounded-circle" style="background-image: url(/media/{{ user.userprofile.avatar }})">               {% endcomment %}
+
             {% include "form/form-edit-profile.html" %}
             
           </div> 

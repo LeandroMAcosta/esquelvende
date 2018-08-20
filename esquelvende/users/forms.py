@@ -60,7 +60,7 @@ class FormEditUser(forms.ModelForm):
         super(FormEditUser, self).__init__(*args, **kwargs)
         # self.fields['first_name'].required = True
         # self.fields['last_name'].required = True
-        # self.fields['password'].widget  = forms.PasswordInput(attrs = {'class': 'form-control', 'placeholder': u'Contraseña'})
+        self.fields['password'].widget  = forms.PasswordInput(attrs = {'class': 'form-control', 'placeholder': u'Contraseña'})
         # self.fields['username'].widget  = forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'Nombre de usuario'})
         self.fields['first_name'].widget= forms.TextInput(attrs = {'class': 'form-control','placeholder': 'Nombre'})
         self.fields['last_name'].widget = forms.TextInput(attrs = {'class': 'form-control','placeholder': 'Apellido'})
@@ -68,13 +68,13 @@ class FormEditUser(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('last_name', 'first_name', 'email')
+        fields = ('last_name', 'first_name', 'email', 'password')
 
 
 class FormAvatar(forms.ModelForm):
 
     avatar = forms.ImageField(label="avatar")
-
+    # , widget = forms.HiddenInput()
     class Meta:
         model = UserProfile
         fields = ('avatar',)

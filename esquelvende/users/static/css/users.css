@@ -104,7 +104,36 @@ button.btn-login {
 
 #account .content .card{
   top: 200px;
+  padding-top: 100px!important;
+  width: 40rem;
 }
+
+#account .avatar {
+  background: no-repeat center;
+  width: 200px;
+  height: 200px;
+  border: none;
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  margin-top: -100px; 
+  margin-left: -100px; 
+  border-style: solid;
+  border-color: white;
+  border-width: 5px;
+}
+#account .avatar-container input[type=file] {
+  display: none;
+}
+
+/* 
+#account .avatar img {
+  width: 200;
+  height: 200px;
+} 
+*/
+
 
 
 @media (max-width: 991.98px) {

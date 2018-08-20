@@ -1,6 +1,12 @@
 <form method="POST" action="" enctype="multipart/form-data">
 {% csrf_token %}
 
+<div class="avatar-container">
+    <label for="id_avatar" class="avatar rounded-circle" style="background-image: url(/media/{{ user.userprofile.avatar }})">              
+    </label>
+    <input type="file" name="avatar" id="id_avatar">
+</div>
+
 <div class="row">
 
     <div class="col">
@@ -16,8 +22,8 @@
         {% endfor %}
         {% endif %}
     </div>
+
     <div class="col">
-        
         <div class="form-group">
         {{ form.last_name }}
         </div>
@@ -30,7 +36,18 @@
         {% endif %}
     </div>  
     
+</div>
+    
+    <div class="form-group">
+    {{ form.password }}
     </div>
+    {% if form.password.errors %}
+    {% for error in form.password.errors %}
+        <div class="alert alert-danger">
+    {{ error }}
+    </div>
+    {% endfor %}
+    {% endif %}
 
     <div class="form-group">
     {{ form.email }}
@@ -42,8 +59,8 @@
     </div>
     {% endfor %}
     {% endif %}
-
-{{ form_avatar.as_p }}
+    
+{% comment %} {{ form_avatar.as_p }} {% endcomment %}
 
 <button type="submit">Enviar</button>
 </form>
