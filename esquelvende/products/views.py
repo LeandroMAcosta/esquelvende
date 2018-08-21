@@ -18,7 +18,6 @@ from users.models import User
 from .constants import MAX_VIEW_PRODUCT
 from .forms import FormEditProduct, FormImagesProduct, FormProduct
 from .models import ImagesProduct, Product
-from .utils import json_selector
 
 
 def home(request):
@@ -38,42 +37,24 @@ def home(request):
 
 @login_required(login_url='/login/')
 def publish(request):
-    if (request.GET.get('id_generic') is not None and
-            request.GET.get('value_generic') is not None):
-        if request.GET.get('id_generic') == 'id_category':
-            return json_selector(request.GET.get('value_generic'),
-                                 'id_category',
-                                 request.GET.get('value_generic'))
-        elif request.GET.get('id_generic') == 'id_subA':
-            return json_selector(request.GET.get('value_generic'),
-                                 'id_subA',
-                                 request.GET.get('value_generic'))
-        elif request.GET.get('id_generic') == 'id_subB':
-            return json_selector(request.GET.get('value_generic'),
-                                 'id_subB',
-                                 request.GET.get('value_generic'))
-    if request.POST:
+    if request.method == 'POST':
         form = FormProduct(request.POST)
         form_image = FormImagesProduct(request.POST, request.FILES)
         if form.is_valid() and form_image.is_valid():
-            image_product = form_image.save(commit=False)
-            obj_product = form.save(commit=False)
-            obj_product.user = request.user
-            obj_product.save()
-            # request.FILES is a dictionary
+            images = form_image.save(commit=False)
+            product = form.save(commit=False)
+            product.user = request.user
+            product.save()
+            
             for cont, image in enumerate(request.FILES.getlist('image')):
                 if cont < 6:
-                    image_product = ImagesProduct.objects.create(
-                                    product=obj_product, image=image)
-                    image_product.save()
+                    images = ImagesProduct.objects.create(product=product, image=image)
+                    images.save()
             return HttpResponseRedirect('/')
     else:
         form = FormProduct(initial={'contact_email': request.user.email})
         form_image = FormImagesProduct()
-    return render(
-            request,
-            'publish.html',
-            {'form': form, 'form_image': form_image})
+    return render(request, 'publish.html', {'form': form, 'form_image': form_image})
 
 
 def product_view(request, product_id):
