@@ -11,7 +11,7 @@ from django.contrib import messages
 from products.urls import home
 from users.models import User
 
-from .forms import FormAvatar, FormEditUser, FormRegister, FormLogin
+from .forms import FormAvatar, FormEditUserProfile, FormEditUser, FormRegister, FormLogin
 from .models import UserProfile
 from categories.models import Category
 from .utils import my_login
@@ -24,21 +24,27 @@ def edit_user(request):
     query = Category.objects.all()
     if request.POST:
         form = FormEditUser(request.POST, instance=user)
+        form_profile = FormEditUserProfile(request.POST, instance=user)
         form_avatar = FormAvatar(
             request.POST, request.FILES, instance=user_info)
+
         if form.is_valid():
             form.save()
         if form_avatar.is_valid() and request.FILES.get('avatar', False):
             form_avatar.save(commit=False)
             form_avatar.avatar = request.FILES['avatar']
             form_avatar.save()
+        if form_profile.is_valid():
+            form_profile.save()
         return HttpResponseRedirect(reverse('edit_user'))
     else:
         form = FormEditUser(instance=user)
         form_avatar = FormAvatar(instance=user_info)
-    return render(request, 'edit_user.html', {'form': form,
-                                              'form_avatar': form_avatar,
-                                              'categories': query})
+        form_profile = FormEditUserProfile(instance=user_info)
+    return render(request, 'edit_user.html', {'form':         form,
+                                              'form_avatar':  form_avatar,
+                                              'form_profile': form_profile,
+                                              'categories':   query})
 
 
 def new_user(request):

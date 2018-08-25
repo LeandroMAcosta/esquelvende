@@ -102,13 +102,8 @@ button.btn-login {
   height: 296px;
 }
 
-#account .content .card{
-  top: 200px;
-  padding-top: 100px!important;
-  width: 40rem;
-}
-
 #account .avatar {
+  background-color: white!important;
   background: no-repeat center;
   width: 200px;
   height: 200px;
@@ -123,10 +118,50 @@ button.btn-login {
   border-color: white;
   border-width: 5px;
 }
+
 #account .avatar-container input[type=file] {
   display: none;
 }
 
+#account .avatar:hover {
+  cursor: pointer;
+}
+
+#account .overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: rgb(39, 39, 39);
+}
+
+#account .avatar-container:hover .overlay {
+  opacity: .5;
+}
+
+#account .avatar-container .text {
+  color: white;
+  font-size: 60px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+#account .content .card{
+  top: 200px;
+  padding: 4rem;
+  padding-top: 150px!important;
+  width: 40rem;
+}
 /* 
 #account .avatar img {
   width: 200;
@@ -153,6 +188,12 @@ button.btn-login {
     position: absolute;
     display: initial;
   }
+
+  #account .card {
+    padding: 3rem!important;
+    width: 100vh!important;
+    height: calc(100vh - 200px)
+  }
 }
 
 @media (max-width: 768px) {
@@ -165,5 +206,4 @@ button.btn-login {
   .bg-grad{
     background-color: white!important;
   }
-
 }

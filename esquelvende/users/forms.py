@@ -60,16 +60,25 @@ class FormEditUser(forms.ModelForm):
         super(FormEditUser, self).__init__(*args, **kwargs)
         # self.fields['first_name'].required = True
         # self.fields['last_name'].required = True
-        self.fields['password'].widget  = forms.PasswordInput(attrs = {'class': 'form-control', 'placeholder': u'Contraseña'})
+        # self.fields['password'].widget  = forms.PasswordInput(attrs = {'class': 'form-control input-cstm', 'placeholder': u'Contraseña'})
         # self.fields['username'].widget  = forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'Nombre de usuario'})
-        self.fields['first_name'].widget= forms.TextInput(attrs = {'class': 'form-control','placeholder': 'Nombre'})
-        self.fields['last_name'].widget = forms.TextInput(attrs = {'class': 'form-control','placeholder': 'Apellido'})
-        self.fields['email'].widget     = forms.TextInput(attrs = {'class': 'form-control','placeholder': 'Email'})
+        self.fields['first_name'].widget= forms.TextInput(attrs = {'class': 'form-control input-cstm','placeholder': 'Nombre'})
+        self.fields['last_name'].widget = forms.TextInput(attrs = {'class': 'form-control input-cstm','placeholder': 'Apellido'})
+        self.fields['email'].widget     = forms.TextInput(attrs = {'class': 'form-control input-cstm','placeholder': 'Email'})
 
     class Meta:
         model = User
-        fields = ('last_name', 'first_name', 'email', 'password')
+        fields = ('last_name', 'first_name', 'email')
 
+class FormEditUserProfile(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(FormEditUserProfile, self).__init__(*args, **kwargs)
+        self.fields['phone'].widget = forms.TextInput(attrs = {'class': 'form-control input-cstm','placeholder': 'Celular'})
+
+    class Meta:
+        model = UserProfile
+        fields = ('phone',)
 
 class FormAvatar(forms.ModelForm):
 
@@ -79,27 +88,27 @@ class FormAvatar(forms.ModelForm):
         model = UserProfile
         fields = ('avatar',)
 
-    def clean_avatar(self):
-        image_field = self.cleaned_data.get('avatar')
-        image_file = StringIO.StringIO(image_field.read())
-        image = Image.open(image_file)
-        w, h = image.size
-        image = image.resize((w, h), Image.ANTIALIAS)
-        image_file = StringIO.StringIO()
-        image.save(image_file, 'JPEG', quality=90)
-        image_field.file = image_file
-        return image_field
+    # def clean_avatar(self):
+    #     image_field = self.cleaned_data.get('avatar')
+    #     image_file = StringIO.StringIO(image_field.read())
+    #     image = Image.open(image_file)
+    #     w, h = image.size
+    #     image = image.resize((w, h), Image.ANTIALIAS)
+    #     image_file = StringIO.StringIO()
+    #     image.save(image_file, 'JPEG', quality=90)
+    #     image_field.file = image_file
+    #     return image_field
 
 
 class FormLogin(AuthenticationForm):
 
     def __init__(self, *args, **kwargs):
         super(FormLogin, self).__init__(*args, **kwargs)
-        self.fields['username'].widget=forms.TextInput(attrs = {'class': 'form-control', 
+        self.fields['username'].widget=forms.TextInput(attrs = {'class': 'form-control input-cstm', 
                                                                 'placeholder': 'Nombre de usuario'})
         self.fields['username'].label = ""
         
-        self.fields['password'].widget=forms.PasswordInput(attrs = {'class': 'form-control', 
+        self.fields['password'].widget=forms.PasswordInput(attrs = {'class': 'form-control input-cstm', 
                                                                     'placeholder': u'Contraseña'})
         self.fields['password'].label = "¿Olvidó su contraseña?"
 
