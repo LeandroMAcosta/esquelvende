@@ -76,6 +76,9 @@ TEMPLATES = [
                 'social_django.context_processors.backends',  # <- social auth
                 'social_django.context_processors.login_redirect', # <- social auth
             ],
+            'libraries': {
+                             'field_tag': 'templatetags.field_tag',
+            },
         },
     },
 ]
