@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load widget %}
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="../static/css/product.css" media="screen" />
@@ -17,8 +18,8 @@
           <small id="titleHelp" class="form-text text-muted">
            Usa palabras claves para que lo encuentren facilmente.
           </small>
-          {{ form.title }}
-          <small class="form-text text-muted" id="counter">Restan 60 caracteres.</small>
+          {{ form.title|add_attributes:"class:form-control, id:check, data-maxlength:30" }}
+          <small class="form-text text-muted" id="counter">Restan 30 caracteres.</small>
         </div>
       </div>
     </div>  
@@ -28,7 +29,7 @@
         <div class="form-group">
           <div class="container-categories" id="path_category">
             <div id="d-id_category" class="div-category">
-              {{ form.category }}
+              {{ form.category|add_attributes:"onchange:categorySelector(event), size:11, class:select-category" }}
             </div>
           </div>
         </div>
@@ -39,7 +40,7 @@
       <div class="scroll-photos">
         <div id="images"></div>
         <div class="input-container">
-          {{ form_image.image }}            
+          {{ form_image.image|add_attributes:"class:form-control-file, onchange:uploadFile(this.files); displacement(), accept: image/*, multiple:true"}}
         </div>
       </div>
     </div> 
@@ -52,7 +53,7 @@
           Cuanta más información,
           ¡Mejor!
           </label>
-          {{ form.description }}
+          {{ form.description|add_attributes:"class:form-control, rows:5" }}
         </div>
       </div>
     </div>
@@ -61,7 +62,7 @@
         {{ form.price.errors }}
         <label for="price">Precio</label>
         <div class="form-group">
-          {{ form.price }}
+          {{ form.price|add_attributes:"class:form-control" }}
         </div>
       </div>
       <div class="col-12 col-lg-5">
@@ -90,19 +91,19 @@
           <div class="form-group row">
             <label class="col-2 col-lg-1 col-form-label label-contact">Email:</label>
             <div class="col-12 col-lg-3 ">
-              {{ form.contact_email }}
+              {{ form.contact_email|add_attributes:"class:form-control" }}
             </div>
           </div>
           <div class="form-group row">
             <label class="col-2 col-lg-1 col-form-label label-contact">Whatsapp:</label>
             <div class="col-12 col-lg-3 ">
-              {{ form.whatsapp }}
+              {{ form.whatsapp|add_attributes:"class:form-control, title:Se creara un enlace que permetira al comprador comenzar un chat contigo sin necesidad de tener tu numero agendado." }}
             </div>
           </div>
           <div class="form-group mb-0 row">
             <label class="col-2 col-lg-1 col-form-label label-contact">Telefono:</label>
             <div class="col-12 col-lg-3 ">
-              {{ form.contact_phone }}
+              {{ form.contact_phone|add_attributes:"class:form-control" }}
             </div>
           </div>
         </div>

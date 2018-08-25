@@ -21,7 +21,6 @@ from .models import ImagesProduct, Product
 
 
 def home(request):
-    query = Category.objects.all()
     search = request.GET.get('search')
     if search:
         query_products = Product.objects.filter(
@@ -31,8 +30,8 @@ def home(request):
         return render(
             request,
             'category_parser/category_parser.html',
-            {'query': query, 'search_products': query_products})
-    return render(request, 'home.html', {'categories': query})
+            {'search_products': query_products})
+    return render(request, 'home.html')
 
 
 @login_required(login_url='/login/')

@@ -1,23 +1,15 @@
 from django import forms
 
+from django.forms import ModelChoiceField
 from .models import ImagesProduct, Product
 from .constants import STATUS_CHOICES
 
+from categories.models import Category
+
 
 class FormProduct(forms.ModelForm):
-    title = forms.CharField(max_length=30)
     status = forms.ChoiceField(choices=STATUS_CHOICES, widget=forms.RadioSelect())
-
-    def __init__(self, *args, **kwargs):
-        super(FormProduct, self).__init__(*args, **kwargs)
-        self.fields['category'].empty_label = None
-        self.fields['category'].widget.attrs.update({'onChange': 'categorySelector(event)', 'size': '11', 'class': 'select-category'})
-        self.fields['contact_email'].widget=forms.TextInput(attrs={'class': 'form-control'})
-        self.fields['price'].widget=forms.TextInput(attrs={'class': 'form-control'})
-        self.fields['contact_phone'].widget=forms.TextInput(attrs={'class': 'form-control'})
-        self.fields['title'].widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'check', 'data-maxlength': '60'})
-        self.fields['description'].widget=forms.Textarea(attrs={'class': 'form-control', 'rows': '5'})
-        self.fields['whatsapp'].widget=forms.TextInput(attrs= {'class': 'form-control', 'title':'Se creara un enlace que permetira al comprador comenzar un chat contigo, sin necesidad de tener tu numero agendado.'})
+    category = ModelChoiceField(Category.objects.all(), empty_label=None)
 
     class Meta:
         model = Product
@@ -26,7 +18,6 @@ class FormProduct(forms.ModelForm):
             'category',
             'subA',
             'subB',
-            'subC',
             'brands',
             'status',
             'contact_phone',
@@ -38,12 +29,6 @@ class FormProduct(forms.ModelForm):
 
 
 class FormImagesProduct(forms.ModelForm):
-    image = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
-    def __init__(self, *args, **kwargs):
-        super(FormImagesProduct, self).__init__(*args, **kwargs)
-        self.fields['image'].required = False
-        self.fields['image'].widget.attrs.update({'class': 'form-control-file',
-                                                'onchange': 'uploadFile(this.files); displacement()', 'accept': 'image/*'})
 
     class Meta:
         model = ImagesProduct
@@ -51,7 +36,6 @@ class FormImagesProduct(forms.ModelForm):
 
 
 class FormEditProduct(forms.ModelForm):
-    title = forms.CharField(max_length=30)
 
     class Meta:
         model = Product

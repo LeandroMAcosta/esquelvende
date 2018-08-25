@@ -68,4 +68,4 @@ class Product(models.Model, HitCountMixin):
 
 class ImagesProduct(models.Model):
     product = models.ForeignKey(Product)
-    image = models.ImageField(upload_to='products/')
+    image = models.ImageField(upload_to='products/', blank=True)

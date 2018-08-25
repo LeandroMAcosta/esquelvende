@@ -72,6 +72,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'categories.context_processors.get_categories', # Para el navbar
                 'social_django.context_processors.backends',  # <- social auth
                 'social_django.context_processors.login_redirect', # <- social auth
             ],

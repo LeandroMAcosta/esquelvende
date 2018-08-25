@@ -24,10 +24,11 @@ function deleteFile(div, key) {
 
 function renderFiles() {
     for (let [key, file] of Object.entries(obj)) {
-        /* If it already exists move to the next file. */
+        
+        // If it already exists move to the next file.
         if(document.querySelector(`div#images img.id${key}`)) continue;
 
-        /* If it doesnt exists we create it. */
+        // If it doesnt exists we create it.
         let parent = document.createElement("div");
         let newImage = document.createElement("img");
         let deleteImage = document.createElement("img");
@@ -47,6 +48,7 @@ function renderFiles() {
         parent.appendChild(newImage);
         parent.appendChild(deleteImage);
         images.appendChild(parent);
+
         // clean entry. 
         document.getElementsByClassName("form-control-file")[0].value = "";
     }
@@ -59,7 +61,7 @@ $('#check').keyup( function() {
     if (count >= 0) {$("#counter").html(`Restan ${count} caracteres.`)}
 });
 
-/* Si es un celular cambia el height de la caja de categorias. */
+// Si es un celular cambia el height de la caja de categorias.
 $('.div-category').ready(function() {
     if (isMobile.mobilecheck()) $('.div-category').css("height", "auto");
 });
@@ -72,7 +74,7 @@ function categorySelector(event) {
         let id = data['id'];
         delete data['id'];
 
-        /* Si tiene hermanos los borramos. */
+        // Si tiene hermanos los borramos.
         while(document.getElementById(`d-${current.id}`).nextElementSibling) {
             parent.removeChild(document.getElementById(`d-${current.id}`).nextElementSibling);
         }
@@ -120,7 +122,7 @@ function displacement() {
 function sendPhotos(e) {
     var fd = new FormData();
 
-    /* Para hacer un POST django nos pide el csrf. */
+    // Para hacer un POST django nos pide el csrf.
     var $csrf = $('[name=csrfmiddlewaretoken]');
 
     var fields = {
@@ -167,6 +169,7 @@ function sendPhotos(e) {
             alert("Algo salio mal, vuelva a recargar la pagina.");
         }
     });
-    /* Cancela el POST del formulario y para usar solo AJAX. */
+
+    // Cancela el POST del formulario para usar solo AJAX.
     e.preventDefault();
 }
