@@ -8,7 +8,8 @@ from categories.models import Category
 
 
 class FormProduct(forms.ModelForm):
-    status = forms.ChoiceField(choices=STATUS_CHOICES, widget=forms.RadioSelect())
+    status = forms.ChoiceField(choices=STATUS_CHOICES,
+                               widget=forms.RadioSelect())
     category = ModelChoiceField(Category.objects.all(), empty_label=None)
 
     class Meta:

@@ -2,6 +2,7 @@ from django import template
 
 register = template.Library()
 
+
 @register.filter(name='add_attributes')
 def add_attributes(field, attrs):
 

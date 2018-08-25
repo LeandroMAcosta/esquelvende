@@ -8,7 +8,6 @@ from products.models import Product
 
 
 class Favorite(models.Model):
-
     user = models.ForeignKey(User, null=True)
     product = models.OneToOneField(Product)
 

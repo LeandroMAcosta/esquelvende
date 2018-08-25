@@ -8,8 +8,8 @@ from products.models import Product
 
 
 class LastSeen(models.Model):
-	user = models.ForeignKey(User, blank=True)
-	product = models.ForeignKey(Product)
+    user = models.ForeignKey(User, blank=True)
+    product = models.ForeignKey(Product)
 
-	def __str__(self):
-		return self.product.title
+    def __str__(self):
+        return self.product.title

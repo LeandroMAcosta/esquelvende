@@ -7,7 +7,7 @@ from .models import Category, SubA, SubB, Brand
 
 
 def get_categories(idx, value):
-    obj =  {}
+    obj = {}
     if idx == 'id_category':
         query = SubA.objects.filter(category=value)
         obj['id'] = 'subA'
@@ -21,10 +21,11 @@ def get_categories(idx, value):
     if not query.exists() and idx == 'id_subA':
         query = Brand.objects.filter(suba__pk=value)
         obj['id'] = 'brands'
-        
+
     for category in query:
         obj[category.id] = str(category)
     return JsonResponse(obj)
+
 
 def tree_categories(request):
     if request.method == 'GET':
