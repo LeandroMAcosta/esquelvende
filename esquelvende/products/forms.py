@@ -1,22 +1,16 @@
 from django import forms
 
+from django.forms import ModelChoiceField
 from .models import ImagesProduct, Product
+from .constants import STATUS_CHOICES
+
+from categories.models import Category
 
 
 class FormProduct(forms.ModelForm):
-    title = forms.CharField(max_length=30)
-
-    def __init__(self, *args, **kwargs):
-        super(FormProduct, self).__init__(*args, **kwargs)
-        self.fields['category'].widget.attrs.update(
-            {'onChange': 'category_selector(event)'})
-        self.fields['subA'].widget.attrs.update(
-            {'onChange': 'category_selector(event)', 'class': 'selected'})
-        self.fields['subB'].widget.attrs.update(
-            {'onChange': 'category_selector(event)', 'class': 'selected'})
-        self.fields['subC'].widget.attrs.update(
-            {'onChange': 'category_selector(event)', 'class': 'selected'})
-        self.fields['brands'].widget.attrs.update({'class': 'selected'})
+    status = forms.ChoiceField(choices=STATUS_CHOICES,
+                               widget=forms.RadioSelect())
+    category = ModelChoiceField(Category.objects.all(), empty_label=None)
 
     class Meta:
         model = Product
@@ -25,7 +19,6 @@ class FormProduct(forms.ModelForm):
             'category',
             'subA',
             'subB',
-            'subC',
             'brands',
             'status',
             'contact_phone',
@@ -37,9 +30,6 @@ class FormProduct(forms.ModelForm):
 
 
 class FormImagesProduct(forms.ModelForm):
-    image = forms.FileField(
-            widget=forms.ClearableFileInput(attrs={'multiple': True})
-            )
 
     class Meta:
         model = ImagesProduct
@@ -47,7 +37,6 @@ class FormImagesProduct(forms.ModelForm):
 
 
 class FormEditProduct(forms.ModelForm):
-    title = forms.CharField(max_length=30)
 
     class Meta:
         model = Product

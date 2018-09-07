@@ -5,12 +5,16 @@
 </head>
 <body>
     <p>habilitados</p>
-    {% for product_1 in products_not_expired %}
-        <div>{{ product_1.title }}</div>
+    {% for product in user_products %}
+        {% if not product.is_expired %}
+            <div>{{ product.title }}</div>
+        {% endif %}
     {% endfor %}
     <p>no habilitados</p>
-    {% for product_2 in products_expired %}
-            <div>{{ product_2.title }}</div>
+    {% for product in user_products %}
+        {% if product.is_expired %}
+            <div>{{ product.title }}</div>
+        {% endif %}
     {% endfor %}
 </body>
 </html>

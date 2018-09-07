@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <form method="POST" action="">
+        {% csrf_token %}
+        <p>Quieres volver a publicar {{product.title}}</p>
+        <button type="submit">Volver a publicar</button>
+    </form> 
+</body>
+</html>

@@ -7,7 +7,7 @@
 <body>
     <form method="POST" class="post-form" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form_images_set.as_p }}      
+        {{ form_images.as_p }}      
         {{ form.as_p }}
         <button type="submit" class="save btn btn-default">Guardar</button>
     </form>

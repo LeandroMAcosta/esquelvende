@@ -2,7 +2,13 @@
 
 echo Creando migraciones
 
-python manage.py flush
+
+if [ -f "db.sqlite3" ]; then
+    rm db.sqlite3
+fi
+
+# python manage.py flush
+
 rm -rf */migrations
 python manage.py makemigrations categories products reports favorites last_seen social_django users
 python manage.py migrate
