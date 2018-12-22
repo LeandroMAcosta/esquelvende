@@ -6,6 +6,7 @@
 {% endblock%}
 
 {% block content %}
+
 <div class="container sheet">
   <h3 class="text-center mb-5">Contános, ¿Que vendes?</h3>
   <form method="POST" onsubmit="return sendPhotos(event)" class="post-form" enctype="multipart/form-data"> 
@@ -13,7 +14,6 @@
     <div class="row">
       <div class="col-12 col-lg-5">
         <div class="form-group">
-          {{ form.title.errors }}
           <label for="title">Escribe un título</label>
           <small id="titleHelp" class="form-text text-muted">
            Usa palabras claves para que lo encuentren facilmente.
@@ -89,7 +89,7 @@
       <div class="row m-0 pb-3">
         <div class="col-12 col-lg-12 p-4 user-contact">
           <div class="form-group row">
-            <label class="col-2 col-lg-1 col-form-label label-contact">Email:</label>
+            <label for="contact_email" class="col-2 col-lg-1 col-form-label label-contact">Email:</label>
             <div class="col-12 col-lg-3 ">
               {{ form.contact_email|add_attributes:"class:form-control" }}
             </div>

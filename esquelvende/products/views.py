@@ -20,6 +20,7 @@ from users.models import User
 
 from .forms import FormEditProduct, FormImagesProduct, FormProduct
 from .models import ImagesProduct, Product
+from django.contrib import messages
 
 
 def product_filter(search):
@@ -115,6 +116,12 @@ def publish(request):
                                                           image=image)
                     images.save()
             return HttpResponseRedirect('/')
+        else:
+            return JsonResponse({
+                        'success': False, 
+                        'err_code': 'invalid_form',
+                        'err_msg': form.errors,
+                    })
     else:
         form = FormProduct(initial={'contact_email': request.user.email})
         form_image = FormImagesProduct()

@@ -4,13 +4,14 @@ from django.forms import ModelChoiceField
 from .models import ImagesProduct, Product
 from .constants import STATUS_CHOICES
 
-from categories.models import Category
+from django.core.exceptions import ValidationError
+from categories.models import Category, SubA, SubB, Brand
 
 
 class FormProduct(forms.ModelForm):
     status = forms.ChoiceField(choices=STATUS_CHOICES,
                                widget=forms.RadioSelect())
-    category = ModelChoiceField(Category.objects.all(), empty_label=None)
+    category = ModelChoiceField(Category.objects.all(), required=False, empty_label=None)
 
     class Meta:
         model = Product

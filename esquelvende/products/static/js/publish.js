@@ -159,11 +159,44 @@ function sendPhotos(e) {
         enctype: 'multipart/form-data',
 
         success: function(data, status, xhr) {
+            console.log(data.err_msg)
+            if (data.err_code) {
+                for(var key in data.err_msg) {
+                    console.log(key)
+                    let newDiv = document.createElement("div");
+                    let newMsg = document.createTextNode(`${data.err_msg[key][0]}`)
 
-            /* Usar replace permite que la pagina actual no se
-               guarde en el historial de sesion, lo que significa
-               que no vamos a poder volver por el boton para atras. */
-            window.location.replace("/");
+                    /* Si el error es de (category o suba o subb) reemplazamos key por category
+                       asi mostramos el error en una sola parte.
+                    */
+                    if (key == "category" || key == "subA" || key == "subB" || key == "brands" ) {
+                        key = "category";
+                    }
+
+                    elem = document.querySelector(`[for=${key}]`);
+                    parent = elem.parentElement;
+                    
+                    // Si ya existe un error lo borramos y ponemos el nuevo.
+                    if (parent.querySelector("div.alert")) {
+                        parent.removeChild(parent.querySelector("div.alert"));
+                    }
+
+                    newDiv.classList.add("alert", "alert-danger");
+
+                    // Colocamos el error en el html.
+                    parent.insertBefore(newDiv, elem);
+                    newDiv.appendChild(newMsg);
+
+
+                    //console.log('[error] for ' + key + ': ' + data.err_msg[key][0]);
+                }
+            } else {
+                /* Usar replace permite que la pagina actual no se
+                   guarde en el historial de sesion, lo que significa
+                   que no vamos a poder volver por el boton para atras. */
+                window.location.replace("/"); // LLevar a la vista del producto
+            }
+            
         },
         error: function(xhr, status, error) {
             alert("Algo salio mal, vuelva a recargar la pagina.");

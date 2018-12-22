@@ -16,21 +16,21 @@ from .constants import STATUS_CHOICES
 
 
 class Product(models.Model, HitCountMixin):
-    description = models.TextField()
-    contact_email = models.EmailField()
+    description = models.TextField(null=True, blank=True)
     title = models.CharField(max_length=30)
     enable = models.BooleanField(default=True)
     delete = models.BooleanField(default=False)
     count_report = models.IntegerField(default=0)
-    category = models.ForeignKey(Category, null=True)
-    user = models.ForeignKey(User, blank=True, null=True)
+    user = models.ForeignKey(User, null=True, blank=True)
+    category = models.ForeignKey(Category, null=True, blank=True)
     subA = models.ForeignKey(SubA, null=True, blank=True)
     subB = models.ForeignKey(SubB, null=True, blank=True)
-    whatsapp = models.CharField(max_length=50, null=True)
     brands = models.ForeignKey(Brand, null=True, blank=True)
-    created_date = models.DateTimeField(default=timezone.now)
-    contact_phone = models.CharField(max_length=50, null=True)
+    whatsapp = models.CharField(max_length=50, null=True, blank=True)
+    contact_phone = models.CharField(max_length=50, null=True, blank=True)
+    contact_email = models.EmailField()
     published_date = models.DateTimeField(blank=True, null=True)
+    created_date = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, null=True,
                               blank=True)
     hit_count = GenericRelation(HitCount, object_id_field='object_pk',
