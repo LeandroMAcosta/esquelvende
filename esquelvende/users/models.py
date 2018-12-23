@@ -7,6 +7,6 @@ from django.db import models
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-    phone = models.IntegerField(default=None, null=True)
+    phone = models.IntegerField(default=None)
     avatar = models.ImageField(upload_to='avatar/',
                                default='avatar/default.jpg')
