@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}Mis datos{% endblock %}
+{% block navbar %}{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/users.css' %}"> 
+{% endblock%}
+{% block javascript %}
+<script src="{% static 'js/users.js' %}"></script>
+{% endblock %}
+
+{% block content %} 
+
+<div id="account">
+  <div class="billboard-container ev-orange"></div>
+  <div class="content container">
+    <div class="row justify-content-center">
+      <div class="card">
+          
+          <div id="my-data">
+
+            {% include "form/form-edit-profile.html" %}
+            
+          </div> 
+            
+      </div>     
+    </div>
+  </div>
+</div> 
+
+{% endblock %}
+
+
+
+

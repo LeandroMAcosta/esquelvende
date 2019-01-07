@@ -16,7 +16,7 @@ from categories.models import Brand, Category, SubA, SubB
 from last_seen.models import LastSeen
 from last_seen.views import add_last_seen
 from reports.forms import FormReport
-from users.models import User
+from account.models import User
 
 from .forms import FormEditProduct, FormImagesProduct, FormProduct
 from .models import ImagesProduct, Product

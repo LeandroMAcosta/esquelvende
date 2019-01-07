@@ -1,0 +1,209 @@
+.bg-grad {
+  display:flex;
+  align-items:center;
+  height:100vh;
+  background: rgba(255,169,99,1);
+  background: -webkit-linear-gradient(-45deg, 
+                                   rgba(255,169,99,1) 0%, 
+                                   rgba(237,119,16,1) 51%, 
+                                   rgba(143,62,0,1) 100%);
+  background:   -moz-linear-gradient(-45deg, 
+                                  rgba(255,169,99,1) 0%, 
+                                  rgba(237,119,16,1) 51%, 
+                                  rgba(143,62,0,1) 100%);
+
+  background:     -ms-linear-gradient(-45deg, 
+                                  rgba(255,169,99,1) 0%, 
+                                  rgba(237,119,16,1) 51%, 
+                                  rgba(143,62,0,1) 100%);
+  
+                                  
+  background:      -o-linear-gradient(-45deg, 
+                                  rgba(255,169,99,1) 0%, 
+                                  rgba(237,119,16,1) 51%, 
+                                  rgba(143,62,0,1) 100%);
+
+  background:       -webkit-gradient(left top, 
+                                  right bottom, 
+                                  color-stop(0%, 
+                                  rgba(255,169,99,1)), 
+                                  color-stop(51%, 
+                                  rgba(237,119,16,1)), 
+                                  color-stop(100%, 
+                                  rgba(143,62,0,1)));
+
+background:         linear-gradient(135deg, rgba(255,169,99,1) 0%, 
+                                  rgba(237,119,16,1) 51%, 
+                                  rgba(143,62,0,1) 100%);
+
+
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffa963', endColorstr='#8f3e00', GradientType=1 );
+}
+
+#login {
+  padding: 5.5rem;
+  width: 70vh;
+} 
+
+button.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+  background-color: rgba(255,169,99,1);
+}
+
+button.btn-facebook {
+  border-color: #3b5998!important;
+  color: #3b5998!important;
+}
+
+button.btn-facebook:hover {
+  background: #3b5998!important;
+  color: white!important;
+}
+
+button.btn-google {
+  border-color: #dd4b39!important;
+  color:#dd4b39!important;
+}
+
+button.btn-google:hover {
+  background: #dd4b39!important;
+  color: white!important;
+}
+
+button.btn-google {
+  border-color: #dd4b39!important;
+  color:#dd4b39!important;
+}
+
+button.btn-google:hover {
+  background: #dd4b39!important;
+  color: white!important;
+}
+button.btn-login {
+  border-color: #34495e!important;
+  background: #34495e!important;
+  border-radius: .25rem!important;
+  color: white;
+}
+
+.social-login button{
+  font-size: 1.5rem;
+}
+
+#simple-navbar {
+  display: none;
+  width: 100%;
+}
+
+/* Account */
+
+#account .billboard-container {
+  position: absolute;
+  width: 100%;
+  height: 296px;
+}
+
+#account .avatar {
+  background-color: white!important;
+  background: no-repeat center;
+  width: 200px;
+  height: 200px;
+  border: none;
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  margin-top: -100px; 
+  margin-left: -100px; 
+  border-style: solid;
+  border-color: white;
+  border-width: 5px;
+}
+
+#account .avatar-container input[type=file] {
+  display: none;
+}
+
+#account .avatar:hover {
+  cursor: pointer;
+}
+
+#account .overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: rgb(39, 39, 39);
+}
+
+#account .avatar-container:hover .overlay {
+  opacity: .5;
+}
+
+#account .avatar-container .text {
+  color: white;
+  font-size: 60px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+#account .content .card{
+  top: 200px;
+  padding: 4rem;
+  padding-top: 150px!important;
+  width: 40rem;
+}
+/* 
+#account .avatar img {
+  width: 200;
+  height: 200px;
+} 
+*/
+
+
+
+@media (max-width: 991.98px) {
+  #login {
+    width: 100%;   
+    height: 100%;
+  }
+  #navlogin {
+    height:50px;
+    z-index: 9999;
+
+  }
+  .bg-grad {
+    height:100vh;
+  }
+  #simple-navbar {
+    position: absolute;
+    display: initial;
+  }
+
+  #account .card {
+    padding: 3rem!important;
+    width: 100vh!important;
+    height: calc(100vh - 200px)
+  }
+}
+
+@media (max-width: 768px) {
+  #login {
+    padding-left: 0px!important;
+    padding-right: 0px!important;
+    align-items:center;
+    box-shadow: none;
+  }
+  .bg-grad{
+    background-color: white!important;
+  }
+}
