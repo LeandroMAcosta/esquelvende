@@ -40,9 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
-    'users',
     'product',
     'category',
+    'core',
+    'account',
     'reports',
     'hitcount',
     'social_django',
@@ -160,11 +161,11 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.get_username',
     'social_core.pipeline.social_auth.associate_by_email',
     'social_core.pipeline.user.create_user',
-    'users.utils.create_profile',
+    'core.utils.create_profile',
     'social_core.pipeline.social_auth.associate_user',
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
-    'users.utils.get_avatar'
+    'account.utils.get_avatar'
 )
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/

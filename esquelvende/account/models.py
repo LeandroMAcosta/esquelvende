@@ -5,8 +5,8 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-class UserProfile(models.Model):
+class Account(models.Model):
     user = models.OneToOneField(User)
-    phone = models.IntegerField(default=None, null=True)
+    phone = models.CharField(max_length=20, default="2945")
     avatar = models.ImageField(upload_to='avatar/',
                                default='avatar/default.jpg')

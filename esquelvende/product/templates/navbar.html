@@ -56,10 +56,10 @@
                         <div class="navbar-nav">
                             <span class="separator-collapse"></span>
                             {% if user.is_authenticated %}
-                                <a class="nav-item nav-link" href="#">{{ user.username }}</a>
-                                <a class="nav-item nav-link separator" href="/salir">Salir</a> 
+                                <a class="nav-item nav-link" href="/perfil">{{ user.username }}</a>
+                                <a class="nav-item nav-link separator" href="/logout">Salir</a> 
                             {% else %}
-                                <a class="nav-item nav-link" href="/registrar">Registrate</a>
+                                <a class="nav-item nav-link" href="/signup">Registrate</a>
                                 <a class="nav-item nav-link separator" href="/login">Ingresá</a> 
                             {% endif %}
                             <a class="nav-item nav-link separator" href="#">Ayuda</a>
