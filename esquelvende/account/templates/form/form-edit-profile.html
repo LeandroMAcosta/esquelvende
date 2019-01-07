@@ -2,7 +2,7 @@
 {% csrf_token %}
 
 <div class="avatar-container">
-    <label for="id_avatar" class="avatar rounded-circle" style="background-image: url(/media/{{ user.userprofile.avatar }})">              
+    <label for="id_avatar" class="avatar rounded-circle" style="background-image: url(/media/{{ user.account.avatar }})">              
         <div class="overlay rounded-circle text-center">
             <div class="text"><i class="fa fa-camera"></i></div>
         </div>

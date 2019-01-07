@@ -1,12 +1,9 @@
 # -- coding: utf-8 --
-import StringIO
-
 from django import forms
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm, AuthenticationForm
 from django.core.exceptions import ValidationError
-from PIL import Image
-
-from .models import User, UserProfile
+from django.contrib.auth.models import User
+from account.models import Account
 
 
 class FormRegister(forms.ModelForm):
@@ -32,9 +29,7 @@ class FormRegister(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data.get('email')
         username = self.cleaned_data.get('username')
-        if (email and
-                User.objects.filter(email=email).exclude(username=username)
-                            .exists()):
+        if (email and User.objects.filter(email=email).exclude(username=username).exists()):
             raise forms.ValidationError(u'Email ya esta en uso')
         return email
 
@@ -48,56 +43,20 @@ class FormRegister(forms.ModelForm):
     def is_valid(self):
         valid = super(FormRegister,self).is_valid()
         password_matched = self.password_matched()
-        if valid and password_matched:
-            return True
-        else:
-            return False
-
-
-class FormEditUser(forms.ModelForm):
-
-    def __init__(self, *args, **kwargs):
-        super(FormEditUser, self).__init__(*args, **kwargs)
-        # self.fields['first_name'].required = True
-        # self.fields['last_name'].required = True
-        # self.fields['password'].widget  = forms.PasswordInput(attrs = {'class': 'form-control input-cstm', 'placeholder': u'Contraseña'})
-        # self.fields['username'].widget  = forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'Nombre de usuario'})
-        self.fields['first_name'].widget= forms.TextInput(attrs = {'class': 'form-control input-cstm','placeholder': 'Nombre'})
-        self.fields['last_name'].widget = forms.TextInput(attrs = {'class': 'form-control input-cstm','placeholder': 'Apellido'})
-        self.fields['email'].widget     = forms.TextInput(attrs = {'class': 'form-control input-cstm','placeholder': 'Email'})
-
-    class Meta:
-        model = User
-        fields = ('last_name', 'first_name', 'email')
-
-class FormEditUserProfile(forms.ModelForm):
-
-    def __init__(self, *args, **kwargs):
-        super(FormEditUserProfile, self).__init__(*args, **kwargs)
-        self.fields['phone'].widget = forms.TextInput(attrs = {'class': 'form-control input-cstm','placeholder': 'Celular'})
-
-    class Meta:
-        model = UserProfile
-        fields = ('phone',)
-
-class FormAvatar(forms.ModelForm):
-
-    avatar = forms.ImageField(label="avatar")
-    # , widget = forms.HiddenInput()
-    class Meta:
-        model = UserProfile
-        fields = ('avatar',)
-
-    # def clean_avatar(self):
-    #     image_field = self.cleaned_data.get('avatar')
-    #     image_file = StringIO.StringIO(image_field.read())
-    #     image = Image.open(image_file)
-    #     w, h = image.size
-    #     image = image.resize((w, h), Image.ANTIALIAS)
-    #     image_file = StringIO.StringIO()
-    #     image.save(image_file, 'JPEG', quality=90)
-    #     image_field.file = image_file
-    #     return image_field
+        return valid and password_matched
+            
+    def save(self, commit=True):
+        instance = super(FormRegister, self).save(commit=False)
+        password = self.cleaned_data.get('password')
+        username = self.cleaned_data.get('username')
+        instance.set_password(password)
+        instance.username = username
+        
+        if commit:
+            instance.save()
+            Account.objects.create(user=instance)
+        
+        return instance, password
 
 
 class FormLogin(AuthenticationForm):
