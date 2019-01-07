@@ -8,12 +8,12 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import HttpResponse, HttpResponseRedirect, render
 from django.contrib import messages
 
-from products.urls import home
+from product.urls import home
 from users.models import User
 
 from .forms import FormAvatar, FormEditUser, FormRegister, FormLogin
 from .models import UserProfile
-from categories.models import Category
+from category.models import Category
 from .utils import my_login
 
 

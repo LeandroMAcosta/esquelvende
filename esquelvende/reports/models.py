@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.db import models
 
-from products.models import Product
+from product.models import Product
 
 from .constants import REASON_CHOICES
 

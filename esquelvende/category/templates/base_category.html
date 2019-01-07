@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block css %}{% endblock%}
+
+{% block content %}
+<div>
+    <h2>productos</h2>
+    {% for product in products %}
+        <span>{{ product }}</span>
+    {% endfor%}
+    <br>
+    <h2>categorias</h2>
+    {% for category in categories %}
+        <span>{{ category }}</span>
+    {% endfor%}
+</div>
+{% endblock%}
+
+{% block javascript %}
+{% endblock%}

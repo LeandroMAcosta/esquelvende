@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block css %}{% endblock%}
+
+{% block content %}
+    <div>
+        <div>
+            {% load hitcount_tags %}
+            visitas: {% get_hit_count for product %}   
+        </div>
+        {{ product.title }} <br>
+        {{ product.description }} <br>
+        {{ product.price }} <br>
+        {% for image in images %}
+            <img src="/media/{{ image.image }}" height="42" width="42">
+        {% endfor %}
+        <a href="/reportar/{{ product.id }}"> Denunciar </a>
+        {% include "./favorite_product.html" %}
+    </div>
+{% endblock%}
+{% block javascript %}
+<script>
+
+$('#favorite-form').on('submit', function(event){
+    event.preventDefault();
+    var csrf = $('[name=csrfmiddlewaretoken]');
+    $.ajax({
+        type: "POST",
+        url: '/product/{{ product.id }}/favorite/',
+        data: {
+            'csrfmiddlewaretoken': csrf.attr('value')
+        }
+    });
+});
+
+</script>
+
+{% endblock%}

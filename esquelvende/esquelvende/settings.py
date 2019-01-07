@@ -41,12 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     'users',
-    'products',
-    'categories',
+    'product',
+    'category',
     'reports',
     'hitcount',
-    'favorites',
-    'last_seen',
     'social_django',
 ]
 
@@ -73,7 +71,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'categories.context_processors.get_categories', # Para el navbar
+                'category.context_processors.get_categories', # Para el navbar
                 'social_django.context_processors.backends',  # <- social auth
                 'social_django.context_processors.login_redirect', # <- social auth
             ],
@@ -94,10 +92,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'esquelvende',
-        'USER': 'esquelvende',
-        'PASSWORD': 'esquelvende',
+        'USER': 'joacodf',
+        'PASSWORD': '1234',
         'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'PORT': '',
         'CHARSET': 'UTF8',
     }
 }

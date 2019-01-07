@@ -8,7 +8,7 @@ from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from products.models import Product
+from product.models import Product
 
 from .constants import (DELPRODUCT, MESSAGE_MOD, MESSAGE_USER, MODNOTIFICATION,
                         SUBJECT_MOD, SUBJECT_USER)

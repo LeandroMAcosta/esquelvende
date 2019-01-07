@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block css %}{% endblock%}
+
+{% block content %}
+    <div class="list-product">
+        {% include "./ajax_products.html" %}
+    </div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+// esta funcion creo que es muy parecida al republish. (falta hacer)
+function deleteProduct(event, id){
+    event.preventDefault();
+    
+    var form = event.target.parentElement;
+    var csrf = form.firstElementChild.value
+    
+    $.ajax({
+        url: `/product/${id}/delete/`,
+        type: "POST",
+        data: {
+            'csrfmiddlewaretoken': csrf
+        }
+    })
+    .done(function(data) {
+        $('.list-product').html(data);
+    })
+    .fail(function(xhr) {
+        alert("error")
+    }); 
+
+}
+
+</script>
+{% endblock %}
