@@ -9,6 +9,7 @@ from django.contrib import messages
 from forms import FormRegister, FormLogin
 from utils import my_login
 
+
 def signup_user(request):
     if request.POST:
         form = FormRegister(request.POST)
@@ -45,4 +46,3 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect('/login')
-

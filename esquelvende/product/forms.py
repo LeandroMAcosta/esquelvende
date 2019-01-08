@@ -10,7 +10,8 @@ from category.models import Category, SubA, SubB, Brand
 class FormProduct(forms.ModelForm):
     status = forms.ChoiceField(choices=Product.STATUS_CHOICES,
                                widget=forms.RadioSelect())
-    category = ModelChoiceField(Category.objects.all(), required=False, empty_label=None)
+    category = ModelChoiceField(Category.objects.all(), required=False,
+                                empty_label=None)
 
     class Meta:
         model = Product

@@ -20,4 +20,3 @@ def create_profile(strategy, details, response, user, *args, **kwargs):
     if kwargs['is_new']:
         Account.objects.create(user=user)
     return kwargs
-

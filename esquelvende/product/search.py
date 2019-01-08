@@ -15,7 +15,8 @@ def normalize_query(query_string,
         ['some', 'random', 'words', 'with quotes', 'spaces']
 
     """
-    return [normspace(' ', (t[0] or t[1]).strip()) for t in findterms(query_string)]
+    return [normspace(' ', (t[0] or t[1]).strip())
+            for t in findterms(query_string)]
 
 
 def get_query(query_string, fields, filter_by):
