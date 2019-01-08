@@ -72,9 +72,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'category.context_processors.get_categories', # Para el navbar
-                'social_django.context_processors.backends',  # <- social auth
-                'social_django.context_processors.login_redirect', # <- social auth
+                'category.context_processors.get_categories',
+                'social_django.context_processors.backends', 
+                'social_django.context_processors.login_redirect',
             ],
             'libraries': {
                              'field_tag': 'templatetags.field_tag',
@@ -138,7 +138,7 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'inicio'
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ='1063990601253-4vci3d73c2mqrmln4d14h5aqsalpt8em.apps.googleusercontent.com'  #Paste CLient Key
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1063990601253-4vci3d73c2mqrmln4d14h5aqsalpt8em.apps.googleusercontent.com'  #Paste CLient Key
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'U7Hd9MKp3L7DeyqvJYEhg26F'
 SOCIAL_AUTH_GOOGLE_OAUTH2_IGNORE_DEFAULT_SCOPE = True
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
