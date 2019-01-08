@@ -16,10 +16,6 @@ from .forms import FormEditProduct, FormImagesProduct, FormProduct
 from .models import Product, ImagesProduct, Favorite, History
 
 
-def home(request):
-    return render(request, 'home.html')
-
-
 def search(request):
     search = request.GET.get('results', None)
 
