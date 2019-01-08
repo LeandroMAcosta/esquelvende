@@ -44,3 +44,8 @@ def edit_user(request):
         context = {'form': form, 'form_avatar': form_avatar,
                    'form_profile': form_profile, 'categories': query}
         return render(request, 'edit_user.html', context)
+
+
+def history(request):
+    history = History.objects.filter(user=request.user)
+    return render(request, 'history.html', {'history': history})
