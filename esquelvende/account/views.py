@@ -42,6 +42,5 @@ def edit_user(request):
         form_avatar = FormAvatar(instance=user_info)
         form_profile = FormEditAccount(instance=user_info)
         context = {'form': form, 'form_avatar': form_avatar,
-                    'form_profile': form_profile, 'categories': query}
+                   'form_profile': form_profile, 'categories': query}
         return render(request, 'edit_user.html', context)
-
