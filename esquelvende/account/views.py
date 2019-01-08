@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from .forms import FormAvatar, FormEditAccount, FormEditUser
 from .models import Account
 from category.models import Category
+from product.models import Favorite
 
 
 @login_required(login_url='/login/')
@@ -44,3 +45,8 @@ def edit_user(request):
         context = {'form': form, 'form_avatar': form_avatar,
                    'form_profile': form_profile, 'categories': query}
         return render(request, 'edit_user.html', context)
+
+
+def favorites(request):
+    favorites = Favorite.objects.filter(user=request.user)
+    return render(request, 'list_favorites.html', {'favorites': favorites})
