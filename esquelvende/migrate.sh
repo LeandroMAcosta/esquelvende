@@ -14,7 +14,7 @@ python manage.py migrate
 # echo -- Llenando Cateogrias/ Sub/ Filtros --
 # echo ---------------------------------------
 
-# python manage.py loaddata categories/initial_data/initial.json
+python manage.py loaddata category/initial_data/initial.json
 
 # echo --------------------------------------
 # echo --Creando usuario Admin:
