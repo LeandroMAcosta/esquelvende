@@ -1,0 +1,4 @@
+linter:
+  script:
+    - cd esquelvende/
+    - pycodestyle --exclude='migrations*, settings*' .
