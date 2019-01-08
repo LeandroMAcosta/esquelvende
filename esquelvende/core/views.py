@@ -13,14 +13,12 @@ from product.models import Product, Favorite, History
 
 def home(request):
     MAX_PRODUCTS = 2
-    context = {}
+    products = Product.objects.all().order_by('-id')[:MAX_PRODUCTS]
+    context = {'products': products}
     if request.user.is_authenticated:
         favorites = Favorite.objects.filter(user=request.user)
         history = History.objects.filter(user=request.user)
-        products = Product.objects.all().order_by('-id')[:MAX_PRODUCTS]
-        context = {'favorites': favorites,
-                   'history': history,
-                   'products': products}
+        context.update({'favorites': favorites, 'history': history})
 
     return render(request, 'home.html', context)
 
