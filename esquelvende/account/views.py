@@ -11,6 +11,7 @@ from .models import Account
 from category.models import Category
 from product.models import History
 
+
 @login_required(login_url='/login/')
 def edit_user(request):
     user = request.user
