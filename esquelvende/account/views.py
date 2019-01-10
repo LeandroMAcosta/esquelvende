@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from .forms import FormAvatar, FormEditAccount, FormEditUser
 from .models import Account
 from category.models import Category
-
+from product.models import History
 
 @login_required(login_url='/login/')
 def edit_user(request):
@@ -48,4 +48,4 @@ def edit_user(request):
 
 def history(request):
     history = History.objects.filter(user=request.user)
-    return render(request, 'history.html', {'history': history})
+    return render(request, 'list_history.html', {'history': history})
