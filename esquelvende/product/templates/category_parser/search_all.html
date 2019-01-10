@@ -1,9 +1,0 @@
-{% for category in query %}
-    <div>
-        {% if request.GET.search  %}
-            <a href="{{ request.path }}{{ category.slug }}/?search={{ request.GET.search }}">
-                {{ category }} 
-            </a>
-        {% endif %}
-    </div>
-{% endfor %}

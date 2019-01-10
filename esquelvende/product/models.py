@@ -94,12 +94,10 @@ class Product(models.Model, HitCountMixin):
     @classmethod
     def filter_products(cls, search=None, filter_by=None):
 
-        fields = ['title', 'category__name', 'sub_a__name', 'brand__name',
-                  'sub_b__name']
+        fields = ['title', 'category__slug', 'sub_a__slug', 'brand__slug',
+                  'sub_b__slug']
         query = get_query(search, fields, filter_by)
-        print(query)
         products = cls.objects.filter(query)
-
         return products
 
 
