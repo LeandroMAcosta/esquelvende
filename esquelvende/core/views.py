@@ -8,6 +8,19 @@ from django.contrib import messages
 
 from forms import FormRegister, FormLogin
 from utils import my_login
+from product.models import Product, Favorite, History
+
+
+def home(request):
+    MAX_PRODUCTS = 2
+    products = Product.objects.all().order_by('-id')[:MAX_PRODUCTS]
+    context = {'products': products}
+    if request.user.is_authenticated:
+        favorites = Favorite.objects.filter(user=request.user)
+        history = History.objects.filter(user=request.user)
+        context.update({'favorites': favorites, 'history': history})
+
+    return render(request, 'home.html', context)
 
 
 def signup_user(request):
