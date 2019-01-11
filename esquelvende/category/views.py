@@ -74,32 +74,31 @@ Para el 3er elemento.
 
 
 def category(request, slug_category):
-    category = get_object_or_404(Category, slug=slug_category)
     search = request.GET.get('results', None)
+    category = get_object_or_404(Category, slug=slug_category)
 
     filter_by = {'category__slug': category.slug}
-    products = Product.filter_products(search, filter_by)
 
-    categories = category.suba_set.all()
+    context = {'current_category': category,
+               'categories': category.suba_set.all(),
+               'products': Product.filter_products(search, filter_by)}
+    return render(request, 'base_category.html', context)
 
-    context = {'categories': categories, 'products': products,
-               'current_category': category}
-    template = 'base_category.html'
-    return render(request, template, context)
+
+"""
+Las vistas sub_a y sub_b trabajan como si estuviera en la ruta
+/categoria/slug_sub_a o .../sub_a/?brand=brand y
+/categoria/slug_sub_a/slug_sub_b o .../slug_sub_b?brand=brand respectivamente.
+
+Por conveniencia vimos que era mejor tratar a las marcas por GET y no
+como las demas categorias.
+"""
 
 
 def sub_a(request, slug_category, slug_sub_a):
-    """
-    Esta view trabaja como si estuviera en la ruta
-    /categoria/slug_sub_a o /categoria/slug_sub_a?brand=brand.
-
-    Por conveniencia vimos que era mejor tratar a las marcas por GET y no
-    como las demas categorias.
-    """
     search = request.GET.get('results', None)
     brand = request.GET.get('brand', None)
-    context = {}
-    filter_by = {}
+    context, filter_by = {}, {}
 
     category = get_object_or_404(Category, slug=slug_category)
     sub_a = get_object_or_404(
@@ -107,8 +106,6 @@ def sub_a(request, slug_category, slug_sub_a):
         slug=slug_sub_a,
         category__slug=slug_category
     )
-    filter_by.update({'category__slug': category.slug,
-                      'sub_a__slug': sub_a.slug})
 
     if brand:
         brand = get_object_or_404(Brand, slug=brand)
@@ -119,32 +116,20 @@ def sub_a(request, slug_category, slug_sub_a):
         if categories.exists():
             context['categories'] = categories
         else:
-            """
-            Si no encontramos subcategorias de una sub_a
-            entonces tiene marcas relacionadas.
-            """
-            brands = sub_a.brand.all()
-            context['brands'] = brands
-
+            # Al no encontrar sub_b relacionados entonces hay marcas.
+            context['brands'] = sub_a.brand.all()
         context['current_category'] = sub_a
 
-    products = Product.filter_products(search, filter_by)
-    context['products'] = products
-
-    template = 'base_category.html'
-    return render(request, template, context)
+    filter_by.update({'category__slug': category.slug,
+                      'sub_a__slug': sub_a.slug})
+    context['products'] = Product.filter_products(search, filter_by)
+    return render(request, 'base_category.html', context)
 
 
 def sub_b(request, slug_category, slug_sub_a, slug_sub_b):
-    """
-    Esta view trabaja como si estuviera en la ruta
-    /categoria/slug_sub_a/slug_sub_b o
-    /categoria/slug_sub_a/slug_sub_b?brand=brand.
-    """
     search = request.GET.get('results', None)
     brand = request.GET.get('brand', None)
-    context = {}
-    filter_by = {}
+    context, filter_by = {}, {}
 
     category = get_object_or_404(Category, slug=slug_category)
     sub_a = get_object_or_404(
@@ -153,20 +138,17 @@ def sub_b(request, slug_category, slug_sub_a, slug_sub_b):
         category__slug=slug_category
     )
     sub_b = get_object_or_404(SubB, slug=slug_sub_b, sub_a__slug=slug_sub_a)
-    filter_by.update({'category__slug': category.slug,
-                      'sub_a__slug': sub_a.slug,
-                      'sub_b__slug': slug_sub_b.slug})
 
     if brand:
         brand = get_object_or_404(Brand, slug=brand)
         filter_by['brand__slug'] = brand
         context['current_category'] = brand
     else:
-        brands = sub_b.brand.all()
-        context.update({'brands': brands, 'current_category': sub_b})
+        context.update({'brands': sub_b.brand.all(),
+                        'current_category': sub_b})
 
-    products = Product.filter_products(search, filter_by)
-    context['products'] = products
-
-    template = 'base_category.html'
-    return render(request, template, context)
+    filter_by.update({'category__slug': category.slug,
+                      'sub_a__slug': sub_a.slug,
+                      'sub_b__slug': sub_b.slug})
+    context['products'] = Product.filter_products(search, filter_by)
+    return render(request, 'base_category.html', context)

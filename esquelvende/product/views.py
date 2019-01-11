@@ -11,13 +11,8 @@ from hitcount.views import HitCountMixin
 
 from category.models import Category, SubA, SubB, Brand
 from reports.forms import FormReport
-
 from .forms import FormEditProduct, FormImagesProduct, FormProduct
 from .models import Product, ImagesProduct, Favorite, History
-
-
-def home(request):
-    return render(request, 'home.html')
 
 
 def search(request):
