@@ -44,56 +44,7 @@ def tree_categories(request):
                 return JsonResponse({})
 
 
-def categories(request):
-    pass
-
-
-def category(request, slug_category):
-    category = Category.objects.get_or_404(slug=slug_category)
-    search = request.GET.get('results', None)
-
-    # TODO: Completar parametros filter_products()
-    filter_by = {'category__name': category.name}
-    products = Product.filter_products(search, filter_by)
-
-    categories = SubA.objects.filter(
-        slug=slug_category,
-        slug__suba=slug_sub_a
-    )
-
-    context = {'categories': categories, 'products': products}
-    template = 'base_category.html'
-    return render(request, template, context)
-
-
-def sub_a(request, slug_category, slug_sub_a):
-    suba = SubA.objects.get_or_404(
-        slug=slug_sub_a,
-        slug__category=slug_category
-    )
-
-    # TODO: Completar parametros filter_products()
-    products = Product.filter_products()
-
-    categories = SubB.objects.filter(
-        slug__category=slug_category,
-        slug__suba=slug_sub_a
-    )
-
-    """
-        Si no encontramos subcategorias de una suba
-        entonces tiene marcas relacionadas.
-    """
-    if not categories.exists():
-        categories = Brand.objects.filter(
-            slug__category=slug_category,
-            slug__suba=slug_sub_a
-        )
-
-    context = {'categories': categories, 'products': products}
-    template = 'base_category.html'
-    return render(request, template, context)
-
-
-def sub_b():
-    pass
+def load_sub_a(request):
+    category_id = request.GET.get('id')
+    sub_a = SubA.objects.filter(category_id=category_id)
+    return render(request, 'sub_a.html', {'sub_a': sub_a})

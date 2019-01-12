@@ -22,6 +22,21 @@ class FormProduct(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super(FormProduct, self).__init__(*args, **kwargs)
+        self.fields['sub_a'].queryset = SubA.objects.none()
+        self.fields['sub_b'].queryset = SubB.objects.none()
+        self.fields['brand'].queryset = Brand.objects.none()
+
+        if 'category' in self.data:
+            try:
+                sub_a_id = int(self.data.get('id'))
+                self.fields['sub_a'].queryset = SubA.objects.filter(
+                    category_id=country_id
+                )
+            except (ValueError, TypeError):
+                pass
+        print(self)
+        # elif self.instance.pk:
+        #     self.fields['sub_a'].queryset = self.instance.country.city_set.order_by('name')
 
     def save(self, commit=True):
         instance = super(FormProduct, self).save(commit=False)

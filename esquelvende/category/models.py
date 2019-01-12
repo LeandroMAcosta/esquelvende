@@ -36,5 +36,5 @@ class SubA(Categories):
 
 
 class SubB(Categories):
-    subA = models.ForeignKey(SubA)
+    sub_a = models.ForeignKey(SubA)
     brand = models.ManyToManyField(Brand)

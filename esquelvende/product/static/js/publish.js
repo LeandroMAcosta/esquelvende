@@ -111,6 +111,21 @@ function categorySelector(event) {
     });
 }
 
+function getCategories(event){
+    let current = event.target;
+    
+    $.ajax({
+        url: '/load-categories/',
+        data: {'id': current.value}
+    })
+    .done(function(data) {
+        $('#id_sub_a').html(data);
+    })
+    .fail(function(xhr) {
+        alert("error")
+    });
+}
+
 function displacement() {
 
     /* En realidad no habrìa que fijarlo en 1000, si no,

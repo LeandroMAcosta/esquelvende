@@ -1,14 +1,10 @@
 from django.conf.urls import url
 
-from .views import (tree_categories, categories, category, sub_a, sub_b)
+from .views import tree_categories, load_sub_a
 
 urlpatterns = [
     url(r'^tree-categories/$', tree_categories),
-
-    url(r'^categories/$', categories),
-    url(r'^(?P<slug_category>[\w-]+)/$', category),
-    url(r'^(?P<slug_category>[\w-]+)/(?P<slug_suba>[\w-]+)/$', sub_a),
-    url(r'^(?P<slug_category>[\w-]+)/(?P<slug_suba>[\w-]+)/\
-                                     (?P<slug_subb>[\w-]+)/$', sub_b)
-
+    url(r'^load-sub-a/$', load_sub_a)
+    url(r'^load-sub-b/$', load_sub_b)
+    url(r'^load-brand/$', load_brand)
 ]
