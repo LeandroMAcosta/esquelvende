@@ -22,9 +22,6 @@ class FormProduct(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super(FormProduct, self).__init__(*args, **kwargs)
-        self.fields['sub_a'].queryset = SubA.objects.none()
-        self.fields['sub_b'].queryset = SubB.objects.none()
-        self.fields['brand'].queryset = Brand.objects.none()
 
         if 'category' in self.data:
             try:

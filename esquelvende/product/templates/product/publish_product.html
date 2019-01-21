@@ -29,17 +29,8 @@
         <div class="form-group">
           
           <div class="container-categories" id="path_category">
-            <div id="id_category" class="div-category">
-              {{ form.category|add_attributes:"onchange:getCategories(event), size:11, class:select-category" }}
-            </div>
-            <div id="id_sub_a" class="div-category">
-                {{ form.sub_a|add_attributes:"onchange:getCategories(event), size:11, class:select-category" }}
-            </div>
-            <div id="id_sub_b" class="div-category">
-              {{ form.sub_b|add_attributes:"onchange:getCategories(event), size:11, class:select-category" }}
-            </div>
-            <div id="id_brand" class="div-category">
-              {{ form.brand|add_attributes:"onchange:getCategories(event), size:11, class:select-category" }}
+            <div id="d-id_category" class="div-category">
+              {{ form.category|add_attributes:"onchange:categorySelector(event), size:11, class:select-category" }}
             </div>
           </div>
         

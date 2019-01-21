@@ -70,7 +70,7 @@ function categorySelector(event) {
     let current = event.target; 
     let parent = current.closest('.container-categories');
 
-    $.get('/tree-categories/', { id: current.id, value: current.value }, function(data) {
+    $.get('/load-categories/', { category_name: current.id, id_category: current.value }, function(data) {
         let id = data['id'];
         delete data['id'];
 
@@ -116,10 +116,10 @@ function getCategories(event){
     
     $.ajax({
         url: '/load-categories/',
-        data: {'id': current.value}
+        data: {'select': current.value, 'category':current.id}
     })
     .done(function(data) {
-        $('#id_sub_a').html(data);
+        $('#sub_a').html(data);
     })
     .fail(function(xhr) {
         alert("error")
