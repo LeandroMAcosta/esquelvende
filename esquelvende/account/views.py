@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from .forms import FormAvatar, FormEditAccount, FormEditUser
 from .models import Account
 from category.models import Category
-from product.models import History, Favorite
+from product.models import History, Favorite, Product
 
 
 @login_required(login_url='/login/')
@@ -56,3 +56,15 @@ def history(request):
 def favorites(request):
     favorites = Favorite.objects.filter(user=request.user)
     return render(request, 'list_favorites.html', {'favorites': favorites})
+
+
+@login_required(login_url='/login/')
+def user_products(request, template=None):
+    products = Product.objects.filter(
+        user=request.user,
+        delete=False
+    )
+    context = {'products': products}
+    template = template or './user_products/list_of_products.html'
+
+    return render(request, template, context)
