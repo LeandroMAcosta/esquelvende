@@ -6,9 +6,11 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
+
 from .forms import FormAvatar, FormEditAccount, FormEditUser
 from .models import Account
 from category.models import Category
+from product.models import History, Favorite, Product
 
 
 @login_required(login_url='/login/')
@@ -44,3 +46,25 @@ def edit_user(request):
         context = {'form': form, 'form_avatar': form_avatar,
                    'form_profile': form_profile, 'categories': query}
         return render(request, 'edit_user.html', context)
+
+
+def history(request):
+    history = History.objects.filter(user=request.user)
+    return render(request, 'list_history.html', {'history': history})
+
+
+def favorites(request):
+    favorites = Favorite.objects.filter(user=request.user)
+    return render(request, 'list_favorites.html', {'favorites': favorites})
+
+
+@login_required(login_url='/login/')
+def user_products(request, template=None):
+    products = Product.objects.filter(
+        user=request.user,
+        delete=False
+    )
+    context = {'products': products}
+    template = template or './user_products/list_of_products.html'
+
+    return render(request, template, context)

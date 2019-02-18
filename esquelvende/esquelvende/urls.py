@@ -6,8 +6,8 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^auth/', include('social_django.urls', namespace='social')),
-    url(r'', include('category.urls')),
     url(r'', include('product.urls')),
+    url(r'', include('category.urls')),
     url(r'', include('account.urls')),
     url(r'', include('core.urls')),
     url(r'', include('reports.urls')),

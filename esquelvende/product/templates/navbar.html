@@ -32,7 +32,7 @@
                 <div class="collapse navbar-collapse" id="ntc">
                     <div class="col-12 col-lg-7 offset-lg-2">
                         <div class="navbar-nav a">
-                            <a class="nav-item nav-link menu-categories" href="/categorias">Categoría</a>
+                            <a class="nav-item nav-link menu-categories" href="/categorias/">Categoría</a>
                             <div class="dropdown">
                                 <a class="nav-link dropdown-toggle pl-0"
                                     href="#" id="ddc"
@@ -42,7 +42,7 @@
                                 </a>
                                 <!-- dropdownCategories = ddc-->
                                 <div class="dropdown-menu shadow-sm" aria-labelledby="ddc">
-                                    {% for category in categories %}
+                                    {% for category in categories_navbar %}
                                         <a class="dropdown-item" href="#">{{ category.name }}</a>
                                     {% endfor %}
                                 </div>
@@ -57,10 +57,10 @@
                             <span class="separator-collapse"></span>
                             {% if user.is_authenticated %}
                                 <a class="nav-item nav-link" href="/perfil">{{ user.username }}</a>
-                                <a class="nav-item nav-link separator" href="/logout">Salir</a> 
+                                <a class="nav-item nav-link separator" href="/logout/">Salir</a> 
                             {% else %}
                                 <a class="nav-item nav-link" href="/signup">Registrate</a>
-                                <a class="nav-item nav-link separator" href="/login">Ingresá</a> 
+                                <a class="nav-item nav-link separator" href="/login/">Ingresá</a> 
                             {% endif %}
                             <a class="nav-item nav-link separator" href="#">Ayuda</a>
                         </div>
