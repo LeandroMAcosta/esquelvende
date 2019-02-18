@@ -6,7 +6,9 @@ urlpatterns = [
     url(r'^tree-categories/$', tree_categories),
 
     url(r'^categories/$', categories),
-    url(r'^(?P<slug_category>[\w-]+)$', category),
-    url(r'^(?P<slug_category>[\w-]+)/(?P<slug_sub_a>[\w-]+)$', sub_a),
-    url(r'^(?P<slug_category>[\w-]+)/(?P<slug_sub_a>[\w-]+)/(?P<slug_sub_b>[\w-]+)$', sub_b)
+    url(r'^(?P<slug_category>[\w-]+)/$', category),
+    url(r'^(?P<slug_category>[\w-]+)/(?P<slug_suba>[\w-]+)/$', sub_a),
+    url(r'^(?P<slug_category>[\w-]+)/(?P<slug_suba>[\w-]+)/\
+                                     (?P<slug_subb>[\w-]+)/$', sub_b)
+
 ]

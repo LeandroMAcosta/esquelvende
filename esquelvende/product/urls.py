@@ -1,9 +1,10 @@
 from django.conf.urls import url
 
-from .views import (delete_product, view_product, publish_product,
+from .views import (delete_product, home, view_product, publish_product,
                     republish_product, create_favorite, search)
 
 urlpatterns = [
+    url(r'^$', home),
     url(r'^products$', search),
     url(r'^publish/$', publish_product),
     url(r'^product/(?P<product_id>\d+)/$', view_product),

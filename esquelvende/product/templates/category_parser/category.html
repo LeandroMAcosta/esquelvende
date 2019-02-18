@@ -1,0 +1,13 @@
+{% for object in object.suba_set.all %}
+    <div>
+        {% if request.GET.search  %}
+            <a href="{{ request.path }}{{ object.slug }}/?search={{ request.GET.search }}">
+                {{ object }} 
+            </a>
+        {% else %}
+            <a href="{{ request.path }}{{ object.slug }}">
+                {{ object }} 
+            </a> 
+        {% endif %}
+    </div>
+{% endfor %}

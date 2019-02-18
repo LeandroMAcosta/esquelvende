@@ -3,25 +3,15 @@
 
 {% block content %}
 <div>
-    <h2>Ubicacion actual</h2>
-    {{ current_category }}
-    <br>
-    <h2>Productos</h2>
+    <h2>productos</h2>
     {% for product in products %}
         <span>{{ product }}</span>
     {% endfor%}
     <br>
-    {% if categories %}
-    <h2>Categorias</h2>
-        {% for category in categories %}
-            <span>{{ category }}</span>
-        {% endfor%}
-    {% elif brands %}
-        <h2>Categorias</h2>
-        {% for brand in brands %}
-            <span>{{ brand }}</span>
-        {% endfor%}
-    {% endif %}
+    <h2>categorias</h2>
+    {% for category in categories %}
+        <span>{{ category }}</span>
+    {% endfor%}
 </div>
 {% endblock%}
 

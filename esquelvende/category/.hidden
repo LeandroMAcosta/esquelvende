@@ -3,4 +3,3 @@ __init__.pyc
 models.pyc
 urls.pyc
 views.pyc
-context_processors.pyc

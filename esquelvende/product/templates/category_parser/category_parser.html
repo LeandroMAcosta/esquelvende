@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    {% if object.class_name == "Category" %}
+        {% include "category_parser/category.html" %}
+    {% elif object.class_name == "SubA" %}
+        {% include "category_parser/suba.html" %}
+    {% elif object.class_name == "SubB" %}
+        {% include "category_parser/subb.html" %}
+    {% elif query.class_name == "QuerySet" %}
+        {% include "category_parser/search_all.html" %}
+    {% endif %}
+    {% include "category_parser/products.html" %}
+</body>
+</html>
