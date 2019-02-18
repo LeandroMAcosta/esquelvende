@@ -93,7 +93,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'esquelvende',
-        'USER': 'joacodf',
+        'USER': 'leandro',
         'PASSWORD': '1234',
         'HOST': '127.0.0.1',
         'PORT': '',
@@ -122,7 +122,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # HitCount
 
-HITCOUNT_KEEP_HIT_ACTIVE = { 'days': 1 }
+HITCOUNT_KEEP_HIT_ACTIVE = {'days': 1}
 
 # Django SocialAuth
 
@@ -136,7 +136,7 @@ AUTHENTICATION_BACKENDS = (
 
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
-LOGIN_REDIRECT_URL = 'inicio'
+LOGIN_REDIRECT_URL = 'home'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1063990601253-4vci3d73c2mqrmln4d14h5aqsalpt8em.apps.googleusercontent.com'  #Paste CLient Key
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'U7Hd9MKp3L7DeyqvJYEhg26F'

@@ -13,6 +13,7 @@ from category.models import Category, SubA, SubB, Brand
 from reports.forms import FormReport
 from .forms import FormEditProduct, FormImagesProduct, FormProduct
 from .models import Product, ImagesProduct, Favorite, History
+from account.views import user_products
 
 
 def search(request):
