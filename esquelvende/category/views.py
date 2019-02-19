@@ -39,6 +39,7 @@ def load_categories(request):
 
         return JsonResponse(data)
 
+
 def categories(request):
     # TODO: Esta view devuelve las categorias con sus sub_a.
     pass
