@@ -44,7 +44,7 @@ def login_user(request):
             access = authenticate(username=username, password=key)
             if access is not None:
                 login(request, access)
-                url = request.GET.get('next') or reverse('inicio')
+                url = request.GET.get('next', '/')
                 return redirect(url)
             else:
                 messages.error(request, 'Usuario o contraseñas no validos')

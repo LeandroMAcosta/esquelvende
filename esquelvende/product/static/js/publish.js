@@ -18,6 +18,7 @@ function uploadFile(files) {
 }
 
 function deleteFile(div, key) {
+    changeNumberImages(1)
     delete obj[key];
     images.removeChild(images.querySelector(`div#images div.id${key}`));
 }
@@ -51,6 +52,8 @@ function renderFiles() {
 
         // clean entry. 
         document.getElementsByClassName("form-control-file")[0].value = "";
+
+        changeNumberImages(0)
     }
 }
 
@@ -70,7 +73,9 @@ function categorySelector(event) {
     let current = event.target; 
     let parent = current.closest('.container-categories');
 
-    $.get('/load-categories/', { category_name: current.id, id_category: current.value }, function(data) {
+    next_category = {'category': 'sub_a', 'sub_a':'sub_b', 'sub_b': 'brand'}
+
+    $.get('/load-categories/', { category: current.id, id_category: current.value, next_category: next_category[current.name] }, function(data) {
         let id = data['id'];
         delete data['id'];
 
@@ -99,6 +104,7 @@ function categorySelector(event) {
             }
 
             newSelect.classList.add("select-category");
+            newSelect.setAttribute("required", "");
             newSelect.addEventListener("change", categorySelector);
 
             parent.appendChild(newCategory);
@@ -111,20 +117,6 @@ function categorySelector(event) {
     });
 }
 
-function getCategories(event){
-    let current = event.target;
-    
-    $.ajax({
-        url: '/load-categories/',
-        data: {'select': current.value, 'category':current.id}
-    })
-    .done(function(data) {
-        $('#sub_a').html(data);
-    })
-    .fail(function(xhr) {
-        alert("error")
-    });
-}
 
 function displacement() {
 
@@ -133,8 +125,21 @@ function displacement() {
     $(".scroll-photos").scrollLeft(1000);
 }
 
+function changeNumberImages(isDelete) {
+    var countImages = $('#images').children().length;
+    console.log(countImages)
+    if (isDelete) {
+        console.log(countImages, 6 - countImages)
+        countImages = 6 - countImages + 1;
+    } else {
+        countImages = 6 - countImages;
+    }
+    $("#photos").html(`+${countImages} fotos`);
+}
 
 function sendPhotos(e) {
+    // Cancela el POST del formulario para usar solo AJAX.
+    e.preventDefault();
     var fd = new FormData();
 
     // Para hacer un POST django nos pide el csrf.
@@ -143,9 +148,9 @@ function sendPhotos(e) {
     var fields = {
         'title': $('[name=title]').val(),
         'category': $('[name=category]').val(),
-        'sub_a': $('[name=subA]').val(),
-        'sub_b': $('[name=subB]').val(),
-        'brand': $('[name=brands]').val(),
+        'sub_a': $('[name=sub_a]').val(),
+        'sub_b': $('[name=sub_b]').val(),
+        'brand': $('[name=brand]').val(),
         'status': $('[name=status]').val(),
         'contact_phone': $('[name=contact_phone]').val(),
         'whatsapp': $('[name=whatsapp]').val(),
@@ -153,7 +158,7 @@ function sendPhotos(e) {
         'description': $('[name=description]').val(),
         'price': $('[name=price]').val()
     }
-
+    console.log(fields)
     for (let [key, value] of Object.entries(fields)) {
         if (value) fd.append(key, value);
     }
@@ -174,19 +179,10 @@ function sendPhotos(e) {
         enctype: 'multipart/form-data',
 
         success: function(data, status, xhr) {
-            console.log(data.err_msg)
             if (data.err_code) {
                 for(var key in data.err_msg) {
-                    console.log(key)
                     let newDiv = document.createElement("div");
                     let newMsg = document.createTextNode(`${data.err_msg[key][0]}`)
-
-                    /* Si el error es de (category o suba o subb) reemplazamos key por category
-                       asi mostramos el error en una sola parte.
-                    */
-                    if (key == "category" || key == "sub_a" || key == "sub_b" || key == "brand" ) {
-                        key = "category";
-                    }
 
                     elem = document.querySelector(`[for=${key}]`);
                     parent = elem.parentElement;
@@ -201,15 +197,12 @@ function sendPhotos(e) {
                     // Colocamos el error en el html.
                     parent.insertBefore(newDiv, elem);
                     newDiv.appendChild(newMsg);
-
-
-                    //console.log('[error] for ' + key + ': ' + data.err_msg[key][0]);
                 }
             } else {
                 /* Usar replace permite que la pagina actual no se
                    guarde en el historial de sesion, lo que significa
                    que no vamos a poder volver por el boton para atras. */
-                window.location.replace("/"); // LLevar a la vista del producto
+                window.location.replace(`/product/${data.id_product}/`);
             }
             
         },
@@ -218,6 +211,4 @@ function sendPhotos(e) {
         }
     });
 
-    // Cancela el POST del formulario para usar solo AJAX.
-    e.preventDefault();
 }

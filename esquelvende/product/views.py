@@ -44,6 +44,7 @@ def view_product(request, product_id):
     History.add_to_history(request.user, product)
 
     images = product.imagesproduct_set.all()
+    print(images)
     hit_count = HitCount.objects.get_for_object(product)
     hit_count_response = HitCountMixin.hit_count(request, hit_count)
 
@@ -101,10 +102,10 @@ def publish_product(request):
             for count, file in enumerate(files):
                 if count < 6:
                     second_form.save(product, file)
-            return redirect('/product/{}/'.format(product.pk))
+
+            return JsonResponse({'id_product': product.id})
         else:
-            data = {'success': False, 'err_code': 'invalid_form',
-                    'err_msg': form.errors, }
+            data = {'err_code': 'invalid_form', 'err_msg': form.errors, }
             return JsonResponse(data)
     else:
         data = {'contact_email': request.user.email}
@@ -134,61 +135,3 @@ def publish_product(request):
 #         form_images = ImagesFormSet(queryset=product.imagesproduct_set.all())
 #     return render(request, 'edit_product.html', {'form': form,
 #                                                  'form_images': form_images})
-
-
-# def categories(request, slug_category=None, slug_suba=None, slug_subb=None):
-#    id_brand = request.GET.get('i_b')
-#    search = request.GET.get('search')
-#    query_products = Product.objects.filter(active=True, delete=False)
-#    if not(slug_category or slug_suba or slug_subb or id_brand):
-#        query = Category.objects.all()
-#        return render(request, 'category_parser/categories.html',
-#                      {'query': query})
-#    elif slug_category and not (slug_suba or slug_subb or id_brand):
-#        if not Category.objects.filter(slug=slug_category).exists():
-#            raise Http404
-#        obj = Category.objects.get(slug=slug_category)
-#    elif slug_category and slug_suba and id_brand and not slug_subb:
-#        if not (Category.objects.filter(slug=slug_category,
-# suba__slug=slug_suba).exists() and
-#                SubA.objects.filter(brand__id=id_brand).exists()):
-#            raise Http404
-#        obj = Brand.objects.get(id=id_brand)
-#    elif slug_category and slug_suba and not (slug_subb or id_brand):
-#        if not Category.objects.filter(slug=slug_category,
-# suba__slug=slug_suba).exists():
-#            raise Http404
-#        obj = SubA.objects.get(category__slug=slug_category, slug=slug_suba)
-#    elif slug_category and slug_suba and slug_subb and id_brand:
-#        if not(Category.objects.filter(slug=slug_category,
-# suba__slug=slug_suba).exists() and
-#               SubA.objects.filter(subb__slug=slug_subb).exists() and
-#               SubB.objects.filter(brand__id=id_brand).exists()):
-#            raise Http404
-#        obj = Brand.objects.get(id=id_brand)
-#    elif slug_category and slug_suba and slug_subb and not id_brand:
-#        if not(Category.objects.filter(slug=slug_category,
-# suba__slug=slug_suba).exists() and
-#               SubA.objects.filter(subb__slug=slug_subb).exists()):
-#            raise Http404
-#        obj = SubB.objects.get(subA__slug=slug_suba, slug=slug_subb)
-#    else:
-#        raise Http404
-#
-#    list_dict = [{'category__slug': slug_category},
-#                 {'subA__slug': slug_suba},
-#                 {'subB__slug': slug_subb},
-#                 {'brands__id': id_brand}]
-#
-#    if search:
-#        for dict in list_dict:
-#            if dict.values()[0] is not None:
-#                query_products = query_products.filter(
-#                                        Q(title__contains=search, **dict) |
-#                                        Q(title__istartswith=search, **dict) |
-#                                        Q(title__iendswith=search, **dict))
-#    return render(
-#        request,
-#        'category_parser/category_parser.html',
-#        {'object': obj, 'products': query_products})
-#
