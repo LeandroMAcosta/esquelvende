@@ -57,7 +57,7 @@ class FormProduct(forms.ModelForm):
             except Exception as e:
                 raise forms.ValidationError(error_1,)
         elif category:
-            if category.suba_set.all().count() and sub_a is None:
+            if category.suba_set.all().count():
                 raise forms.ValidationError(error_0,)
 
     def save(self, commit=True):
