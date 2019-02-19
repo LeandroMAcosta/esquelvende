@@ -7,12 +7,12 @@ def normalize_query(query_string,
                     normspace=re.compile(r'\s{2,}').sub):
 
     """
-        Splits the query string in invidual keywords, getting
-        rid of unecessary spaces and grouping quoted words together.
-        Example:
+    Splits the query string in invidual keywords, getting
+    rid of unecessary spaces and grouping quoted words together.
+    Example:
 
-        >>> normalize_query('  some random  words "with   quotes  "spaces')
-        ['some', 'random', 'words', 'with quotes', 'spaces']
+    >>> normalize_query('  some random  words "with   quotes  "spaces')
+    ['some', 'random', 'words', 'with quotes', 'spaces']
 
     """
     return [normspace(' ', (t[0] or t[1]).strip())
@@ -21,13 +21,20 @@ def normalize_query(query_string,
 
 def get_query(query_string, fields, filter_by):
     """
-        Devuelve una query, esta es una combinacion de objetos Q.
-        Esta combinacion sirve para filtrar un modelo probando los campos
-        dados.
+    Devuelve una query, esta es una combinacion de objetos Q.
+    Esta combinacion sirve para filtrar un modelo probando los campos
+    dados.
     """
-
     query = None
-    if query_string and filter_by is None:
+    if filter_by:
+        for k, v in filter_by.iteritems():
+            q = Q(**{"%s" % k: v})
+            if query is None:
+                query = q
+            else:
+                query = query & q
+
+    if query_string:
         terms = normalize_query(query_string)
         for term in terms:
             or_query = None
@@ -42,8 +49,7 @@ def get_query(query_string, fields, filter_by):
                 query = or_query
             else:
                 query = query & or_query
-    elif query_string is None and filter_by:
-        pass
+    if query is not None:
+        query = query & Q(active=True, delete=False)
 
-    query = query & Q(active=True, delete=False)
     return query

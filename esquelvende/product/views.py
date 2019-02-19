@@ -11,9 +11,9 @@ from hitcount.views import HitCountMixin
 
 from category.models import Category, SubA, SubB, Brand
 from reports.forms import FormReport
-
 from .forms import FormEditProduct, FormImagesProduct, FormProduct
 from .models import Product, ImagesProduct, Favorite, History
+from account.views import user_products
 
 
 def search(request):
@@ -38,8 +38,8 @@ def view_product(request, product_id):
         raise Http404
 
     """
-        Cada vez que un usuario hecha un vistazo a
-        un producto se agrega a su historial.
+    Cada vez que un usuario hecha un vistazo a
+    un producto se agrega a su historial.
     """
     History.add_to_history(request.user, product)
 
@@ -58,10 +58,7 @@ def delete_product(request, product_id):
     if request.POST:
         product.delete_product()
 
-        """
-            Llama a la view user_products que devuelve
-            los productos del usuario.
-        """
+        # Llama a la view user_products que devuelve los productos del usuario.
         return user_products(request, './user_products/ajax_products.html')
 
 
@@ -71,10 +68,7 @@ def republish_product(request, product_id):
     if request.POST:
         product.republish()
 
-        """
-            Llama a la view user_products que devuelve
-            los productos del usuario.
-        """
+        # Llama a la view user_products que devuelve los productos del usuario.
         return user_products(request, './user_products/ajax_products.html')
 
 
@@ -95,9 +89,9 @@ def publish_product(request):
             product = form.save()
             files = request.FILES.getlist('image')
             """
-                Contamos hasta 6 porque por ahora solo nos interesa
-                guardar esa cantidad de imagenes, (deberia ser
-                una constante).
+            Contamos hasta 6 porque por ahora solo nos interesa
+            guardar esa cantidad de imagenes, (deberia ser
+            una constante).
             """
             for count, file in enumerate(files):
                 if count < 6:
