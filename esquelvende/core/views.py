@@ -31,7 +31,7 @@ def signup_user(request):
             return my_login(request, instance.username, password)
     else:
         form = FormRegister()
-        context = {'form': form}
+    context = {'form': form}
     return render(request, 'create_user.html', context)
 
 
