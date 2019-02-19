@@ -520,7 +520,7 @@
   "model": "category.subb",
   "pk": 4,
   "fields": {
-    "subA": 4,
+    "sub_a": 4,
     "name": "Sillones",
     "slug": "sillones",
     "brand": []
@@ -530,7 +530,7 @@
   "model": "category.subb",
   "pk": 7,
   "fields": {
-    "subA": 4,
+    "sub_a": 4,
     "name": "Placares",
     "slug": "placares",
     "brand": []
@@ -540,7 +540,7 @@
   "model": "category.subb",
   "pk": 8,
   "fields": {
-    "subA": 4,
+    "sub_a": 4,
     "name": "Escritorios",
     "slug": "escritorios",
     "brand": []
@@ -550,7 +550,7 @@
   "model": "category.subb",
   "pk": 9,
   "fields": {
-    "subA": 4,
+    "sub_a": 4,
     "name": "Camas",
     "slug": "camas",
     "brand": []
@@ -560,7 +560,7 @@
   "model": "category.subb",
   "pk": 10,
   "fields": {
-    "subA": 24,
+    "sub_a": 24,
     "name": "Cuadros",
     "slug": "cuadros",
     "brand": []
@@ -570,7 +570,7 @@
   "model": "category.subb",
   "pk": 11,
   "fields": {
-    "subA": 4,
+    "sub_a": 4,
     "name": "Mesas y sillas",
     "slug": "mesas_y_sillas",
     "brand": []
@@ -580,7 +580,7 @@
   "model": "category.subb",
   "pk": 12,
   "fields": {
-    "subA": 4,
+    "sub_a": 4,
     "name": "Otros",
     "slug": "otros",
     "brand": []
@@ -590,7 +590,7 @@
   "model": "category.subb",
   "pk": 13,
   "fields": {
-    "subA": 5,
+    "sub_a": 5,
     "name": "Decoracion",
     "slug": "decoracion",
     "brand": []
@@ -600,7 +600,7 @@
   "model": "category.subb",
   "pk": 14,
   "fields": {
-    "subA": 5,
+    "sub_a": 5,
     "name": "Ventanas",
     "slug": "ventanas",
     "brand": []
@@ -610,7 +610,7 @@
   "model": "category.subb",
   "pk": 15,
   "fields": {
-    "subA": 5,
+    "sub_a": 5,
     "name": "Cortinas",
     "slug": "cortinas",
     "brand": []
@@ -620,7 +620,7 @@
   "model": "category.subb",
   "pk": 16,
   "fields": {
-    "subA": 5,
+    "sub_a": 5,
     "name": "Puertas",
     "slug": "puertas",
     "brand": []
@@ -630,7 +630,7 @@
   "model": "category.subb",
   "pk": 17,
   "fields": {
-    "subA": 5,
+    "sub_a": 5,
     "name": "Espejos",
     "slug": "espejos",
     "brand": []
@@ -640,7 +640,7 @@
   "model": "category.subb",
   "pk": 18,
   "fields": {
-    "subA": 5,
+    "sub_a": 5,
     "name": "Sanitarios",
     "slug": "sanitarios",
     "brand": []
@@ -650,7 +650,7 @@
   "model": "category.subb",
   "pk": 19,
   "fields": {
-    "subA": 5,
+    "sub_a": 5,
     "name": "Bazar",
     "slug": "bazar",
     "brand": []
@@ -660,7 +660,7 @@
   "model": "category.subb",
   "pk": 20,
   "fields": {
-    "subA": 5,
+    "sub_a": 5,
     "name": "Otros",
     "slug": "otros",
     "brand": []
@@ -670,7 +670,7 @@
   "model": "category.subb",
   "pk": 21,
   "fields": {
-    "subA": 6,
+    "sub_a": 6,
     "name": "Heladera y frezzer",
     "slug": "heladera-y-frezzer",
     "brand": []
@@ -680,7 +680,7 @@
   "model": "category.subb",
   "pk": 22,
   "fields": {
-    "subA": 6,
+    "sub_a": 6,
     "name": "Cocina",
     "slug": "cocina",
     "brand": []
@@ -690,7 +690,7 @@
   "model": "category.subb",
   "pk": 23,
   "fields": {
-    "subA": 6,
+    "sub_a": 6,
     "name": "Lavarropas",
     "slug": "lavarropas",
     "brand": []
@@ -700,7 +700,7 @@
   "model": "category.subb",
   "pk": 24,
   "fields": {
-    "subA": 6,
+    "sub_a": 6,
     "name": "Microondas",
     "slug": "microondas",
     "brand": []
@@ -710,7 +710,7 @@
   "model": "category.subb",
   "pk": 25,
   "fields": {
-    "subA": 6,
+    "sub_a": 6,
     "name": "Aire acondicionado",
     "slug": "aire_acondicionado",
     "brand": []
@@ -720,7 +720,7 @@
   "model": "category.subb",
   "pk": 26,
   "fields": {
-    "subA": 6,
+    "sub_a": 6,
     "name": "Otros",
     "slug": "otros",
     "brand": []
@@ -730,7 +730,7 @@
   "model": "category.subb",
   "pk": 27,
   "fields": {
-    "subA": 7,
+    "sub_a": 7,
     "name": "Herramientas electricas",
     "slug": "herramientas_electricas",
     "brand": []
@@ -740,7 +740,7 @@
   "model": "category.subb",
   "pk": 28,
   "fields": {
-    "subA": 7,
+    "sub_a": 7,
     "name": "Herramientas no electricas",
     "slug": "herramientas_no_electricas",
     "brand": []
@@ -750,7 +750,7 @@
   "model": "category.subb",
   "pk": 29,
   "fields": {
-    "subA": 7,
+    "sub_a": 7,
     "name": "Materiales de construccion",
     "slug": "materiales_de_construccion",
     "brand": []
@@ -760,7 +760,7 @@
   "model": "category.subb",
   "pk": 30,
   "fields": {
-    "subA": 7,
+    "sub_a": 7,
     "name": "Otros",
     "slug": "otros",
     "brand": []
@@ -770,7 +770,7 @@
   "model": "category.subb",
   "pk": 31,
   "fields": {
-    "subA": 8,
+    "sub_a": 8,
     "name": "Decoracion",
     "slug": "decoracion",
     "brand": []
@@ -780,7 +780,7 @@
   "model": "category.subb",
   "pk": 32,
   "fields": {
-    "subA": 8,
+    "sub_a": 8,
     "name": "Herramientas",
     "slug": "herramientas",
     "brand": []
@@ -790,7 +790,7 @@
   "model": "category.subb",
   "pk": 33,
   "fields": {
-    "subA": 8,
+    "sub_a": 8,
     "name": "Maquinarias",
     "slug": "maquinarias",
     "brand": []
@@ -800,7 +800,7 @@
   "model": "category.subb",
   "pk": 34,
   "fields": {
-    "subA": 8,
+    "sub_a": 8,
     "name": "Piscinas y piletas",
     "slug": "piscinas-y-piletas",
     "brand": []
@@ -810,7 +810,7 @@
   "model": "category.subb",
   "pk": 35,
   "fields": {
-    "subA": 8,
+    "sub_a": 8,
     "name": "Parrillas y asadores",
     "slug": "parrillas-y-asadores",
     "brand": []
@@ -820,7 +820,7 @@
   "model": "category.subb",
   "pk": 36,
   "fields": {
-    "subA": 8,
+    "sub_a": 8,
     "name": "Otros",
     "slug": "otros",
     "brand": []
@@ -830,7 +830,7 @@
   "model": "category.subb",
   "pk": 37,
   "fields": {
-    "subA": 9,
+    "sub_a": 9,
     "name": "Zapatillas",
     "slug": "zapatillas",
     "brand": []
@@ -840,7 +840,7 @@
   "model": "category.subb",
   "pk": 38,
   "fields": {
-    "subA": 9,
+    "sub_a": 9,
     "name": "Remeras",
     "slug": "remeras",
     "brand": []
@@ -850,7 +850,7 @@
   "model": "category.subb",
   "pk": 39,
   "fields": {
-    "subA": 9,
+    "sub_a": 9,
     "name": "Camperas",
     "slug": "camperas",
     "brand": []
@@ -860,7 +860,7 @@
   "model": "category.subb",
   "pk": 40,
   "fields": {
-    "subA": 9,
+    "sub_a": 9,
     "name": "Pantalones",
     "slug": "pantalones",
     "brand": []
@@ -870,7 +870,7 @@
   "model": "category.subb",
   "pk": 41,
   "fields": {
-    "subA": 9,
+    "sub_a": 9,
     "name": "indumentaria escolar",
     "slug": "indumentaria_escolar",
     "brand": []
@@ -880,7 +880,7 @@
   "model": "category.subb",
   "pk": 42,
   "fields": {
-    "subA": 9,
+    "sub_a": 9,
     "name": "Ropa interior",
     "slug": "ropa_interior",
     "brand": []
@@ -890,7 +890,7 @@
   "model": "category.subb",
   "pk": 43,
   "fields": {
-    "subA": 9,
+    "sub_a": 9,
     "name": "Vestidos",
     "slug": "vestidos",
     "brand": []
@@ -900,7 +900,7 @@
   "model": "category.subb",
   "pk": 44,
   "fields": {
-    "subA": 9,
+    "sub_a": 9,
     "name": "Zapatos",
     "slug": "zapatos",
     "brand": []
@@ -910,7 +910,7 @@
   "model": "category.subb",
   "pk": 45,
   "fields": {
-    "subA": 9,
+    "sub_a": 9,
     "name": "Bikinis",
     "slug": "bikinis",
     "brand": []
@@ -920,7 +920,7 @@
   "model": "category.subb",
   "pk": 46,
   "fields": {
-    "subA": 9,
+    "sub_a": 9,
     "name": "Otros",
     "slug": "otros",
     "brand": []
@@ -930,7 +930,7 @@
   "model": "category.subb",
   "pk": 47,
   "fields": {
-    "subA": 10,
+    "sub_a": 10,
     "name": "Zapatillas",
     "slug": "zapatillas",
     "brand": []
@@ -940,7 +940,7 @@
   "model": "category.subb",
   "pk": 48,
   "fields": {
-    "subA": 10,
+    "sub_a": 10,
     "name": "Remeras",
     "slug": "remeras",
     "brand": []
@@ -950,7 +950,7 @@
   "model": "category.subb",
   "pk": 49,
   "fields": {
-    "subA": 10,
+    "sub_a": 10,
     "name": "Camperas",
     "slug": "camperas",
     "brand": []
@@ -960,7 +960,7 @@
   "model": "category.subb",
   "pk": 50,
   "fields": {
-    "subA": 10,
+    "sub_a": 10,
     "name": "Pantalones",
     "slug": "pantalones",
     "brand": []
@@ -970,7 +970,7 @@
   "model": "category.subb",
   "pk": 51,
   "fields": {
-    "subA": 10,
+    "sub_a": 10,
     "name": "indumentaria escolar",
     "slug": "indumentaria_escolar",
     "brand": []
@@ -980,7 +980,7 @@
   "model": "category.subb",
   "pk": 52,
   "fields": {
-    "subA": 10,
+    "sub_a": 10,
     "name": "Ropa interior",
     "slug": "ropa_interior",
     "brand": []
@@ -990,7 +990,7 @@
   "model": "category.subb",
   "pk": 53,
   "fields": {
-    "subA": 10,
+    "sub_a": 10,
     "name": "Otros",
     "slug": "otros",
     "brand": []
@@ -1000,7 +1000,7 @@
   "model": "category.subb",
   "pk": 54,
   "fields": {
-    "subA": 11,
+    "sub_a": 11,
     "name": "Relojes",
     "slug": "relojes",
     "brand": []
@@ -1010,7 +1010,7 @@
   "model": "category.subb",
   "pk": 55,
   "fields": {
-    "subA": 11,
+    "sub_a": 11,
     "name": "Anillos",
     "slug": "anillos",
     "brand": []
@@ -1020,7 +1020,7 @@
   "model": "category.subb",
   "pk": 56,
   "fields": {
-    "subA": 11,
+    "sub_a": 11,
     "name": "Joyas",
     "slug": "joyas",
     "brand": []
@@ -1030,7 +1030,7 @@
   "model": "category.subb",
   "pk": 57,
   "fields": {
-    "subA": 11,
+    "sub_a": 11,
     "name": "Cadenas y collares",
     "slug": "cadenas-y-collares",
     "brand": []
@@ -1040,7 +1040,7 @@
   "model": "category.subb",
   "pk": 58,
   "fields": {
-    "subA": 11,
+    "sub_a": 11,
     "name": "Aros",
     "slug": "aros",
     "brand": []
@@ -1050,7 +1050,7 @@
   "model": "category.subb",
   "pk": 59,
   "fields": {
-    "subA": 11,
+    "sub_a": 11,
     "name": "Otros",
     "slug": "otros",
     "brand": []
@@ -1060,7 +1060,7 @@
   "model": "category.subb",
   "pk": 60,
   "fields": {
-    "subA": 12,
+    "sub_a": 12,
     "name": "Mochilas",
     "slug": "mochilas",
     "brand": []
@@ -1070,7 +1070,7 @@
   "model": "category.subb",
   "pk": 61,
   "fields": {
-    "subA": 12,
+    "sub_a": 12,
     "name": "Bolsos",
     "slug": "bolsos",
     "brand": []
@@ -1080,7 +1080,7 @@
   "model": "category.subb",
   "pk": 62,
   "fields": {
-    "subA": 12,
+    "sub_a": 12,
     "name": "Carteras",
     "slug": "carteras",
     "brand": []
@@ -1090,7 +1090,7 @@
   "model": "category.subb",
   "pk": 63,
   "fields": {
-    "subA": 12,
+    "sub_a": 12,
     "name": "Valijas",
     "slug": "valijas",
     "brand": []
@@ -1100,7 +1100,7 @@
   "model": "category.subb",
   "pk": 64,
   "fields": {
-    "subA": 12,
+    "sub_a": 12,
     "name": "Otros",
     "slug": "otros",
     "brand": []
@@ -1110,7 +1110,7 @@
   "model": "category.subb",
   "pk": 65,
   "fields": {
-    "subA": 13,
+    "sub_a": 13,
     "name": "Notebooks",
     "slug": "notebooks",
     "brand": [
@@ -1127,7 +1127,7 @@
   "model": "category.subb",
   "pk": 66,
   "fields": {
-    "subA": 13,
+    "sub_a": 13,
     "name": "Netbooks",
     "slug": "netbooks",
     "brand": [
@@ -1145,7 +1145,7 @@
   "model": "category.subb",
   "pk": 67,
   "fields": {
-    "subA": 13,
+    "sub_a": 13,
     "name": "PCs",
     "slug": "pcs",
     "brand": []
@@ -1155,7 +1155,7 @@
   "model": "category.subb",
   "pk": 68,
   "fields": {
-    "subA": 13,
+    "sub_a": 13,
     "name": "Televisores",
     "slug": "televisores",
     "brand": [
@@ -1169,7 +1169,7 @@
   "model": "category.subb",
   "pk": 69,
   "fields": {
-    "subA": 13,
+    "sub_a": 13,
     "name": "Tablets",
     "slug": "tablets",
     "brand": [
@@ -1186,7 +1186,7 @@
   "model": "category.subb",
   "pk": 70,
   "fields": {
-    "subA": 13,
+    "sub_a": 13,
     "name": "Testers",
     "slug": "testers",
     "brand": []
@@ -1196,7 +1196,7 @@
   "model": "category.subb",
   "pk": 71,
   "fields": {
-    "subA": 13,
+    "sub_a": 13,
     "name": "Equipo de musica",
     "slug": "equipo-de-musica",
     "brand": []
@@ -1206,7 +1206,7 @@
   "model": "category.subb",
   "pk": 72,
   "fields": {
-    "subA": 13,
+    "sub_a": 13,
     "name": "DVDs",
     "slug": "dvds",
     "brand": []
@@ -1216,7 +1216,7 @@
   "model": "category.subb",
   "pk": 73,
   "fields": {
-    "subA": 13,
+    "sub_a": 13,
     "name": "Accesorios de PC",
     "slug": "accesorios-de-pc",
     "brand": []
@@ -1226,7 +1226,7 @@
   "model": "category.subb",
   "pk": 74,
   "fields": {
-    "subA": 13,
+    "sub_a": 13,
     "name": "Camaras digitales",
     "slug": "camaras-digitales",
     "brand": []
@@ -1236,7 +1236,7 @@
   "model": "category.subb",
   "pk": 75,
   "fields": {
-    "subA": 13,
+    "sub_a": 13,
     "name": "Otros",
     "slug": "otros",
     "brand": []
@@ -1246,7 +1246,7 @@
   "model": "category.subb",
   "pk": 76,
   "fields": {
-    "subA": 15,
+    "sub_a": 15,
     "name": "Ropa y accesorios",
     "slug": "ropa-y-accesorios",
     "brand": []
@@ -1256,7 +1256,7 @@
   "model": "category.subb",
   "pk": 77,
   "fields": {
-    "subA": 15,
+    "sub_a": 15,
     "name": "Cuna",
     "slug": "cuna",
     "brand": []
@@ -1266,7 +1266,7 @@
   "model": "category.subb",
   "pk": 78,
   "fields": {
-    "subA": 15,
+    "sub_a": 15,
     "name": "Paniales",
     "slug": "paniales",
     "brand": []
@@ -1276,7 +1276,7 @@
   "model": "category.subb",
   "pk": 79,
   "fields": {
-    "subA": 15,
+    "sub_a": 15,
     "name": "Cochecitos",
     "slug": "cochecitos",
     "brand": []
@@ -1286,7 +1286,7 @@
   "model": "category.subb",
   "pk": 80,
   "fields": {
-    "subA": 15,
+    "sub_a": 15,
     "name": "Otros",
     "slug": "otros",
     "brand": []
@@ -1296,7 +1296,7 @@
   "model": "category.subb",
   "pk": 81,
   "fields": {
-    "subA": 16,
+    "sub_a": 16,
     "name": "Maquillaje",
     "slug": "maquillaje",
     "brand": []
@@ -1306,7 +1306,7 @@
   "model": "category.subb",
   "pk": 82,
   "fields": {
-    "subA": 16,
+    "sub_a": 16,
     "name": "Planchita",
     "slug": "planchita",
     "brand": []
@@ -1316,7 +1316,7 @@
   "model": "category.subb",
   "pk": 83,
   "fields": {
-    "subA": 16,
+    "sub_a": 16,
     "name": "Secador",
     "slug": "secador",
     "brand": []
@@ -1326,7 +1326,7 @@
   "model": "category.subb",
   "pk": 84,
   "fields": {
-    "subA": 16,
+    "sub_a": 16,
     "name": "Peluqueria",
     "slug": "peluqueria",
     "brand": []
@@ -1336,7 +1336,7 @@
   "model": "category.subb",
   "pk": 85,
   "fields": {
-    "subA": 16,
+    "sub_a": 16,
     "name": "Perfumes",
     "slug": "perfumes",
     "brand": []
@@ -1346,7 +1346,7 @@
   "model": "category.subb",
   "pk": 86,
   "fields": {
-    "subA": 16,
+    "sub_a": 16,
     "name": "Otros",
     "slug": "otros",
     "brand": []
@@ -1356,7 +1356,7 @@
   "model": "category.subb",
   "pk": 87,
   "fields": {
-    "subA": 17,
+    "sub_a": 17,
     "name": "Juguetes",
     "slug": "juguetes",
     "brand": []
@@ -1366,7 +1366,7 @@
   "model": "category.subb",
   "pk": 88,
   "fields": {
-    "subA": 17,
+    "sub_a": 17,
     "name": "Inflables",
     "slug": "inflables",
     "brand": []
@@ -1376,7 +1376,7 @@
   "model": "category.subb",
   "pk": 89,
   "fields": {
-    "subA": 17,
+    "sub_a": 17,
     "name": "Muniecos y accesorios",
     "slug": "muniecos-y-accesorios",
     "brand": []
@@ -1386,7 +1386,7 @@
   "model": "category.subb",
   "pk": 90,
   "fields": {
-    "subA": 17,
+    "sub_a": 17,
     "name": "Otros",
     "slug": "otros",
     "brand": []
@@ -1396,7 +1396,7 @@
   "model": "category.subb",
   "pk": 91,
   "fields": {
-    "subA": 18,
+    "sub_a": 18,
     "name": "Perros",
     "slug": "perros",
     "brand": []
@@ -1406,7 +1406,7 @@
   "model": "category.subb",
   "pk": 92,
   "fields": {
-    "subA": 18,
+    "sub_a": 18,
     "name": "Gatos",
     "slug": "gatos",
     "brand": []
@@ -1416,7 +1416,7 @@
   "model": "category.subb",
   "pk": 93,
   "fields": {
-    "subA": 18,
+    "sub_a": 18,
     "name": "Peces",
     "slug": "peces",
     "brand": []
@@ -1426,7 +1426,7 @@
   "model": "category.subb",
   "pk": 94,
   "fields": {
-    "subA": 18,
+    "sub_a": 18,
     "name": "Cuchas y jaulas",
     "slug": "cuchas-y-jaulas",
     "brand": []
@@ -1436,7 +1436,7 @@
   "model": "category.subb",
   "pk": 95,
   "fields": {
-    "subA": 18,
+    "sub_a": 18,
     "name": "Otros",
     "slug": "otros",
     "brand": []
@@ -1446,7 +1446,7 @@
   "model": "category.subb",
   "pk": 96,
   "fields": {
-    "subA": 19,
+    "sub_a": 19,
     "name": "Kayak",
     "slug": "kayak",
     "brand": []
@@ -1456,7 +1456,7 @@
   "model": "category.subb",
   "pk": 97,
   "fields": {
-    "subA": 19,
+    "sub_a": 19,
     "name": "Snowboard y Esqui",
     "slug": "snowboard-y-esqui",
     "brand": []
@@ -1466,7 +1466,7 @@
   "model": "category.subb",
   "pk": 98,
   "fields": {
-    "subA": 19,
+    "sub_a": 19,
     "name": "Suplementos alimenticios",
     "slug": "suplementos-alimenticios",
     "brand": []
@@ -1476,7 +1476,7 @@
   "model": "category.subb",
   "pk": 99,
   "fields": {
-    "subA": 19,
+    "sub_a": 19,
     "name": "Bicicletas",
     "slug": "bicicletas",
     "brand": []
@@ -1486,7 +1486,7 @@
   "model": "category.subb",
   "pk": 100,
   "fields": {
-    "subA": 19,
+    "sub_a": 19,
     "name": "Rollers",
     "slug": "rollers",
     "brand": []
@@ -1496,7 +1496,7 @@
   "model": "category.subb",
   "pk": 101,
   "fields": {
-    "subA": 19,
+    "sub_a": 19,
     "name": "Otros",
     "slug": "otros",
     "brand": []
@@ -1506,7 +1506,7 @@
   "model": "category.subb",
   "pk": 102,
   "fields": {
-    "subA": 23,
+    "sub_a": 23,
     "name": "Guitarras",
     "slug": "guitarras",
     "brand": []
@@ -1516,7 +1516,7 @@
   "model": "category.subb",
   "pk": 103,
   "fields": {
-    "subA": 23,
+    "sub_a": 23,
     "name": "Pianos",
     "slug": "pianos",
     "brand": []
@@ -1526,7 +1526,7 @@
   "model": "category.subb",
   "pk": 104,
   "fields": {
-    "subA": 23,
+    "sub_a": 23,
     "name": "Bajos",
     "slug": "bajos",
     "brand": []
@@ -1536,7 +1536,7 @@
   "model": "category.subb",
   "pk": 105,
   "fields": {
-    "subA": 23,
+    "sub_a": 23,
     "name": "Baterias",
     "slug": "baterias",
     "brand": []
@@ -1546,7 +1546,7 @@
   "model": "category.subb",
   "pk": 106,
   "fields": {
-    "subA": 23,
+    "sub_a": 23,
     "name": "Otros",
     "slug": "otros",
     "brand": []
@@ -1556,7 +1556,7 @@
   "model": "category.subb",
   "pk": 107,
   "fields": {
-    "subA": 24,
+    "sub_a": 24,
     "name": "Materiales",
     "slug": "materiales",
     "brand": []
@@ -1566,7 +1566,7 @@
   "model": "category.subb",
   "pk": 108,
   "fields": {
-    "subA": 23,
+    "sub_a": 23,
     "name": "Cuadros",
     "slug": "cuadros",
     "brand": []
@@ -1576,7 +1576,7 @@
   "model": "category.subb",
   "pk": 109,
   "fields": {
-    "subA": 23,
+    "sub_a": 23,
     "name": "Dibujos",
     "slug": "dibujos",
     "brand": []
@@ -1586,7 +1586,7 @@
   "model": "category.subb",
   "pk": 110,
   "fields": {
-    "subA": 23,
+    "sub_a": 23,
     "name": "Otros",
     "slug": "otros",
     "brand": []
@@ -1596,7 +1596,7 @@
   "model": "category.subb",
   "pk": 111,
   "fields": {
-    "subA": 25,
+    "sub_a": 25,
     "name": "PlayStation",
     "slug": "playstation",
     "brand": []
@@ -1606,7 +1606,7 @@
   "model": "category.subb",
   "pk": 112,
   "fields": {
-    "subA": 25,
+    "sub_a": 25,
     "name": "Xbox",
     "slug": "xbox",
     "brand": []
@@ -1616,7 +1616,7 @@
   "model": "category.subb",
   "pk": 113,
   "fields": {
-    "subA": 25,
+    "sub_a": 25,
     "name": "Accesorios",
     "slug": "accesorios",
     "brand": []
@@ -1626,7 +1626,7 @@
   "model": "category.subb",
   "pk": 114,
   "fields": {
-    "subA": 25,
+    "sub_a": 25,
     "name": "Otros",
     "slug": "otros",
     "brand": []
@@ -1636,7 +1636,7 @@
   "model": "category.subb",
   "pk": 115,
   "fields": {
-    "subA": 26,
+    "sub_a": 26,
     "name": "Libros",
     "slug": "libros",
     "brand": []
@@ -1646,7 +1646,7 @@
   "model": "category.subb",
   "pk": 116,
   "fields": {
-    "subA": 26,
+    "sub_a": 26,
     "name": "Peliculas",
     "slug": "peliculas",
     "brand": []
@@ -1656,7 +1656,7 @@
   "model": "category.subb",
   "pk": 117,
   "fields": {
-    "subA": 26,
+    "sub_a": 26,
     "name": "Discos",
     "slug": "discos",
     "brand": []
@@ -1666,7 +1666,7 @@
   "model": "category.subb",
   "pk": 118,
   "fields": {
-    "subA": 26,
+    "sub_a": 26,
     "name": "Otros",
     "slug": "otros",
     "brand": []
