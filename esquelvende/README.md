@@ -61,7 +61,6 @@ $ pip install -r requirements/requirements.txt
 $ python manage.py makemigrations
 $ python manage.py migrate
 $ python manage.py runserver
-
+```
 Luego cargar las categorias de la aplicacion:
 `python manage.py loaddata category/initial_data/initial.json`
-```
