@@ -50,8 +50,6 @@ hay que agregarlas a la base de datos. Asi que vamos a configurar postgres y agr
     $ exit
 ```
 
-Luego cargar las categorias de la aplicacion:
-`python manage.py loaddata category/initial_data/initial.json`
 
 ## Development
 
@@ -63,4 +61,7 @@ $ pip install -r requirements/requirements.txt
 $ python manage.py makemigrations
 $ python manage.py migrate
 $ python manage.py runserver
+
+Luego cargar las categorias de la aplicacion:
+`python manage.py loaddata category/initial_data/initial.json`
 ```
