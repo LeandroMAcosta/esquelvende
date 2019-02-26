@@ -149,7 +149,6 @@ button:hover,
 
 footer {
   background-color: #232F3E!important;
-  font-family: 'Open Sans'!important;
 }
 
 .footer-content {
@@ -166,6 +165,16 @@ footer {
 }
 .footer-social a {
   color: whitesmoke!important;
+}
+.subtext {
+  font-family: 'Open Sans';
+  color: inherit;
+}
+.subtext:hover {
+  color: inherit;
+}
+.subtext > h6 {
+  font-size: 14px;
 }
 /* ######################################################################## */
 /*                            SemiMaterial Design                           */
