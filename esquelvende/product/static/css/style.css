@@ -147,6 +147,22 @@ button:hover,
 /*                                  Footer                                 */
 /* ######################################################################## */
 
+footer {
+  background-color: #232F3E!important;
+}
+
+.footer-content {
+  padding: 40px 0px;
+}
+
+.footer-copyright {
+  background-color: #131A22;
+}
+
+.footer-social {
+  border-top: #37485b 1px solid; 
+  font-size: 150%;
+}
 
 /* ######################################################################## */
 /*                            SemiMaterial Design                           */
