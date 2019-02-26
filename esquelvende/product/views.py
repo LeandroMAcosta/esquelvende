@@ -41,10 +41,10 @@ def view_product(request, product_id):
     Cada vez que un usuario hecha un vistazo a
     un producto se agrega a su historial.
     """
-    History.add_to_history(request.user, product)
+    if request.user.is_authenticated:
+        History.add_to_history(request.user, product)
 
     images = product.imagesproduct_set.all()
-    print(images)
     hit_count = HitCount.objects.get_for_object(product)
     hit_count_response = HitCountMixin.hit_count(request, hit_count)
 

@@ -1,7 +1,129 @@
 {% extends "base.html" %}
- 
-{% block title %}Esquel Vende{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="../static/css/home.css" media="screen"/>
+{% endblock%}
+
+{% block carousel %}
+<div id="carouselIndicators" class="carousel slide" data-ride="carousel" style="width: 100%; height: 350px">
+  <ol class="carousel-indicators">
+    <li data-target="#carouselIndicators" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselIndicators" data-slide-to="1"></li>
+    <li data-target="#carouselIndicators" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <div style="background: green; width: 100%; height: 350px"></div>
+    </div>
+    <div class="carousel-item">
+      <div style="background: blue; width: 100%; height: 350px"></div>
+    </div>
+    <div class="carousel-item">
+      <div style="background: grey; width: 100%; height: 350px"></div>
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+{% endblock %}
 
 {% block content %}
-	{{ products }}
+<div class="container">
+  {% if products %}
+    <div class="d-flex align-items-center section">
+      <h5 class="caption pr-3">Ultimas publicaciones</h5>
+      <a href="#" style="text-decoration:none;">Ver más</a>
+    </div>
+    <div class="carousel-container">
+      <button class="prev-button round shadow-lg disabled">
+          <span class="arrow arrow-left disabled"></span>
+      </button>    
+      <div class="scroll-photos">
+        {% for product in products %}
+          {% with product.imagesproduct_set.all|first as first_image %}
+            <div class="item shadow-sm zoom mr-4">
+              <a class="redirect-product" href="/product/{{ product.pk }}/"></a>
+              <img src="/media/{{ first_image.image }}" class="item-image">
+              <div class="d-flex flex-column pt-2">
+                <span class="item-price">$ {{ product.price }}</span>
+                <span class="item-title">{{ product.title }}</span>
+              </div>
+            </div>
+          {% endwith %}
+        {% endfor %}
+      </div>
+      <button class="next-button round shadow-lg disabled">
+           <span class="arrow arrow-right disabled"></span>
+      </button>
+    </div>
+  {% endif %}
+
+  {% if history %}
+    <div class="d-flex align-items-center section">
+      <h5 class="caption pr-3">Basado en tu historial</h5>
+      <a href="/account/history/" style="text-decoration:none;">Ver historial</a>
+    </div>
+    <div class="d-flex carousel-container">
+      <button class="prev-button round shadow-lg disabled">
+          <span class="arrow arrow-left disabled"></span>
+      </button>
+      <div class="scroll-photos">
+        {% for h in history %}
+          {% with h.product.imagesproduct_set.all|first as first_image %}
+            <div class="item shadow-sm zoom mr-4">
+              <a class="redirect-product" href="/product/{{ h.product.pk }}/"></a>
+              <img src="/media/{{ first_image.image }}" class="item-image">
+              <div class="d-flex flex-column pt-2">
+                <span class="item-price">$ {{ h.product.price }}</span>
+                <span class="item-title">{{ h.product.title }}</span>
+              </div>
+            </div>
+          {% endwith %}
+        {% endfor %}
+      </div>
+      <button class="next-button round shadow-lg disabled">
+           <span class="arrow arrow-right disabled"></span>
+      </button>
+    </div>
+  {% endif %}
+
+  {% if favorites %}
+    <div class="d-flex align-items-center section">
+      <h5 class="caption pr-3">Basado en tus favoritos</h5>
+      <a href="/account/favorites/" style="text-decoration:none;">Ver favoritos</a>
+    </div>
+    <div class="carousel-container">
+      <button class="prev-button round shadow-lg disabled">
+          <span class="arrow arrow-left disabled"></span>
+      </button>
+      <div class="scroll-photos">
+        {% for f in favorites %}
+          {% with f.product.imagesproduct_set.all|first as first_image %}
+            <div class="item shadow-sm zoom mr-4">
+              <a class="redirect-product" href="/product/{{ f.product.pk }}/"></a>
+                <img src="/media/{{ first_image.image }}" class="item-image">
+              <div class="d-flex flex-column pt-2">
+                <span class="item-price">$ {{ f.product.price }}</span>
+                <span class="item-title">{{ f.product.title }}</span>
+              </div>
+            </div>
+          {% endwith %}
+        {% endfor %}
+      </div>
+      <button class="next-button round shadow-lg disabled">
+           <span class="arrow arrow-right disabled"></span>
+      </button>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript" src="../static/js/home.js"></script>
 {% endblock %}
