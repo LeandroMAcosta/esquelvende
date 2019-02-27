@@ -8,40 +8,36 @@ from .models import Category, SubA, SubB, Brand
 from product.models import Product
 
 
-def get_categories(idx, value):
-    obj = {}
-    if idx == 'id_category':
-        query = SubA.objects.filter(category=value)
-        obj['id'] = 'subA'
-    elif idx == 'id_subA':
-        query = SubB.objects.filter(subA=value)
-        obj['id'] = 'subB'
-    else:
-        query = Brand.objects.filter(subb__pk=value)
-        obj['id'] = 'branCadaCadads'
+def load_categories(request):
+    CATEGORY, SUB_A, SUB_B = 'id_category', 'id_sub_a', 'id_sub_b'
 
-    if not query.exists() and idx == 'id_subA':
-        query = Brand.objects.filter(suba__pk=value)
-        obj['id'] = 'brands'
-
-    for category in query:
-        obj[category.id] = str(category)
-    return JsonResponse(obj)
-
-
-def tree_categories(request):
     if request.method == 'GET':
-        idx = request.GET.get('id')
-        value = request.GET.get('value')
-        if idx and value:
-            if idx == 'id_category':
-                return get_categories('id_category', value)
-            elif idx == 'id_subA':
-                return get_categories('id_subA', value)
-            elif idx == 'id_subB':
-                return get_categories('id_subB', value)
-            else:
-                return JsonResponse({})
+        query, data = None, {}
+        category = request.GET.get('category', None)
+        id_category = request.GET.get('id_category', None)
+        next_category = request.GET.get('next_category', None)
+        """
+        El id en data lo necesita el frontend para crear el select con el
+        nombre del campo de la base de datos.
+        """
+        data['id'] = next_category
+
+        if category and id_category:
+            if category == CATEGORY:
+                query = SubA.objects.filter(category=id_category)
+            elif category == SUB_A:
+                query = SubB.objects.filter(sub_a=id_category)
+                if not query.exists():
+                    query = Brand.objects.filter(suba__pk=id_category)
+                    data['id'] = 'brand'
+            elif category == SUB_B:
+                query = Brand.objects.filter(subb__pk=id_category)
+
+            if query:
+                for cat in query:
+                    data[cat.id] = str(cat)
+
+        return JsonResponse(data)
 
 
 def categories(request):

@@ -1,0 +1,4 @@
+<option value="">---------</option>
+{% for category in objs %}
+<option value="{{ category.pk }}">{{ category.name }}</option>
+{% endfor %}

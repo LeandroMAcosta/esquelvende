@@ -44,6 +44,7 @@ def view_product(request, product_id):
     History.add_to_history(request.user, product)
 
     images = product.imagesproduct_set.all()
+    print(images)
     hit_count = HitCount.objects.get_for_object(product)
     hit_count_response = HitCountMixin.hit_count(request, hit_count)
 
@@ -95,10 +96,10 @@ def publish_product(request):
             for count, file in enumerate(files):
                 if count < 6:
                     second_form.save(product, file)
-            return redirect('/product/{}/'.format(product.pk))
+
+            return JsonResponse({'id_product': product.id})
         else:
-            data = {'success': False, 'err_code': 'invalid_form',
-                    'err_msg': form.errors, }
+            data = {'err_code': 'invalid_form', 'err_msg': form.errors, }
             return JsonResponse(data)
     else:
         data = {'contact_email': request.user.email}
