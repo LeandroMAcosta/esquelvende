@@ -8,6 +8,7 @@
       text-align: center;
       cursor: pointer;
       display: inline-block;
+      position: relative;
 }
 .item-price {
     color: #333;
@@ -16,7 +17,8 @@
 .item-title {
     color: #666;
     font-size: 13px;
-    word-wrap: break-word; /* arreglar */
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .zoom {
     transition: transform .2s;
@@ -27,6 +29,41 @@
 .item-image {
     width: 160px;
     height: 160px;
+}
+.whatsapp {
+  font-size: 23px;
+  color: #128c7e;
+}
+.whatsapp-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  position: absolute;
+  background: hsla(0,0%,100%,.7);
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  top: 6px;
+  left: 6px;
+}
+.whatsapp-link:hover {
+  text-decoration:none;
+}
+.fav-icon {
+  cursor: pointer;
+  position: absolute;
+  background: hsla(0,0%,100%,.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  border: 0;
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  top: 6px;
+  left: 120px;
 }
 .caption {
   color:#666;

@@ -57,3 +57,30 @@ $(".carousel-container").mouseout(function() {
         childNext.classList.add("disabled");
     }
 });
+
+if (!isMobile.mobilecheck()) {
+    $(".item").mouseover(function() {
+        var children = $(this).children(),
+            whatsappLink = children[0],
+            whatsappIcon = $(children[0]).children()[0];
+        
+        if (whatsappLink && whatsappIcon) {
+            whatsappLink.classList.remove("disabled");
+            whatsappIcon.classList.remove("disabled");
+        }
+    });
+
+    $(".item").mouseout(function() {
+        var children = $(this).children(),
+            whatsappLink = children[0],
+            whatsappIcon = $(children[0]).children()[0];
+
+        if (whatsappLink && whatsappIcon) {
+            whatsappLink.classList.add("disabled");
+            whatsappIcon.classList.add("disabled");
+        }
+    });
+} else {
+    $('a.whatsapp-link').removeClass("disabled");
+    $('i.whatsapp').removeClass("disabled");
+}

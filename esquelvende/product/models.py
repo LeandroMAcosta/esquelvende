@@ -100,6 +100,13 @@ class Product(models.Model, HitCountMixin):
         products = cls.objects.filter(query)
         return products
 
+    def get_favorite(self, user):
+        try:    
+            print(user)
+            #return self.favorite_set.get(user=user)
+        except Exception as e:
+            pass
+
 
 class ImagesProduct(models.Model):
     product = models.ForeignKey(Product)
@@ -108,16 +115,7 @@ class ImagesProduct(models.Model):
 
 class Favorite(models.Model):
     user = models.ForeignKey(User)
-    product = models.OneToOneField(Product)
-
-    @classmethod
-    def delete_or_create_favorite(cls, user, product):
-        favorite, created = cls.objects.get_or_create(
-            user=user,
-            product=product
-        )
-        if not created:
-            favorite.delete()
+    product = models.ForeignKey(Product)
 
     def __str__(self):
         return self.product.title

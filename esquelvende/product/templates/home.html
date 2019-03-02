@@ -9,90 +9,15 @@
 {% block content %}
 <div class="container">
   {% if products %}
-    <div class="d-flex align-items-center section">
-      <h5 class="caption pr-3">Ultimas publicaciones</h5>
-      <a href="#" style="text-decoration:none;">Ver más</a>
-    </div>
-    <div class="carousel-container">
-      <button class="prev-button round shadow-lg disabled">
-          <span class="arrow arrow-left disabled"></span>
-      </button>    
-      <div class="scroll-photos">
-        {% for product in products %}
-          {% with product.imagesproduct_set.all|first as first_image %}
-            <div class="item shadow-sm zoom mr-4">
-              <a class="redirect-product" href="/product/{{ product.pk }}/"></a>
-              <img src="/media/{{ first_image.image }}" class="item-image">
-              <div class="d-flex flex-column pt-2">
-                <span class="item-price">$ {{ product.price }}</span>
-                <span class="item-title">{{ product.title }}</span>
-              </div>
-            </div>
-          {% endwith %}
-        {% endfor %}
-      </div>
-      <button class="next-button round shadow-lg disabled">
-           <span class="arrow arrow-right disabled"></span>
-      </button>
-    </div>
+    {% include "carousel_products.html" with title="Ultimas publicaciones" subtitle="Ver mas" url_subtitle="#" list_product=products %}
   {% endif %}
 
   {% if history %}
-    <div class="d-flex align-items-center section">
-      <h5 class="caption pr-3">Basado en tu historial</h5>
-      <a href="/account/history/" style="text-decoration:none;">Ver historial</a>
-    </div>
-    <div class="d-flex carousel-container">
-      <button class="prev-button round shadow-lg disabled">
-          <span class="arrow arrow-left disabled"></span>
-      </button>
-      <div class="scroll-photos">
-        {% for h in history %}
-          {% with h.product.imagesproduct_set.all|first as first_image %}
-            <div class="item shadow-sm zoom mr-4">
-              <a class="redirect-product" href="/product/{{ h.product.pk }}/"></a>
-              <img src="/media/{{ first_image.image }}" class="item-image">
-              <div class="d-flex flex-column pt-2">
-                <span class="item-price">$ {{ h.product.price }}</span>
-                <span class="item-title">{{ h.product.title }}</span>
-              </div>
-            </div>
-          {% endwith %}
-        {% endfor %}
-      </div>
-      <button class="next-button round shadow-lg disabled">
-           <span class="arrow arrow-right disabled"></span>
-      </button>
-    </div>
+    {% include "carousel_products.html" with title="Basado en tu historial" subtitle="Ver historial" url_subtitle="/account/history/" list_product=history %}
   {% endif %}
 
   {% if favorites %}
-    <div class="d-flex align-items-center section">
-      <h5 class="caption pr-3">Basado en tus favoritos</h5>
-      <a href="/account/favorites/" style="text-decoration:none;">Ver favoritos</a>
-    </div>
-    <div class="carousel-container">
-      <button class="prev-button round shadow-lg disabled">
-          <span class="arrow arrow-left disabled"></span>
-      </button>
-      <div class="scroll-photos">
-        {% for f in favorites %}
-          {% with f.product.imagesproduct_set.all|first as first_image %}
-            <div class="item shadow-sm zoom mr-4">
-              <a class="redirect-product" href="/product/{{ f.product.pk }}/"></a>
-                <img src="/media/{{ first_image.image }}" class="item-image">
-              <div class="d-flex flex-column pt-2">
-                <span class="item-price">$ {{ f.product.price }}</span>
-                <span class="item-title">{{ f.product.title }}</span>
-              </div>
-            </div>
-          {% endwith %}
-        {% endfor %}
-      </div>
-      <button class="next-button round shadow-lg disabled">
-           <span class="arrow arrow-right disabled"></span>
-      </button>
-    </div>
+    {% include "carousel_products.html" with title="Basado en tus favoritos" subtitle="Ver favoritos" url_subtitle="/account/favorites/" list_product=favorites %}
   {% endif %}
 </div>
 {% endblock %}

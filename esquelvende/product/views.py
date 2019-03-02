@@ -76,7 +76,20 @@ def republish_product(request, product_id):
 def create_favorite(request, product_id):
     if request.POST:
         product = get_object_or_404(Product, pk=product_id)
-        Favorite.delete_or_create_favorite(request.user, product)
+        try:
+            favorite = Favorite.objects.get(
+                product=product_id,
+                user=request.user
+            )
+            if favorite:
+                favorite.delete()
+
+        except Exception as e:
+            favorite = Favorite.objects.create(
+                product=product,
+                user=request.user
+            )
+
         return HttpResponse(status=200)
 
 
