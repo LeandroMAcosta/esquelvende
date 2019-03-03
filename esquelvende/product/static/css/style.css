@@ -147,7 +147,35 @@ button:hover,
 /*                                  Footer                                 */
 /* ######################################################################## */
 
+footer {
+  background-color: #232F3E!important;
+}
 
+.footer-content {
+  padding: 25px 0px;
+}
+
+.footer-copyright {
+  background-color: #131A22;
+}
+
+.footer-social {
+  border-top: #37485b 1px solid; 
+  font-size: 150%;
+}
+.footer-social a {
+  color: whitesmoke!important;
+}
+.subtext {
+  font-family: 'Open Sans';
+  color: inherit;
+}
+.subtext:hover {
+  color: inherit;
+}
+.subtext > h6 {
+  font-size: 14px;
+}
 /* ######################################################################## */
 /*                            SemiMaterial Design                           */
 /* ######################################################################## */
