@@ -33,7 +33,6 @@ def search(request):
 
 def view_product(request, product_id):
     product = get_object_or_404(Product, pk=product_id, active=True)
-
     if product.is_expired():
         raise Http404
 
@@ -42,7 +41,11 @@ def view_product(request, product_id):
     un producto se agrega a su historial.
     """
     if request.user.is_authenticated:
-        History.add_to_history(request.user, product)
+        try:
+            # Para que un usuario no tenga sus productos en su historial.
+            obj = Product.objects.get(user=request.user, pk=product_id)
+        except Exception as e:
+            History.add_to_history(request.user, product)
 
     images = product.imagesproduct_set.all()
     hit_count = HitCount.objects.get_for_object(product)

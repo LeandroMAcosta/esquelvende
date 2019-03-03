@@ -50,21 +50,6 @@
 .whatsapp-link:hover {
   text-decoration:none;
 }
-.fav-icon {
-  cursor: pointer;
-  position: absolute;
-  background: hsla(0,0%,100%,.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1;
-  border: 0;
-  height: 35px;
-  width: 35px;
-  border-radius: 50%;
-  top: 6px;
-  left: 120px;
-}
 .caption {
   color:#666;
   font-weight: 300;
@@ -147,4 +132,7 @@ div.scroll-photos {
 }
 .section {
   padding-top: 30px;
+}
+.none:hover {
+  text-decoration: none;
 }
