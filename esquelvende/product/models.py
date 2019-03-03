@@ -100,13 +100,6 @@ class Product(models.Model, HitCountMixin):
         products = cls.objects.filter(query)
         return products
 
-    def get_favorite(self, user):
-        try:    
-            print(user)
-            #return self.favorite_set.get(user=user)
-        except Exception as e:
-            pass
-
 
 class ImagesProduct(models.Model):
     product = models.ForeignKey(Product)
