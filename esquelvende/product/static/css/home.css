@@ -28,6 +28,10 @@
 }
 .item-image {
     object-fit: cover;
+    -ms-object-fit: contain;
+    -moz-object-fit: contain;
+    -o-object-fit: contain;
+    -webkit-object-fit: contain;
     width: 160px;
     height: 160px;
 }
