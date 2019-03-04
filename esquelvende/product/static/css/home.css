@@ -24,9 +24,10 @@
     transition: transform .2s;
 }
 .zoom:hover {
-    transform: scale(1.01); 
+    transform: scale(1.01);
 }
 .item-image {
+    object-fit: cover;
     width: 160px;
     height: 160px;
 }
