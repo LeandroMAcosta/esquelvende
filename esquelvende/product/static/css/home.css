@@ -1,0 +1,143 @@
+/* CSS PARA LAS CAJAS DE LOS PRODUCTOS */
+.item {
+      border: #ccc;
+      width: 160px;
+      height: 230px;
+      background: #fff;
+      border-radius: 3px 3px 3px 3px;
+      text-align: center;
+      cursor: pointer;
+      display: inline-block;
+      position: relative;
+}
+.item-price {
+    color: #333;
+    font-size: 23px;
+}
+.item-title {
+    color: #666;
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.zoom {
+    transition: transform .2s;
+}
+.zoom:hover {
+    transform: scale(1.01);
+}
+.item-image {
+    object-fit: cover;
+    -ms-object-fit: contain;
+    -moz-object-fit: contain;
+    -o-object-fit: contain;
+    -webkit-object-fit: contain;
+    width: 160px;
+    height: 160px;
+}
+.whatsapp {
+  font-size: 23px;
+  color: #128c7e;
+}
+.whatsapp-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  position: absolute;
+  background: hsla(0,0%,100%,.7);
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  top: 6px;
+  left: 6px;
+}
+.whatsapp-link:hover {
+  text-decoration:none;
+}
+.caption {
+  color:#666;
+  font-weight: 300;
+  font-size: 26px;
+  font-family: 'Open Sans';
+}
+.redirect-product {
+  width: 160px;
+  height: 230px;
+  position: absolute;
+}
+@media only screen and (max-width : 540px) {
+  .caption {
+    font-size: 18px;
+  }
+  .section {
+    justify-content: space-between;
+  }
+}
+/* CSS PARA LAS FLECHAS */
+.prev-button {
+    cursor: pointer;
+    background-color: #fff;
+    height: 50px;
+    width: 50px;
+    border: none;
+    text-decoration: none;
+    position: absolute;
+    top: 40%;
+    left: 4px;
+    z-index: 1;
+}
+.next-button {
+    cursor: pointer;
+    background-color: #fff;
+    height: 50px;
+    width: 50px;
+    border: none;
+    text-decoration: none;
+    position: absolute;
+    top: 40%;
+    right: 4px;
+    z-index: 1;
+}
+.round {
+  border-radius: 50%;
+}
+.arrow {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid #ed7710;
+  border-right: 2px solid #ed7710;
+}
+.arrow-right {
+  transform: rotate(45deg);
+  position: relative;
+  right: 1px;
+}
+.arrow-left {
+  transform: rotate(-135deg);
+  position: relative;
+  left: 1px;
+}
+.disabled {
+  display: none;
+}
+.relative {
+  position: relative;
+}
+div.scroll-photos {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  position: relative;
+  display: flex;
+}
+.carousel-container {
+  position: relative;
+}
+.section {
+  padding-top: 30px;
+}
+.none:hover {
+  text-decoration: none;
+}

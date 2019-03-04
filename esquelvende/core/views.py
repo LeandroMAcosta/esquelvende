@@ -18,7 +18,9 @@ def home(request):
     if request.user.is_authenticated:
         favorites = Favorite.objects.filter(user=request.user)
         history = History.objects.filter(user=request.user)
-        context.update({'favorites': favorites, 'history': history})
+        products_fav = [f.product for f in favorites]
+        products_his = [h.product for h in history]
+        context.update({'favorites': products_fav, 'history': products_his})
 
     return render(request, 'home.html', context)
 

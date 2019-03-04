@@ -33,7 +33,6 @@ def search(request):
 
 def view_product(request, product_id):
     product = get_object_or_404(Product, pk=product_id, active=True)
-
     if product.is_expired():
         raise Http404
 
@@ -41,10 +40,14 @@ def view_product(request, product_id):
     Cada vez que un usuario hecha un vistazo a
     un producto se agrega a su historial.
     """
-    History.add_to_history(request.user, product)
+    if request.user.is_authenticated:
+        try:
+            # Para que un usuario no tenga sus productos en su historial.
+            obj = Product.objects.get(user=request.user, pk=product_id)
+        except Exception as e:
+            History.add_to_history(request.user, product)
 
     images = product.imagesproduct_set.all()
-    print(images)
     hit_count = HitCount.objects.get_for_object(product)
     hit_count_response = HitCountMixin.hit_count(request, hit_count)
 
@@ -76,7 +79,20 @@ def republish_product(request, product_id):
 def create_favorite(request, product_id):
     if request.POST:
         product = get_object_or_404(Product, pk=product_id)
-        Favorite.delete_or_create_favorite(request.user, product)
+        try:
+            favorite = Favorite.objects.get(
+                product=product_id,
+                user=request.user
+            )
+            if favorite:
+                favorite.delete()
+
+        except Exception as e:
+            favorite = Favorite.objects.create(
+                product=product,
+                user=request.user
+            )
+
         return HttpResponse(status=200)
 
 

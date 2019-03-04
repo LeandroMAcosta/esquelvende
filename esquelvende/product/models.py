@@ -108,16 +108,7 @@ class ImagesProduct(models.Model):
 
 class Favorite(models.Model):
     user = models.ForeignKey(User)
-    product = models.OneToOneField(Product)
-
-    @classmethod
-    def delete_or_create_favorite(cls, user, product):
-        favorite, created = cls.objects.get_or_create(
-            user=user,
-            product=product
-        )
-        if not created:
-            favorite.delete()
+    product = models.ForeignKey(Product)
 
     def __str__(self):
         return self.product.title
