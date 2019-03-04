@@ -47,8 +47,9 @@
                                     {% endfor %}
                                 </div>
                             </div>
-                            <a class="nav-item nav-link" href="#">Tu historial</a>
-                            <a class="nav-item nav-link" href="#">Tus publicaciones</a>
+                            <a class="nav-item nav-link" href="/account/history/">Tu historial</a>
+                            <a class="nav-item nav-link" href="/account/products/">Tus publicaciones</a>
+                            <a class="nav-item nav-link" href="/account/favorites/">Mis favoritos</a>
                             <a class="nav-item nav-link" href="/publish/">Vender</a>
                         </div>
                     </div>
@@ -56,7 +57,7 @@
                         <div class="navbar-nav">
                             <span class="separator-collapse"></span>
                             {% if user.is_authenticated %}
-                                <a class="nav-item nav-link" href="/perfil/">{{ user.username }}</a>
+                                <a class="nav-item nav-link" href="/myaccount/">{{ user.username }}</a>
                                 <a class="nav-item nav-link separator" href="/logout/">Salir</a> 
                             {% else %}
                                 <a class="nav-item nav-link" href="/signup/">Registrate</a>

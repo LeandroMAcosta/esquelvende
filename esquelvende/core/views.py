@@ -61,3 +61,7 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect('/login/')
+
+
+def about_us(request):
+    return render(request, 'about_us.html')
