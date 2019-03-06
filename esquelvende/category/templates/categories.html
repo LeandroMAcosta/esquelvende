@@ -1,9 +1,24 @@
 {% extends "base.html" %}
-{% block css %}{% endblock%}
 
-{% block content %}
-    {{ categories }}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="../static/css/categories.css" media="screen" />
 {% endblock%}
 
-{% block javascript %}
+{% block content %}
+<div class="container sheet">
+    <div class="row">
+      {% for category, queryset_sub_a in categories.items %}
+        <div class="col-md-4 col-sm-4 col-0">
+          <h5 class="title">{{ category }}</h5>
+          <ul>
+          {% for sub_a in queryset_sub_a %}
+            <li>
+              <a href="/{{ category.slug }}/{{ sub_a.slug }}" class="none">{{ sub_a }}</a>
+            </li>
+          {% endfor %}
+          </ul>
+        </div>
+      {% endfor %}
+   </div>
+</div>
 {% endblock%}

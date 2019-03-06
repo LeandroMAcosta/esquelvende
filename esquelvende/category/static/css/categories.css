@@ -1,0 +1,22 @@
+.sheet {
+  background: #fff;
+  margin-top: 25px;
+  padding: 25px;
+}
+.container-categories {
+}
+.none:hover {
+    text-decoration: none;
+}
+.title {
+    color: #333;
+}
+div > ul {
+    list-style: none;
+    padding: 0;
+}
+@media only screen and (max-width : 992px) {
+    .container-categories {
+        text-align: left;
+    }
+}
