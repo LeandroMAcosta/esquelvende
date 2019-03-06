@@ -1,3 +1,4 @@
+/* css para /categories/ */
 .sheet {
   background: #fff;
   margin-top: 25px;
@@ -6,17 +7,55 @@
 .container-categories {
 }
 .none:hover {
-    text-decoration: none;
+  text-decoration: none;
 }
 .title {
-    color: #333;
+  color: #333;
 }
 div > ul {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 @media only screen and (max-width : 992px) {
-    .container-categories {
-        text-align: left;
-    }
+  .container-categories {
+      text-align: left;
+  }
+}
+
+/* Ruta de categorias */
+.products {
+  margin-top: 25px;
+  padding: 0;
+}
+.item {
+  border: #ccc;
+  width: 100%;
+  background: #fff;
+  border-radius: 2px 2px 0 0;
+  padding: 16px;
+  margin-bottom: 3px; 
+}
+.item-price {
+  color: #333;
+  font-size: 24px;
+  font-family: "Proxima Nova",Helvetica,Arial,sans-serif;
+}
+.item-title {
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'Open Sans';
+  margin: 0;
+}
+.item-image {
+  object-fit: cover;
+  -ms-object-fit: contain;
+  -moz-object-fit: contain;
+  -o-object-fit: contain;
+  -webkit-object-fit: contain;
+  width: 140px;
+  height: 140px;
+}
+.none{
+  text-decoration: none;
 }
