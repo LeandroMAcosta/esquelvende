@@ -22,6 +22,7 @@ header {
 }
 header nav a {
   color: #fff !important;
+  font-size: 15px !important
 }
 
 input[type="search"] {
