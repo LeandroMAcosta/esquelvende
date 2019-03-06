@@ -43,16 +43,10 @@ def load_categories(request):
 # La view categories devuelve cada categoria con sus sub_a.
 def categories(request):
     categories = Category.objects.all()
-    res = []
-    count = 0
+    res = {}
+
     for category in categories:
-        if len(res) != 0 and len(res[count - 1]) != 3:
-            res[count - 1][category] = SubA.objects.filter(category=category)
-        else:
-            count+=1
-            d = {}
-            d[category] = SubA.objects.filter(category=category)
-            res.append(d)
+        res[category] = SubA.objects.filter(category=category)
 
     context = {'categories': res}
     return render(request, 'categories.html', context)
