@@ -40,9 +40,16 @@ def load_categories(request):
         return JsonResponse(data)
 
 
+# La view categories devuelve cada categoria con sus sub_a.
 def categories(request):
-    # TODO: Esta view devuelve las categorias con sus sub_a.
-    pass
+    categories = Category.objects.all()
+    res = {}
+
+    for category in categories:
+        res[category] = SubA.objects.filter(category=category)
+
+    context = {'categories': res}
+    return render(request, 'categories.html', context)
 
 
 """
