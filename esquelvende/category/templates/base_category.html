@@ -7,46 +7,138 @@
 <div class="container">
   <div class="row">
 
-    <div class="col-2">
-      <h2>Ubicacion actual</h2>
+    <div class="col-3" style="margin-top: 25px;">
       {{ current_category }}
       <br>
       {% if categories %}
-      <h2>Categorias</h2>
-          {% for category in categories %}
-              <span>{{ category }}</span>
-          {% endfor%}
       {% elif brands %}
           <h2>Categorias</h2>
           {% for brand in brands %}
               <span>{{ brand }}</span>
           {% endfor%}
       {% endif %}
+
+
+      <div class="categories">
+        <span class="menu-title">Categorias</span>
+        {% for category in categories %}
+        <div class="category">
+          <a href="">
+            <span class="filter-name">{{ category }}</span>
+            <span class="filter-results">({{ category.product_set.all|length }})</span>  
+          </a>
+        </div>
+        {% endfor%}
+      </div>
+      <div class="filter">
+        <span class="menu-title">Ordenar por</span>
+        <div>
+          <input type="radio" name="order_by" value="r" checked="checked" class="input-radio">
+          <span class="filter-name">Publicaciones nuevas</span>
+        </div>
+        <div>
+          <input type="radio" name="order_by" value="max" class="input-radio">
+          <span class="filter-name">Mayor precio</span>
+        </div>
+        <div>
+          <input type="radio" name="order_by" value="min" class="input-radio">
+          <span class="filter-name">Menor precio</span>
+        </div>
+      </div>
+      <div>
+        <span class="menu-title">Condición</span>
+        <div>
+          <input type="radio" name="condition" value="n" checked="checked" class="input-radio">
+          <span class="filter-name">Todos</span>
+        </div>
+        <div>
+          <input type="radio" name="condition" value="n" class="input-radio">
+          <span class="filter-name">Nuevo</span>
+        </div>
+        <div>
+          <input type="radio" name="condition" value="u" class="input-radio">
+          <span class="filter-name">Usado</span>
+        </div>
+      </div>
     </div>
 
-    <div class="col-12 col-lg-10 products">
-      {% for product in products %}
-        {% with product.imagesproduct_set.all|first as first_image %}
-          <div class="d-flex item">
-            <div class="m-1">
-              <a href="/product/{{ product.pk }}">
-                <img src="/media/{{ first_image.image }}" class="item-image">
-              </a>
+    {% if products %}
+      <div class="col-12 col-lg-9 products">
+        {% for product in products %}
+          {% with product.imagesproduct_set.all|first as first_image %}
+            <div class="d-flex item">
+              <div class="m-1">
+                <a href="/product/{{ product.pk }}">
+                  <img src="/media/{{ first_image.image }}" class="item-image">
+                </a>
+              </div>
+              <div class="d-flex flex-column px-4">
+                <a href="/product/{{ product.pk }}/" class="none">
+                  <h5 class="item-title">{{ product.title }}</h5>
+                </a>
+                <span class="item-price">$ {{ product.price }}</span>
+              </div>
             </div>
-            <div class="d-flex flex-column px-4">
-              <a href="/product/{{ product.pk }}" class="none">
-                <h5 class="item-title">{{ product.title }}</h5>
-              </a>
-              <span class="item-price">$ {{ product.price }}</span>
-            </div>
-          </div>
-        {% endwith %}
-      {% endfor %}          
-    </div>
-
+          {% endwith %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="col-12 col-lg-10">
+        <h2>No se encontraron resultados.</h2>
+      </div>
+    {% endif %}
   </div>
 </div>
 {% endblock%}
 
 {% block javascript %}
+<script type="text/javascript">
+  function removeParam(key, sourceURL) {
+      var rtn = sourceURL.split("?")[0],
+          param,
+          params_arr = [],
+          queryString = (sourceURL.indexOf("?") !== -1) ? sourceURL.split("?")[1] : "";
+      if (queryString !== "") {
+          params_arr = queryString.split("&");
+          for (var i = params_arr.length - 1; i >= 0; i -= 1) {
+              param = params_arr[i].split("=")[0];
+              if (param === key) {
+                  params_arr.splice(i, 1);
+              }
+          }
+          rtn = rtn + "?" + params_arr.join("&");
+      }
+      return rtn;
+  }
+
+  function getUrlVars() {
+      var vars = {};
+      var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+          vars[key] = value;
+      });
+      return vars;
+  }
+
+  $(".input-radio").click(function(){
+    var url = window.location.href;
+        name = this.name,
+        value = this.value,
+        params = getUrlVars();
+    if (!(name in params)) {
+      url+=`?${name}=${value}`
+    } else {
+      var updateUrl = removeParam(name, url)
+      console.log(updateUrl)
+      updateUrl+=`${name}=${value}`
+    }
+    
+    if (updateUrl){
+      window.location.replace(updateUrl);
+    } else {
+      window.location.replace(url);
+    }
+
+  })
+
+</script>
 {% endblock%}

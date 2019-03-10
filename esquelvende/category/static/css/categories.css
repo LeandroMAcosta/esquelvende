@@ -56,6 +56,32 @@ div > ul {
   width: 140px;
   height: 140px;
 }
-.none{
+.none {
   text-decoration: none;
+}
+.menu-title {
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0 0 12px;
+  line-height: 1.25;
+  color: #333;
+}
+.filter-name {
+  color: #666;
+  font-weight: 400;
+  font-size: 14px;
+  margin-left: 0;
+}
+.filter-results {
+  color: #666;
+  font-weight: 400;
+  font-size: 14px;
+  margin-left: 0;
+}
+div a:hover {
+  text-decoration: none;
+}
+.filter {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
