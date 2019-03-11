@@ -1,4 +1,9 @@
 <form id="favorite-form" class="form" method="post">
     {% csrf_token %}
-    <button id="fav">Favorito</button>      
+    <input type="hidden" id="id" name="id" value="{{ product.id }}">
+    
+    <button style="">
+        <i class="fas fa-heart fa-lg"></i>
+    </button>      
+
 </form>

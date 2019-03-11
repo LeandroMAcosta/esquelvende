@@ -1,4 +1,112 @@
 /* ######################################################################## */
+/*                                  Product                                 */
+/* ######################################################################## */
+
+/* Title */
+
+.product .product-title {
+  display: flex;
+  justify-content: flex-start; 
+  align-items: center;
+  text-transform: capitalize;
+  margin-bottom: 40px;
+}
+
+/* Images */
+.product {
+  margin-top: 30px!important;
+  font-family: 'Roboto';
+}
+
+.product .product-card {
+  padding: 40px;
+}
+
+#carousel-indicator {
+  margin-bottom: 70px;
+}
+
+.product .carousel-indicators {
+  padding: 15px 0px;
+  /* position: initial!important; */
+  margin: 0px;
+  justify-content: left;
+  bottom: -70px;
+}
+.product .carousel-item {
+  width: auto;
+  height: 300px;
+  max-height: 300px;
+}
+
+.carousel-item {
+ height: 100%;
+}
+
+.product .carousel-item img {
+ /* position: absolute;
+ left: 50%;
+ top: 50%;
+ transform: translate(-50%, -50%) */
+ object-position: center;
+ object-fit: cover;
+  
+}
+.product .indicator {
+  margin-right: 10px;
+}
+.product .indicator:hover {
+  cursor: pointer;
+}
+.product .carousel-indicators img.active {
+  height: 50px;
+  width: 50px;
+}
+
+/* Description */
+
+.product .description {
+  padding: 30px;
+  background-color:#efefef;
+}
+
+.user-picture img {
+  width: 70px;
+  height: 70px;
+  /* object-position: center;
+  object-fit: cover; */
+  padding: 5px 5px;
+  /* align-self: flex-end; */
+}
+
+.price {
+  font-weight: bold;
+}
+
+.user-name {
+  text-transform: capitalize;
+  padding: 0px 20px;
+}
+
+.product .whatsapp-link {
+  color:#1EAE54;
+}
+
+.product .description {
+  font-size: 150%;
+}
+/*  */
+
+.product .flex-seller {
+  display: flex;
+  justify-content: flex-end; 
+  align-items: center;
+  margin-bottom: 40px;
+ 
+}
+
+
+/* ######################################################################## */
 /*                                  Publish                                 */
 /* ######################################################################## */
 

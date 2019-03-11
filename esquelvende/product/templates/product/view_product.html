@@ -1,37 +1,116 @@
 {% extends "base.html" %}
-{% block css %}{% endblock%}
+{% load staticfiles %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/product.css' %}"> 
+{% endblock%}
 
 {% block content %}
-    <div>
-        <div>
-            {% load hitcount_tags %}
-            visitas: {% get_hit_count for product %}   
+
+    <div class="product">
+    <div class="container">
+        <div class="card product-card">
+            <div class="row">
+                <div class="col-12 col-lg-6 product-title">                
+                    <div class="h1">{{ product.title }}</div>
+                    
+                </div>
+                
+                <div class="col-12 col-lg-6 flex-seller">
+                    
+                    <div class="user-picture">
+                        <img src="/media/{{ product.user.account.avatar }}" class="rounded-circle img-responsive" alt="picture">
+                    </div>
+                    <div class="user-name text-center">
+                        <h5>
+                            {{ product.user.first_name }} {{ product.user.last_name }}
+                        </h5>
+                    </div>
+                </div>                
+                
+            </div>
+            
+            <div class="row">
+                <div class="col-12 col-lg-6">
+
+
+                <div id="carousel-indicator" class="carousel" data-ride="carousel">
+
+                    <div class="carousel-inner">
+                        
+                        {% for image in images %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <img class="d-block w-100" src="/media/{{ image.image }}">
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                    
+                    <a class="carousel-control-prev" href="#carousel-indicator" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    
+                    <a class="carousel-control-next" href="#carousel-indicator" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                    <ol class="carousel-indicators">
+                        {% for image in images %}
+                            <img src="/media/{{ image.image }}"  data-target="#carousel-indicator" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %} indicator" height="45" width="45">
+                        {% endfor %}
+                    </ol>
+                </div>
+                
+
+
+                </div>
+                <div class="col-12 col-lg-6 description">
+                    <div class="title text-center h2">Contacto</div>
+                    <div class="price h2">${{ product.price }}</div>
+
+                    {% if product.whatsapp %}
+                    <a href="https://wa.me/{{ product.whatsapp }}?text=Hola.%20Estoy%20interesado%20por%20el%20producto%20que%20mire%20por%20Esquel%20Vende:www.esquelvende.com{{ request.get_full_path }}" class="whatsapp-link disabled"> 
+                        <button type="button" class="btn btn-success">
+                            <i class="fab fa-whatsapp whatsapp"></i> Whatsapp
+                        </button>
+                    </a>
+                    {% endif %}
+                    
+                    {% if product.contact_email %}
+                        {{ product.contact_email }}
+                    {% endif %}
+
+                    {% if product.contact_phone %}
+                        {{ product.contact_phone }}
+                    {% endif %}
+
+                    
+                    {% include "./favorite_product.html" %}
+
+
+                </div>
+            </div>
+
+            <!-- <div>
+                {% load hitcount_tags %}
+                visitas: {% get_hit_count for product %}   
+            </div> -->
+            
+            <!-- {{ product.description }} <br>
+            {{ product.price }} <br>
+
+            <a href="/reportar/{{ product.id }}"> Denunciar </a>
+            {% include "./favorite_product.html" %}
+             -->
         </div>
-        {{ product.title }} <br>
-        {{ product.description }} <br>
-        {{ product.price }} <br>
-        {% for image in images %}
-            <img src="/media/{{ image.image }}" height="42" width="42">
-        {% endfor %}
-        <a href="/reportar/{{ product.id }}"> Denunciar </a>
-        {% include "./favorite_product.html" %}
+    
+    
     </div>
+    </div>
+
+
 {% endblock%}
+
 {% block javascript %}
-<script>
-
-$('#favorite-form').on('submit', function(event){
-    event.preventDefault();
-    var csrf = $('[name=csrfmiddlewaretoken]');
-    $.ajax({
-        type: "POST",
-        url: '/product/{{ product.id }}/favorite/',
-        data: {
-            'csrfmiddlewaretoken': csrf.attr('value')
-        }
-    });
-});
-
-</script>
-
+<script src="{% static 'js/favorite.js' %}"></script>
 {% endblock%}

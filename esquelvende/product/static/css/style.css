@@ -4,7 +4,7 @@
 
 body {
   background: #ebebeb;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'Roboto', Helvetica, Arial, sans-serif;
 }
 .ev-orange {
   background-color: #ed7710!important;
@@ -12,7 +12,10 @@ body {
 .ev-white {
   background-color: #ebebeb!important;
 }
-
+.title {
+  text-transform: capitalize;
+  padding-bottom: 30px;
+}
 /* ######################################################################## */
 /*                                  Header                                  */
 /* ######################################################################## */
