@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% load field_tag %}
-
+{% load staticfiles %}
 {% block css %}
-<link rel="stylesheet" type="text/css" href="../static/css/product.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="{% static 'css//product.css' %}" />
 {% endblock%}
 
-{% block content %}
+{% block title %}Publicar{% endblock %}
 
+{% block content %}
 <div class="container sheet">
   <h3 class="text-center mb-5">Contános, ¿Que vendes?</h3>
   <form method="POST" onsubmit="return sendPhotos(event)" class="post-form" enctype="multipart/form-data"> 

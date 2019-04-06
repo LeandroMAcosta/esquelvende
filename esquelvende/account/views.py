@@ -49,8 +49,11 @@ def edit_user(request):
 
 
 def history(request):
-    history = History.objects.filter(user=request.user)
-    return render(request, 'list_history.html', {'history': history})
+    products_his = None
+    if request.user.is_authenticated:
+        history = History.objects.filter(user=request.user)
+        products_his = [h.product for h in history]
+    return render(request, 'list_history.html', {'history': products_his})
 
 
 def favorites(request):

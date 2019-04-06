@@ -52,7 +52,7 @@ def view_product(request, product_id):
     hit_count_response = HitCountMixin.hit_count(request, hit_count)
 
     context = {'product': product, 'images': images}
-    return render(request, './product/view_product.html', context)
+    return render(request, './view_product.html', context)
 
 
 @login_required(login_url='/login/')
@@ -123,7 +123,7 @@ def publish_product(request):
         second_form = FormImagesProduct()
 
         context = {'form': form, 'form_images': second_form}
-        return render(request, './product/publish_product.html', context)
+        return render(request, './publish_product.html', context)
 
 
 # @login_required(login_url='/login/')

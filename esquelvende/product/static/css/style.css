@@ -1,16 +1,35 @@
 /* ######################################################################## */
 /*                            Estilos Generales                             */
 /* ######################################################################## */
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
 
 body {
   background: #ebebeb;
   font-family: Helvetica, Arial, sans-serif;
+  position: relative;
+  padding-bottom: 21rem;
+  min-height: 100%;
 }
 .ev-orange {
   background-color: #ed7710!important;
 }
 .ev-white {
   background-color: #ebebeb!important;
+}
+@media only screen and (max-width : 992px) {
+  body {
+      /* Esto es por el footer cuando estas en celular*/
+      padding-bottom: 33rem;
+  }
 }
 
 /* ######################################################################## */
@@ -151,6 +170,10 @@ button:hover,
 footer {
   background-color: #232F3E!important;
   margin-top: 40px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 .footer-content {

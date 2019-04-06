@@ -3,7 +3,7 @@
     {% for product in products %}
         {% if not product.is_expired %}
             <div>{{ product.title }}</div>
-            {% include "../product/delete_product.html" %}
+            {% include "../delete_product.html" %}
         {% endif %}
     {% endfor %}
 </div>
@@ -12,7 +12,7 @@
     {% for product in products %}
         {% if product.is_expired %}
             <div>{{ product.title }}</div>
-            {% include "../product/delete_product.html" %}
+            {% include "../delete_product.html" %}
         {% endif %}
     {% endfor %}
 </div>

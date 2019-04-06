@@ -12,7 +12,8 @@ from product.models import Product, Favorite, History
 
 
 def home(request):
-    MAX_PRODUCTS = 2
+    MAX_PRODUCTS = 10
+    # Arreglar, tiene que dar los que no estan borrados o vencidos
     products = Product.objects.all().order_by('-id')[:MAX_PRODUCTS]
     context = {'products': products}
     if request.user.is_authenticated:

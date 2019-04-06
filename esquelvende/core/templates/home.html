@@ -1,7 +1,9 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 
 {% block css %}
-<link rel="stylesheet" type="text/css" href="../static/css/home.css" media="screen"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/simple_product_box.css' %}" />
 {% endblock%}
 
 {% block carousel %}{% include "carousel.html" %}{% endblock %}
