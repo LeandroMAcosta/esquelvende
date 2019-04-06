@@ -75,8 +75,11 @@ def republish_product(request, product_id):
         return user_products(request, './user_products/ajax_products.html')
 
 
-@login_required(login_url='/login/')
 def create_favorite(request, product_id):
+    if not request.user.is_authenticated:
+        data = {'url': '/login/?next=/product/%s/favorite/' % product_id}
+        return JsonResponse(data, status=401)  # status: Requiere auth de user. 
+
     if request.POST:
         product = get_object_or_404(Product, pk=product_id)
         try:
@@ -86,14 +89,13 @@ def create_favorite(request, product_id):
             )
             if favorite:
                 favorite.delete()
-
+            return HttpResponse(status=204)  # status: Recurso del. con exito. 
         except Exception as e:
             favorite = Favorite.objects.create(
                 product=product,
                 user=request.user
             )
-
-        return HttpResponse(status=200)
+            return HttpResponse(status=201)  # status: objecto creado.
 
 
 @login_required(login_url='/login/')
@@ -113,7 +115,7 @@ def publish_product(request):
                 if count < 6:
                     second_form.save(product, file)
 
-            return JsonResponse({'id_product': product.id})
+            return JsonResponse ({'id_product': product.id})
         else:
             data = {'err_code': 'invalid_form', 'err_msg': form.errors, }
             return JsonResponse(data)
