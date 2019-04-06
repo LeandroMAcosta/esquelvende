@@ -201,6 +201,13 @@ footer {
 .subtext > h6 {
   font-size: 14px;
 }
+
+@media only screen and (max-width : 992px) {
+  footer {
+    margin-top: 0px!important;
+  }
+}
+
 /* ######################################################################## */
 /*                            SemiMaterial Design                           */
 /* ######################################################################## */
