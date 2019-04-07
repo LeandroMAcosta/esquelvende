@@ -89,7 +89,7 @@ def create_favorite(request, product_id):
             )
             if favorite:
                 favorite.delete()
-            return HttpResponse(status=204)  # status: Recurso del. con exito. 
+            return HttpResponse(status=204)  # status: Recurso Elim. con exito. 
         except Exception as e:
             favorite = Favorite.objects.create(
                 product=product,
