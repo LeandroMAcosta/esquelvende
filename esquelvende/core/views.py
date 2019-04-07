@@ -13,14 +13,14 @@ from product.models import Product, Favorite, History
 
 def home(request):
     MAX_PRODUCTS = 10
-    # Arreglar, tiene que dar los que no estan borrados o vencidos
-    products = Product.objects.all().order_by('-id')[:MAX_PRODUCTS]
+    products = Product.objects.filter(active=True) \
+                              .order_by('-id')[:MAX_PRODUCTS]
     context = {'products': products}
     if request.user.is_authenticated:
         favorites = Favorite.objects.filter(user=request.user)
         history = History.objects.filter(user=request.user)
-        products_fav = [f.product for f in favorites]
-        products_his = [h.product for h in history]
+        products_fav = [f.product for f in favorites if not f.product.is_expired()]
+        products_his = [h.product for h in history if not h.product.is_expired()]
         context.update({'favorites': products_fav, 'history': products_his})
 
     return render(request, 'home.html', context)
