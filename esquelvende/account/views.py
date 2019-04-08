@@ -6,6 +6,9 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
+from django.views.generic.list import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 from .forms import FormAvatar, FormEditAccount, FormEditUser
 from .models import Account
@@ -54,10 +57,13 @@ def history(request):
     return render(request, 'list_history.html', {'history': products_his})
 
 
-@login_required(login_url='/login/')
-def favorites(request):
-    products_fav = Favorite.filter_products(request.user)
-    return render(request, 'list_favorites.html', {'favorites': products_fav})
+class Favorites(LoginRequiredMixin, ListView):
+    model = Favorite
+    template_name = 'list_favorites.html'
+    paginate_by = 2
+
+    def get_queryset(self):
+        return Favorite.filter_products(self.request.user)
 
 
 @login_required(login_url='/login/')

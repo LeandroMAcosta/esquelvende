@@ -9,13 +9,15 @@
 
 {% block content %}
 <div class="container">
-  {% if favorites %}
+  {% if object_list %}
   <div class="d-flex align-items-center pt-3">
     <h5 class="title pr-3">Tus Favoritos</h5>
   </div>
-  {% for product in favorites %}
+  {% for product in object_list %}
     {% include "./product_box/simple_product_box.html" with product=product %}
   {% endfor %}
+  <!-- Incluimos el paginador -->
+  {% include "pagination.html" %}
   {% else %}
   <div style="text-align: center; margin-top: 6rem">
     <h1 class="title">Aún no tienes favoritos</h1>
