@@ -16,8 +16,8 @@ body {
   background: #ebebeb;
   font-family: Helvetica, Arial, sans-serif;
   position: relative;
-  padding-bottom: 21rem;
   min-height: 100%;
+  padding-bottom: 21rem;
 }
 .ev-orange {
   background-color: #ed7710!important;
