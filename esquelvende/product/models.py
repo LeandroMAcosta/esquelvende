@@ -110,6 +110,16 @@ class Favorite(models.Model):
     user = models.ForeignKey(User)
     product = models.ForeignKey(Product)
 
+    @classmethod
+    def filter_products(cls, user):  # Devuelve productos activos y no vencidos.
+        favorites = cls.objects.filter(user=user)
+        products = [
+            f.product
+            for f in favorites
+            if not f.product.is_expired() and f.product.active
+        ]
+        return products
+
     def __str__(self):
         return self.product.title
 
@@ -131,6 +141,16 @@ class History(models.Model):
             histories = cls.objects.filter(user=user)
             if histories.count() >= cls.MAX_HISTORY:
                 histories[0].delete()
+
+    @classmethod
+    def filter_products(cls, user):  # Devuelve productos activos y no vencidos.
+        history = cls.objects.filter(user=user)
+        products = [
+            h.product
+            for h in history
+            if not h.product.is_expired() and h.product.active
+        ]
+        return products
 
     def __str__(self):
         return self.product.title

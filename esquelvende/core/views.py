@@ -17,11 +17,10 @@ def home(request):
                               .order_by('-id')[:MAX_PRODUCTS]
     context = {'products': products}
     if request.user.is_authenticated:
-        favorites = Favorite.objects.filter(user=request.user)
-        history = History.objects.filter(user=request.user)
-        products_fav = [f.product for f in favorites if not f.product.is_expired()]
-        products_his = [h.product for h in history if not h.product.is_expired()]
-        context.update({'favorites': products_fav, 'history': products_his})
+        context.update({
+            'favorites': Favorite.filter_products(request.user),
+            'history': History.filter_products(request.user)
+        })
 
     return render(request, 'home.html', context)
 

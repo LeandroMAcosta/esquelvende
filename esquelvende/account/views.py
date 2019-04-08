@@ -48,17 +48,16 @@ def edit_user(request):
         return render(request, 'edit_user.html', context)
 
 
+@login_required(login_url='/login/')
 def history(request):
-    products_his = None
-    if request.user.is_authenticated:
-        history = History.objects.filter(user=request.user)
-        products_his = [h.product for h in history]
+    products_his = History.filter_products(request.user)
     return render(request, 'list_history.html', {'history': products_his})
 
 
+@login_required(login_url='/login/')
 def favorites(request):
-    favorites = Favorite.objects.filter(user=request.user)
-    return render(request, 'list_favorites.html', {'favorites': favorites})
+    products_fav = Favorite.filter_products(request.user)
+    return render(request, 'list_favorites.html', {'favorites': products_fav})
 
 
 @login_required(login_url='/login/')
