@@ -14,7 +14,9 @@
     <h5 class="title pr-3">Tus Favoritos</h5>
   </div>
   {% for product in object_list %}
-    {% include "./product_box/simple_product_box.html" with product=product %}
+    <div class="mr-2 mb-2" style="display: inline-block;">
+      {% include "./product_box/simple_product_box.html" with product=product %}
+    </div>
   {% endfor %}
   <!-- Incluimos el paginador -->
   {% include "pagination.html" %}
@@ -25,6 +27,9 @@
         Aquí se mostraran tus favoritos.¡Empezá a navegar en Esquel Vende!
       </span>
     </div>
-  {% endif%}
+  {% endif %}
 </div>
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript" src="{% static 'js/home.js' %}"></script>
 {% endblock %}

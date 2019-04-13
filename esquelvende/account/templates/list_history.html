@@ -15,7 +15,9 @@
     <a href="#" class="none">Eliminar historial</a>
   </div>
   {% for product in object_list %}
-    {% include "./product_box/simple_product_box.html" with product=product %}
+    <div class="mr-2 mb-2" style="display: inline-block;">
+      {% include "./product_box/simple_product_box.html" with product=product %}
+    </div>
   {% endfor %}
   <!-- Incluimos el paginador -->
   {% include "pagination.html" %}
@@ -29,4 +31,7 @@
     </div>
   {% endif%}
 </div>
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript" src="{% static 'js/home.js' %}"></script>
 {% endblock %}

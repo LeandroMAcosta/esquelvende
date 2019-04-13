@@ -9,7 +9,9 @@
     </button>
     <div class="scroll-photos">
       {% for product in list_product %}
-        {% include "./product_box/simple_product_box.html" with product=product %}
+          <div class="mr-3">
+            {% include "./product_box/simple_product_box.html" with product=product %}
+          </div>
       {% endfor %}
     </div>
     <button class="next-button round shadow-lg disabled">
