@@ -125,7 +125,7 @@ class Favorite(models.Model):
 
 
 class History(models.Model):
-    MAX_HISTORY = 10
+    MAX_HISTORY = 10  # Numero max. de historial por usuario.
 
     user = models.ForeignKey(User)
     product = models.ForeignKey(Product)

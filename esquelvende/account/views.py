@@ -51,16 +51,19 @@ def edit_user(request):
         return render(request, 'edit_user.html', context)
 
 
-@login_required(login_url='/login/')
-def history(request):
-    products_his = History.filter_products(request.user)
-    return render(request, 'list_history.html', {'history': products_his})
+class HistoryList(LoginRequiredMixin, ListView):
+    model = History
+    template_name = 'list_history.html'
+    paginate_by = 30
+
+    def get_queryset(self):
+        return History.filter_products(self.request.user)
 
 
 class Favorites(LoginRequiredMixin, ListView):
     model = Favorite
     template_name = 'list_favorites.html'
-    paginate_by = 2
+    paginate_by = 30
 
     def get_queryset(self):
         return Favorite.filter_products(self.request.user)
