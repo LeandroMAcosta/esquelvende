@@ -81,6 +81,9 @@ div.scroll-photos {
 .section {
   padding-top: 30px;
 }
+.section:first-child {
+  padding-top: 0px;
+}
 .none:hover {
   text-decoration: none;
 }

@@ -54,11 +54,6 @@ option {
     border: none;
   }
 }
-.sheet {
-  background: #fff;
-  margin-top: 25px;
-  padding: 25px;
-}
 .botton-publish {
   border: 0px;
   color:#fff;
