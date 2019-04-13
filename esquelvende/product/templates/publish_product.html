@@ -19,7 +19,7 @@
           <small id="titleHelp" class="form-text text-muted">
            Usa palabras claves para que lo encuentren facilmente.
           </small>
-          {{ form.title|add_attributes:"class:form-control, id:check, data-maxlength:30" }}
+          {{ form.title|add_attributes:"class:form-control form-control-size, id:check, data-maxlength:30" }}
           <small class="form-text text-muted" id="counter">Restan 30 caracteres.</small>
         </div>
       </div>
@@ -61,7 +61,7 @@
           Cuanta más información,
           ¡Mejor!
           </label>
-          {{ form.description|add_attributes:"class:form-control, rows:5" }}
+          {{ form.description|add_attributes:"class:form-control form-control-size, rows:5" }}
         </div>
       </div>
     </div>
@@ -70,7 +70,7 @@
         {{ form.price.errors }}
         <label for="price">Precio</label>
         <div class="form-group">
-          {{ form.price|add_attributes:"class:form-control" }}
+          {{ form.price|add_attributes:"class:form-control form-control-size" }}
         </div>
       </div>
       <div class="col-12 col-lg-5">
@@ -99,19 +99,19 @@
           <div class="form-group row">
             <label for="contact_email" class="col-2 col-lg-1 col-form-label label-contact">Email:</label>
             <div class="col-12 col-lg-3 ">
-              {{ form.contact_email|add_attributes:"class:form-control" }}
+              {{ form.contact_email|add_attributes:"class:form-control form-control-size" }}
             </div>
           </div>
           <div class="form-group row">
             <label class="col-2 col-lg-1 col-form-label label-contact">Whatsapp:</label>
             <div class="col-12 col-lg-3 ">
-              {{ form.whatsapp|add_attributes:"class:form-control, title:Se creara un enlace que permetira al comprador comenzar un chat contigo sin necesidad de tener tu numero agendado." }}
+              {{ form.whatsapp|add_attributes:"class:form-control form-control-size, title:Se creara un enlace que permetira al comprador comenzar un chat contigo sin necesidad de tener tu numero agendado." }}
             </div>
           </div>
           <div class="form-group mb-0 row">
             <label class="col-2 col-lg-1 col-form-label label-contact">Telefono:</label>
             <div class="col-12 col-lg-3 ">
-              {{ form.contact_phone|add_attributes:"class:form-control" }}
+              {{ form.contact_phone|add_attributes:"class:form-control form-control-size" }}
             </div>
           </div>
         </div>

@@ -9,7 +9,7 @@
   background-color: #f5f5f5;
 }
 /* form-control es del input de django */
-.form-control {
+.form-control-size {
   font-size: 13px;
 }
 .select-category {
