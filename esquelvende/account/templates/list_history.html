@@ -14,11 +14,13 @@
     <h5 class="title pr-3">Tu Historial</h5>
     <a href="#" class="none">Eliminar historial</a>
   </div>
-  {% for product in object_list %}
-    <div class="mr-2 mb-2" style="display: inline-block;">
-      {% include "./product_box/simple_product_box.html" with product=product %}
-    </div>
-  {% endfor %}
+  <div class="row">
+    {% for product in object_list %}
+      <div class="col-xl-2 col-md-3 col-sm-4 col-6 mb-2">
+        {% include "./product_box/simple_product_box.html" with product=product %}        
+      </div>
+    {% endfor %}
+  </div>
   <!-- Incluimos el paginador -->
   {% include "pagination.html" %}
   {% else %}
