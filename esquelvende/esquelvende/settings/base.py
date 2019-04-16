@@ -87,23 +87,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'esquelvende.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'esquelvende',
-        'USER': 'admin',
-        'PASSWORD': '1234',
-        'HOST': '127.0.0.1',
-        'PORT': '',
-        'CHARSET': 'UTF8',
-    }
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
