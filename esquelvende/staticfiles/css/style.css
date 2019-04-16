@@ -1,0 +1,211 @@
+/* ######################################################################## */
+/*                            Estilos Generales                             */
+/* ######################################################################## */
+html, body {
+  height: 100%;
+}
+
+body {
+  background: #ebebeb;
+  font-family: Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+.ev-orange {
+  background-color: #ed7710!important;
+}
+.ev-white {
+  background-color: #ebebeb!important;
+}
+/* Para el footer */
+.content {
+  flex: 1 0 auto;
+  margin-top: 40px;
+}
+.sheet {
+  background: #fff;
+  padding: 25px;
+}
+
+/* ######################################################################## */
+/*                                  Header                                  */
+/* ######################################################################## */
+
+header {
+  background: #ED7710;
+}
+header nav a {
+  color: #fff !important;
+  font-size: 15px !important
+}
+
+input[type="search"] {
+  border-radius: 1px 0px 0px 1px !important;
+  color: #666 !important;
+  border: 0px;
+}
+form button {
+  border-radius: 0px 1px 1px 0px !important;
+  background: #fff;
+  color: #999; /* Esto cuando se ponga el icono del buscar se elimina */
+}
+button.separator::after {
+  border-left: 1px solid #999; 
+}
+.menu-categories {
+  display: none;
+}
+.dropdown-menu {
+  background: #EBEBEB;
+  border: 0;
+  border-radius: 0px 1px 1px 0px !important;
+  width: 225px !important;
+}
+.dropdown-item {
+  color: #666 !important;
+  padding-top: 4%; 
+  padding-bottom: 4%;
+}
+div.dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 37.2%;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent; 
+  border-bottom: 10px solid #EBEBEB;
+}
+@media only screen and (max-width : 992px) {
+  /* all: unset: 
+    Cambia las prop. aplicables al elemento, o a su elemento padre,
+    a los valores de los elementos padres, si son heredadas,
+    o a sus valores iniciales en caso contrario.
+  */
+  a.separator::after {
+    all: unset;
+  }
+  .separator-collapse {
+        height: 1px;
+        margin: 9px 0;
+        overflow: hidden;
+        background-color: #e5e5e5;
+  }
+  .container {
+    max-width: 100%;
+  }
+  .dropdown {
+    display: none;
+  }
+  .menu-categories {
+    display: block;
+  }
+}
+
+/* Estilos para el placeholder. */
+.form-control::-moz-placeholder{
+  color: #999;
+  opacity: 1;
+}
+.form-control:-ms-input-placeholder{
+  color: #999;
+}
+.form-control::-webkit-input-placeholder{
+  color: #999;
+}
+
+/* Utilidad */
+.separator {
+  position: relative
+}
+.separator::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  height: 50%;
+  top: 25%;
+  border-left: 1px solid #fff;
+}
+
+/* Estilos de bootstrap modificados. */
+.navbar {
+  display: block;
+}
+textarea,
+input,
+button,
+button:active,
+button:focus,
+button:hover,
+.btn,
+.btn:active, 
+.btn:focus,
+.btn:hover {   
+    /* Quita la marca al clickear */
+    outline: none !important;
+    box-shadow: none !important;
+}
+.custom-toggler .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8, %3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+.custom-toggler.navbar-toggler {
+  border-color: rgb(255,255,255);
+}
+.dropdown-item:focus,
+.dropdown-item:hover,
+.dropdown-item:active {
+  background: inherit;
+  color: #333 !important;
+}
+
+/* ######################################################################## */
+/*                                  Footer                                 */
+/* ######################################################################## */
+.page-footer {
+  background-color: #232F3E;
+  flex-shrink: 0;
+  margin-top: 40px;
+}
+.footer-content {
+  padding: 25px 0px;
+}
+.footer-copyright {
+  background-color: #131A22;
+  font-size: 12px;
+  color: #999;
+}
+.footer-social {
+  border-top: #37485b 1px solid; 
+  font-size: 150%;
+}
+.footer-social a {
+  color: whitesmoke!important;
+}
+.subtext {
+  font-family: 'Open Sans';
+  color: inherit;
+}
+.subtext:hover {
+  color: inherit;
+}
+.subtext > h6 {
+  font-size: 14px;
+}
+
+/* ######################################################################## */
+/*                            SemiMaterial Design                           */
+/* ######################################################################## */
+
+.card {
+  border-radius: 2px;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.input-cstm {
+  border: none;
+  transition: box-shadow 300ms;
+  box-shadow: 1px 2px 7px rgba(0,0,0,0.25), 0px 2px 10px rgba(0,0,0,0.22) !important; 
+}
+
+.input-cstm:focus {
+  box-shadow: 3px 5px 10px rgba(0,0,0,0.25), 0px 2px 10px rgba(0,0,0,0.22) !important; 
+}
