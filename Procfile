@@ -1,1 +1,1 @@
-web: gunicorn esquelvende.wsgi --log-file -
+web: cd esquelvende && gunicorn esquelvende.wsgi --log-file -
