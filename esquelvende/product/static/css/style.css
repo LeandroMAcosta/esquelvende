@@ -182,13 +182,14 @@ button:hover,
 }
 .subtext {
   font-family: 'Open Sans';
-  color: inherit;
+  font-size: 14px;
 }
 .subtext:hover {
   color: inherit;
 }
-.subtext > h6 {
-  font-size: 14px;
+
+.inherit-color {
+  color: inherit
 }
 
 /* ######################################################################## */
