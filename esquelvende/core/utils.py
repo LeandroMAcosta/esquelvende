@@ -10,7 +10,7 @@ def my_login(request, user_name, key):
     access = authenticate(username=user_name, password=key)
     if access is not None:
         login(request, access)
-        url = request.GET.get('next') or reverse('inicio')
+        url = request.GET.get('next') or reverse('home')
         return HttpResponseRedirect(url)
     else:
         return HttpResponse("Error al registrarse")
