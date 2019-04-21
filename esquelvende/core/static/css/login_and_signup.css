@@ -132,3 +132,8 @@ button.btn-google:hover {
   border-radius: .25rem;
   color: #fff;
 }
+
+.alert-error {
+  color:#d93025;
+  font-size: 12px;
+}

@@ -8,15 +8,13 @@ from account.models import Account
 
 
 class FormRegister(forms.ModelForm):
-    password2 = forms.CharField(widget=forms.PasswordInput(
-        attrs={'class': 'form-control',
-               'placeholder': u'Confirmar contraseña'}),
-    )
+    password2 = forms.CharField(widget=forms.PasswordInput())
 
     def __init__(self, *args, **kwargs):
         super(FormRegister, self).__init__(*args, **kwargs)
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True
+        self.fields['password'].widget = forms.PasswordInput()
 
     class Meta:
         model = User
