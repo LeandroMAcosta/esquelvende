@@ -34,7 +34,7 @@ def signup_user(request):
     else:
         form = FormRegister()
     context = {'form': form}
-    return render(request, 'create_user.html', context)
+    return render(request, 'login_and_signup/signup.html', context)
 
 
 def login_user(request):
@@ -55,7 +55,7 @@ def login_user(request):
         return redirect('/')
     else:
         form = FormLogin()
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'login_and_signup/login.html', {'form': form})
 
 
 def logout_user(request):

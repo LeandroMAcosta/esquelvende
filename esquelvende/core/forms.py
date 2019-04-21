@@ -17,21 +17,6 @@ class FormRegister(forms.ModelForm):
         super(FormRegister, self).__init__(*args, **kwargs)
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True
-        self.fields['password'].widget = forms.PasswordInput(
-            attrs={'class': 'form-control', 'placeholder': u'Contraseña'}
-        )
-        self.fields['username'].widget = forms.TextInput(
-            attrs={'class': 'form-control', 'placeholder': 'Nombre de usuario'}
-        )
-        self.fields['first_name'].widget = forms.TextInput(
-            attrs={'class': 'form-control', 'placeholder': 'Nombre'}
-        )
-        self.fields['last_name'].widget = forms.TextInput(
-            attrs={'class': 'form-control', 'placeholder': 'Apellido'}
-        )
-        self.fields['email'].widget = forms.TextInput(
-            attrs={'class': 'form-control', 'placeholder': 'Email'}
-        )
 
     class Meta:
         model = User
@@ -77,16 +62,6 @@ class FormRegister(forms.ModelForm):
 
 class FormLogin(AuthenticationForm):
 
-    def __init__(self, *args, **kwargs):
-        super(FormLogin, self).__init__(*args, **kwargs)
-        self.fields['username'].widget = forms.TextInput(
-            attrs={'class': 'form-control input-cstm',
-                   'placeholder': 'Nombre de usuario'}
-        )
-        self.fields['username'].label = ""
-
-        self.fields['password'].widget = forms.PasswordInput(
-            attrs={'class': 'form-control input-cstm',
-                   'placeholder': u'Contraseña'}
-        )
-        self.fields['password'].label = "¿Olvidó su contraseña?"
+    class Meta:
+        model = User
+        fields = ('username', 'password')

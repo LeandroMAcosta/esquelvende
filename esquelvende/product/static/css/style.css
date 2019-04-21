@@ -8,8 +8,6 @@ html, body {
 body {
   background: #ebebeb;
   font-family: Helvetica, Arial, sans-serif;
-  display: flex;
-  flex-direction: column;
 }
 .ev-orange {
   background-color: #ed7710!important;
