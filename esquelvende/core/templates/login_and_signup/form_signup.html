@@ -11,7 +11,7 @@
         {% endfor %}
       {% endif %}
       <div class="form-group">
-        {{ form.first_name|add_attributes:"class:form-control form-control-size, placeholder:Nombre" }}
+        {{ form.first_name|add_attributes:"class:form-control form-control-size, placeholder:Nombre, autocomplete:off" }}
       </div>
     </div>
     <div class="col">
@@ -21,7 +21,7 @@
         {% endfor %}
       {% endif %}
       <div class="form-group">
-        {{ form.last_name|add_attributes:"class:form-control form-control-size, placeholder:Apellido" }}
+        {{ form.last_name|add_attributes:"class:form-control form-control-size, placeholder:Apellido, autocomplete:off" }}
       </div>
     </div>
   </div>
@@ -32,7 +32,7 @@
     {% endfor %}
   {% endif %}
   <div class="form-group">
-    {{ form.username|add_attributes:"class:form-control form-control-size, placeholder:Nombre de usuario" }}
+    {{ form.username|add_attributes:"class:form-control form-control-size, placeholder:Nombre de usuario, autocomplete:off" }}
   </div>
   <!-- Email -->
   {% if form.email.errors %}
@@ -41,7 +41,7 @@
     {% endfor %}
   {% endif %}
   <div class="form-group">
-    {{ form.email|add_attributes:"class:form-control form-control-size, placeholder:Correo electrónico" }}
+    {{ form.email|add_attributes:"class:form-control form-control-size, placeholder:Correo electrónico, autocomplete:off" }}
   </div>
   <!-- Passsword -->
   {% if form.password.errors %}
@@ -50,7 +50,7 @@
     {% endfor %}
   {% endif %}
   <div class="form-group">
-    {{ form.password|add_attributes:"class:form-control form-control-size, placeholder:Contraseña" }}
+    {{ form.password|add_attributes:"class:form-control form-control-size, placeholder:Contraseña, autocomplete:off" }}
   </div>
   <!-- Password2 -->
   {% if form.password2.errors %}

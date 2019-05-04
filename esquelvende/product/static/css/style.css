@@ -6,6 +6,8 @@ html, body {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
   background: #ebebeb;
   font-family: Helvetica, Arial, sans-serif;
 }
