@@ -59,18 +59,23 @@ def view_product(request, product_id):
 def delete_product(request, product_id):
     product = get_object_or_404(Product, pk=product_id, user=request.user)
     if request.POST:
-        product.delete_product()
-
-        # Llama a la view user_products que devuelve los productos del usuario.
-        return user_products(request, './user_products/ajax_products.html')
+        try:
+            product.delete_product()
+        except Exception as e:
+            # Aca habria que devolver algun error http.
+            pass
+        return JsonResponse({'id_product': product.id})
 
 
 @login_required(login_url='/login/')
 def republish_product(request, product_id):
     product = get_object_or_404(Product, pk=product_id, user=request.user)
     if request.POST:
-        product.republish()
-
+        try:
+            product.republish()
+        except Exception as e:
+            # Aca habria que devolver algun error http.
+            pass
         # Llama a la view user_products que devuelve los productos del usuario.
         return user_products(request, './user_products/ajax_products.html')
 

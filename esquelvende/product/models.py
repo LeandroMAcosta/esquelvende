@@ -74,7 +74,11 @@ class Product(models.Model, HitCountMixin):
         return self.title
 
     def is_expired(self):
-        return timezone.now() > (self.updated_at + timedelta(days=30))
+        expired = timezone.now() > (self.updated_at + timedelta(days=30))
+        if expired:
+            self.active = False
+            self.save()
+        return expired
 
     def delete_product(self):
         """
@@ -116,7 +120,7 @@ class Favorite(models.Model):
         products = [
             f.product
             for f in favorites
-            if not f.product.is_expired() and f.product.active
+            if not f.product.is_expired() and not f.product.delete
         ]
         return products
 
@@ -148,7 +152,7 @@ class History(models.Model):
         products = [
             h.product
             for h in history
-            if not h.product.is_expired() and h.product.active
+            if not h.product.is_expired() and not h.product.delete
         ]
         return products
 

@@ -1,18 +1,33 @@
-<p>habilitados</p>
-<div>
-    {% for product in products %}
-        {% if not product.is_expired %}
-            <div>{{ product.title }}</div>
-            {% include "../delete_product.html" %}
-        {% endif %}
-    {% endfor %}
-</div>
-<p>no habilitados</p>
-<div>
-    {% for product in products %}
-        {% if product.is_expired %}
-            <div>{{ product.title }}</div>
-            {% include "../delete_product.html" %}
-        {% endif %}
-    {% endfor %}
+<div class="product-list p-2">
+    <div class="d-flex justify-content-between align-items-center">
+        <h5 class="caption pr-3">Ventas activas</h5>
+        <button type="button" class="sales-btn" onclick="changeStatus()">Ocultar</button>
+    </div>
+    <div class="actives">
+        <div class="row">
+            {% for product in products %}
+                {% if product.active %}
+                    <div id={{product.pk}} class="col-12 col-lg-6 p-1">
+                        {% include "../product_box/stretched_box_product.html" with active=1 %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center">
+        <h5 class="caption pr-3">Ventas inactivas
+        </h5>
+        <button type="button" class="sales-btn" onclick="changeStatus()">Mostrar</button>
+    </div>
+    <div class="non-active hidden">
+        <div class="row">
+            {% for product in products %}
+                {% if not product.active %}
+                    <div id={{product.pk}} class="col-12 col-lg-6 p-1">
+                        {% include "../product_box/stretched_box_product.html" with active=0 %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
 </div>

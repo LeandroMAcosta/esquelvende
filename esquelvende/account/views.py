@@ -71,10 +71,17 @@ class Favorites(LoginRequiredMixin, ListView):
 
 @login_required(login_url='/login/')
 def user_products(request, template=None):
-    products = Product.objects.filter(
-        user=request.user,
-        delete=False
-    )
+    """
+    No filtramos productos por active=True porque ademas queremos
+    los que no estan activos.
+    Tambien, vemos si alguno supero el limite de publicacion y lo actulizamos.
+    """
+    products = [
+        product
+        for product in Product.objects.filter(user=request.user, delete=False)
+        if product.is_expired() or not product.is_expired()  # Skip (update products)
+    ]
+
     context = {'products': products}
     template = template or './user_products/list_of_products.html'
 

@@ -1,5 +1,9 @@
 <form method="POST">
     {% csrf_token %}
-    <button type="submit" onclick="deleteProduct(event, {{ product.id }})">
-    Eliminar</button>
-</form> 
+    <button type="submit"
+            class="m-1" 
+            style="border: 0; cursor: pointer;"
+            onclick="deleteProduct()"
+            value="{{ product.id }}"><i class="far fa-trash-alt"></i> Eliminar
+    </button>
+</form>
