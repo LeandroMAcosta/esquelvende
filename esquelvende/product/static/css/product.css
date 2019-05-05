@@ -23,7 +23,7 @@
 }
 
 #carousel-indicator {
-  margin-bottom: 70px;
+  /* margin-bottom: 70px; */
 }
 
 .product .carousel-indicators {
@@ -31,12 +31,12 @@
   /* position: initial!important; */
   margin: 0px;
   justify-content: left;
-  bottom: -70px;
+  bottom: -80px;
 }
 .product .carousel-item {
   width: auto;
-  height: 300px;
-  max-height: 300px;
+  height: 350px;
+  max-height: 350px;
 }
 
 .carousel-item {
@@ -49,7 +49,8 @@
  top: 50%;
  transform: translate(-50%, -50%) */
  object-position: center;
- object-fit: cover;
+ object-fit: contain;
+ height: 100%;
   
 }
 .product .indicator {
@@ -65,7 +66,7 @@
 
 /* Description */
 
-.product .description {
+.product .data {
   padding: 30px;
   background-color:#efefef;
 }
@@ -92,7 +93,7 @@
   color:#1EAE54;
 }
 
-.product .description {
+.product .data {
   font-size: 150%;
 }
 /*  */
@@ -105,6 +106,80 @@
  
 }
 
+.product .button-favorite {
+  display: contents;
+}
+
+.product .button-favorite:hover {
+  cursor: pointer;
+}
+
+.product .container-product-image .carousel {
+  border: solid 2px #efefef;
+}
+
+.product .data {
+  height: 100%;
+}
+
+.product .container-description {
+  margin-top: 100px;
+  text-transform: capitalize;
+}
+.product .esquelvende-text {
+  padding: 10px 0px;
+  font-size: 14px;
+  color: #666;
+}
+
+@media only screen and (max-width : 992px) {
+  .container-product-image .carousel-indicators {
+    display: none;
+  }
+  .product .carousel {
+    margin-bottom: 25px;
+  }
+  .product .container-description {
+    margin-top: 20px;
+  }
+  .product .container {
+    padding: 0px!important;
+  }
+  .product {
+    font-size: 80%;
+  }
+  .product .data {
+    height: auto;
+  }
+  .product .product-card {
+    padding: 0px;
+  }
+  .product .container-description{
+    padding: 10px 10px;
+  }
+  .product .esquelvende-text {
+    font-size: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+  .product .row {
+    margin: 0px;
+  }
+  .product .container-product-image, .product .container-data {
+    padding: 0px;
+  }
+
+  .product .container-product-image .carousel {
+    border: 0;
+  }
+  
+  .product .product-title {
+    text-align: center;
+    padding-top: 20px;
+    margin-bottom: 10px;
+  }
+
+}
 
 /* ######################################################################## */
 /*                                  Publish                                 */

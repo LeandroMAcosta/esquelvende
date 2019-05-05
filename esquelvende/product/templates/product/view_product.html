@@ -6,13 +6,14 @@
 
 {% block content %}
 
-    <div class="product">
+<div class="product">
     <div class="container">
         <div class="card product-card">
             <div class="row">
                 <div class="col-12 col-lg-6 product-title">                
-                    <div class="h1">{{ product.title }}</div>
-                    
+                    <h1>
+                        {{ product.title }}
+                    </h1>
                 </div>
                 
                 <div class="col-12 col-lg-6 flex-seller">
@@ -29,42 +30,44 @@
                 
             </div>
             
-            <div class="row">
-                <div class="col-12 col-lg-6">
+            <div class="row row-eq-height">
+                <div class="col-12 col-lg-6 container-product-image">
 
+                    <div id="carousel-indicator" class="carousel" data-ride="carousel">
 
-                <div id="carousel-indicator" class="carousel" data-ride="carousel">
+                        <div class="carousel-inner">
+                            
+                            {% for image in images %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                    <img class="d-block w-100" src="/media/{{ image.image }}">
+                                </div>
+                            {% endfor %}
 
-                    <div class="carousel-inner">
+                        </div>
                         
-                        {% for image in images %}
-                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                <img class="d-block w-100" src="/media/{{ image.image }}">
-                            </div>
-                        {% endfor %}
-
+                        <a class="carousel-control-prev" href="#carousel-indicator" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        
+                        <a class="carousel-control-next" href="#carousel-indicator" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                        <ol class="carousel-indicators">
+                            {% for image in images %}
+                                <img src="/media/{{ image.image }}"  data-target="#carousel-indicator" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %} indicator" height="45" width="45">
+                            {% endfor %}
+                        </ol>
                     </div>
                     
-                    <a class="carousel-control-prev" href="#carousel-indicator" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
+
+
+                </div>
+                <div class="col-12 col-lg-6 container-data">
+                    <div class="data">
                     
-                    <a class="carousel-control-next" href="#carousel-indicator" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                    <ol class="carousel-indicators">
-                        {% for image in images %}
-                            <img src="/media/{{ image.image }}"  data-target="#carousel-indicator" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %} indicator" height="45" width="45">
-                        {% endfor %}
-                    </ol>
-                </div>
-                
-
-
-                </div>
-                <div class="col-12 col-lg-6 description">
+                    
                     <div class="title text-center h2">Contacto</div>
                     <div class="price h2">${{ product.price }}</div>
 
@@ -86,10 +89,26 @@
 
                     
                     {% include "./favorite_product.html" %}
-
-
+                    
+                    </div>
+                    <div class="esquelvende-text">
+                        Esquel vende no participa en la venta o negociacion de este articulo. Solo se limita a la publicacion de anuncios de sus usuarios.
+                    </div>
+    
                 </div>
             </div>
+            <div class="row container-description">
+                <div class="col-12">
+                    <h2>Descrpici&oacute;n</h2>
+                    <p>
+                        {{ product.description }}
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores iusto aut a nostrum voluptatem. Necessitatibus itaque aliquid fugiat, molestiae unde quia, dolorum dolores, cumque praesentium voluptas magnam nostrum inventore quae.
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores iusto aut a nostrum voluptatem. Necessitatibus itaque aliquid fugiat, molestiae unde quia, dolorum dolores, cumque praesentium voluptas magnam nostrum inventore quae.
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores iusto aut a nostrum voluptatem. Necessitatibus itaque aliquid fugiat, molestiae unde quia, dolorum dolores, cumque praesentium voluptas magnam nostrum inventore quae.
+                    </p>
+                </div>
+            </div>
+        </div>
 
             <!-- <div>
                 {% load hitcount_tags %}
@@ -102,11 +121,12 @@
             <a href="/reportar/{{ product.id }}"> Denunciar </a>
             {% include "./favorite_product.html" %}
              -->
-        </div>
+
+        </div>  <!-- Container-->
     
     
-    </div>
-    </div>
+</div>  <!-- Product -->
+
 
 
 {% endblock%}

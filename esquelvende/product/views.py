@@ -28,6 +28,7 @@ def search(request):
         context = {'categories': categories, 'products': products}
         return render(request, 'search.html', context)
     except Exception as e:
+        print(e)
         return redirect('/')
 
 
@@ -45,6 +46,7 @@ def view_product(request, product_id):
             # Para que un usuario no tenga sus productos en su historial.
             obj = Product.objects.get(user=request.user, pk=product_id)
         except Exception as e:
+            print(e)
             History.add_to_history(request.user, product)
 
     images = product.imagesproduct_set.all()
@@ -78,7 +80,7 @@ def republish_product(request, product_id):
 def create_favorite(request, product_id):
     if not request.user.is_authenticated:
         data = {'url': '/login/?next=/product/%s/favorite/' % product_id}
-        return JsonResponse(data, status=401)  # status: Requiere auth de user. 
+        return JsonResponse(data, status=401)  # status: Requiere auth de user.
 
     if request.POST:
         product = get_object_or_404(Product, pk=product_id)
@@ -87,10 +89,12 @@ def create_favorite(request, product_id):
                 product=product_id,
                 user=request.user
             )
+
             if favorite:
                 favorite.delete()
-            return HttpResponse(status=204)  # status: Recurso Elim. con exito. 
+            return HttpResponse(status=204)  # status: Recurso Elim. con exito.
         except Exception as e:
+            print(e)
             favorite = Favorite.objects.create(
                 product=product,
                 user=request.user
@@ -115,7 +119,7 @@ def publish_product(request):
                 if count < 6:
                     second_form.save(product, file)
 
-            return JsonResponse ({'id_product': product.id})
+            return JsonResponse({'id_product': product.id})
         else:
             data = {'err_code': 'invalid_form', 'err_msg': form.errors, }
             return JsonResponse(data)
