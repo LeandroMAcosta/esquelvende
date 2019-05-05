@@ -107,8 +107,8 @@ class ImagesProduct(models.Model):
 
 
 class Favorite(models.Model):
-    user = models.ForeignKey(User)
-    product = models.ForeignKey(Product)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    product = models.OneToOneField(Product, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.product.title

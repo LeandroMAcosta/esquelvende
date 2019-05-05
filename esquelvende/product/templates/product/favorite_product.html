@@ -2,7 +2,7 @@
     {% csrf_token %}
     <input type="hidden" id="id" name="id" value="{{ product.id }}">
     
-    <button class="button-favorite">
+    <button class="button-favorite" {% if favorite %}style='color: red'{% endif%}>
         <i class="fas fa-heart fa-lg"></i>
     </button>      
 

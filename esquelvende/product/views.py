@@ -52,8 +52,17 @@ def view_product(request, product_id):
     images = product.imagesproduct_set.all()
     hit_count = HitCount.objects.get_for_object(product)
     hit_count_response = HitCountMixin.hit_count(request, hit_count)
-
+    
     context = {'product': product, 'images': images}
+    try:
+        favorite = Favorite.objects.get(
+            product=product_id,
+            user=request.user
+        )
+        context['favorite'] = True
+    except Exception:
+        context['favorite'] = False
+
     return render(request, './product/view_product.html', context)
 
 
@@ -79,8 +88,8 @@ def republish_product(request, product_id):
 
 def create_favorite(request, product_id):
     if not request.user.is_authenticated:
-        data = {'url': '/login/?next=/product/%s/favorite/' % product_id}
-        return JsonResponse(data, status=401)  # status: Requiere auth de user.
+        data = {'url': '/login/?next=/product/%s/' % product_id}
+        return JsonResponse(data, status=200)  # status: Requiere auth de user.
 
     if request.POST:
         product = get_object_or_404(Product, pk=product_id)
@@ -94,13 +103,13 @@ def create_favorite(request, product_id):
                 favorite.delete()
             return HttpResponse(status=204)  # status: Recurso Elim. con exito.
         except Exception as e:
-            print(e)
+            # print(e)
             favorite = Favorite.objects.create(
                 product=product,
                 user=request.user
             )
             return HttpResponse(status=201)  # status: objecto creado.
-
+    return HttpResponse(status=400)
 
 @login_required(login_url='/login/')
 def publish_product(request):

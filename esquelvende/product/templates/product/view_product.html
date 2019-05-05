@@ -9,14 +9,12 @@
 <div class="product">
     <div class="container">
         <div class="card product-card">
-            <div class="row">
-                <div class="col-12 col-lg-6 product-title">                
-                    <h1>
-                        {{ product.title }}
-                    </h1>
+            <div class="product-header d-flex">
+                <div class="product-title">                
+                    <div class="h1">{{ product.title }}</div>
                 </div>
                 
-                <div class="col-12 col-lg-6 flex-seller">
+                <div class="flex-seller user-picture-container">
                     
                     <div class="user-picture">
                         <img src="/media/{{ product.user.account.avatar }}" class="rounded-circle img-responsive" alt="picture">
@@ -66,30 +64,48 @@
                 </div>
                 <div class="col-12 col-lg-6 container-data">
                     <div class="data">
-                    
-                    
-                    <div class="title text-center h2">Contacto</div>
-                    <div class="price h2">${{ product.price }}</div>
+                        
+                        <!-- <div class="data-item">
+                            <div class="title text-center h2">
+                                Contacto
+                            </div>
+                        </div> -->
+                        
+                        <div class="data-item d-flex justify-content-between">
+                            <div class="price h1">
+                                ${{ product.price }}222222222
+                            </div>
+                            <div>
+                                {% include "./favorite_product.html" %}
+                            </div>
+                        </div>
+                        
+                        {% if product.whatsapp %}
+                        <div class="data-item">
+                            <a href="https://wa.me/{{ product.whatsapp }}?text=Hola.%20Estoy%20interesado%20por%20el%20producto%20que%20mire%20por%20Esquel%20Vende:www.esquelvende.com{{ request.get_full_path }}" class="whatsapp-link disabled"> 
+                                <button type="button" class="btn btn-success">
+                                    <i class="fab fa-whatsapp whatsapp"></i> Whatsapp
+                                </button>
+                            </a>
+                        </div>
+                        {% endif %}
+                        
+                        {% if product.contact_email %}
+                        <div class="data-item">
+                            {{ product.contact_email }}
+                        </div>
+                        {% endif %}
 
-                    {% if product.whatsapp %}
-                    <a href="https://wa.me/{{ product.whatsapp }}?text=Hola.%20Estoy%20interesado%20por%20el%20producto%20que%20mire%20por%20Esquel%20Vende:www.esquelvende.com{{ request.get_full_path }}" class="whatsapp-link disabled"> 
-                        <button type="button" class="btn btn-success">
-                            <i class="fab fa-whatsapp whatsapp"></i> Whatsapp
-                        </button>
-                    </a>
-                    {% endif %}
-                    
-                    {% if product.contact_email %}
-                        {{ product.contact_email }}
-                    {% endif %}
+                        {% if product.contact_phone %}
+                        <div class="data-item">                            
+                            {{ product.contact_phone }}
+                        </div>
+                        {% endif %}
 
-                    {% if product.contact_phone %}
-                        {{ product.contact_phone }}
-                    {% endif %}
-
-                    
-                    {% include "./favorite_product.html" %}
-                    
+                        <!-- <div class="data-item">                        
+                        {% include "./favorite_product.html" %}
+                        </div> -->
+                        
                     </div>
                     <div class="esquelvende-text">
                         Esquel vende no participa en la venta o negociacion de este articulo. Solo se limita a la publicacion de anuncios de sus usuarios.
@@ -102,9 +118,6 @@
                     <h2>Descrpici&oacute;n</h2>
                     <p>
                         {{ product.description }}
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores iusto aut a nostrum voluptatem. Necessitatibus itaque aliquid fugiat, molestiae unde quia, dolorum dolores, cumque praesentium voluptas magnam nostrum inventore quae.
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores iusto aut a nostrum voluptatem. Necessitatibus itaque aliquid fugiat, molestiae unde quia, dolorum dolores, cumque praesentium voluptas magnam nostrum inventore quae.
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores iusto aut a nostrum voluptatem. Necessitatibus itaque aliquid fugiat, molestiae unde quia, dolorum dolores, cumque praesentium voluptas magnam nostrum inventore quae.
                     </p>
                 </div>
             </div>
