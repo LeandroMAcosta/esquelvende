@@ -6,8 +6,8 @@ from django.urls import reverse
 from account.models import Account
 
 
-def my_login(request, user_name, key):
-    access = authenticate(username=user_name, password=key)
+def my_login(request, username, password):
+    access = authenticate(username=username, password=password)
     if access is not None:
         login(request, access)
         url = request.GET.get('next') or reverse('home')
