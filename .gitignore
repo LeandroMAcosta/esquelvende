@@ -19,7 +19,7 @@ db.sqlite3
 .env
 
 # Media files
-media/*
+media/
 
 # IDE files
 .vscode/
