@@ -15,6 +15,7 @@
 .item-title {
     color: #666;
     font-size: 13px;
+    min-width: 100px;
     overflow: hidden;
     text-overflow: ellipsis;
 }

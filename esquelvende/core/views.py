@@ -38,21 +38,24 @@ def signup_user(request):
 
 
 def login_user(request):
+    if request.user.is_authenticated():
+        return redirect('/')
+
     if request.POST:
-        form = FormLogin(request.POST)
-        if form.is_valid:
-            username = request.POST['username']
-            key = request.POST['password']
-            access = authenticate(username=username, password=key)
+        form = FormLogin(data=request.POST)
+        if form.is_valid():
+            # Limpiamos los datos.
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            access = authenticate(username=username, password=password)
             if access is not None:
                 login(request, access)
-                url = request.GET.get('next', '/')
-                return redirect(url)
+                return redirect(request.GET.get('next', '/'))
             else:
-                messages.error(request, 'Usuario o contraseñas no validos')
-
-    elif request.user.is_authenticated():
-        return redirect('/')
+                messages.error(
+                    request,
+                    'Usuario o contraseña mal ingresado.'
+                )
     else:
         form = FormLogin()
     return render(request, 'login_and_signup/login.html', {'form': form})

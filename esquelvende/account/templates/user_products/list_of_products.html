@@ -1,36 +1,20 @@
 {% extends "base.html" %}
-{% block css %}{% endblock%}
+{% load staticfiles %}
+
+{% block title %}Ventas - Esquel Vende{% endblock %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/stretched_box_product.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/empty_product_query.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/ajax_products.css' %}" />
+{% endblock%}
 
 {% block content %}
-    <div class="list-product">
+    <div class="container content">
         {% include "./ajax_products.html" %}
     </div>
 {% endblock %}
-
 {% block javascript %}
-<script>
-// esta funcion creo que es muy parecida al republish. (falta hacer)
-function deleteProduct(event, id){
-    event.preventDefault();
-    
-    var form = event.target.parentElement;
-    var csrf = form.firstElementChild.value
-    
-    $.ajax({
-        url: `/product/${id}/delete/`,
-        type: "POST",
-        data: {
-            'csrfmiddlewaretoken': csrf
-        }
-    })
-    .done(function(data) {
-        $('.list-product').html(data);
-    })
-    .fail(function(xhr) {
-        alert("error")
-    }); 
-
-}
-
-</script>
+<script type="text/javascript" src="/static/js/delete.js"></script>
+<script type="text/javascript" src="/static/js/republish.js"></script>
+<script type="text/javascript" src="/static/js/list_of_products.js"></script>
 {% endblock %}

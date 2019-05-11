@@ -65,7 +65,7 @@
                         <div class="navbar-nav">
                             <span class="separator-collapse"></span>
                             {% if user.is_authenticated %}
-                                <a class="nav-item nav-link" href="/myaccount/">{{ user.username }}</a>
+                                <a class="nav-item nav-link" href="#">{{ user.username }}</a>
                                 <a class="nav-item nav-link separator" href="/logout/">Salir</a> 
                             {% else %}
                                 <a class="nav-item nav-link" href="/signup/">Registrate</a>

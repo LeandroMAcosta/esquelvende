@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block css %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/favorite.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/empty_product_query.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'css/simple_product_box.css' %}" />
 {% endblock%}
 
@@ -23,12 +23,7 @@
   <!-- Incluimos el paginador -->
   {% include "pagination.html" %}
   {% else %}
-  <div style="text-align: center; padding: 70px 0;">
-    <h1 class="title">Aún no tienes favoritos</h1>
-      <span class="subtitle">
-        Aquí se mostraran tus favoritos.¡Empezá a navegar en Esquel Vende!
-      </span>
-    </div>
+  {% include "empty_product_query.html" with title="Aún no tienes favoritos" subtitle="Aquí se mostraran tus favoritos.¡Empezá a navegar en Esquel Vende!" %}
   {% endif %}
 </div>
 {% endblock %}
