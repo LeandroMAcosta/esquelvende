@@ -56,7 +56,7 @@ def view_product(request, product_slug, product_id):
     images = product.imagesproduct_set.all()
     hit_count = HitCount.objects.get_for_object(product)
     hit_count_response = HitCountMixin.hit_count(request, hit_count)
-    
+
     context = {'product': product, 'images': images}
     try:
         favorite = Favorite.objects.get(
@@ -119,6 +119,7 @@ def create_favorite(request, product_id):
             )
             return HttpResponse(status=201)  # status: objecto creado.
     return HttpResponse(status=400)
+
 
 @login_required(login_url='/login/')
 def publish_product(request):
