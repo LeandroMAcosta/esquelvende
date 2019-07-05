@@ -10,10 +10,30 @@
   align-items: center;
   text-transform: capitalize;
   margin-bottom: 40px;
+  width: 75%;
 }
 
+.product .product-title .h1 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product .no-description {
+  font-family: 'Open Sans';
+  text-transform: none;
+  color: gray;
+  margin-top: 30px;
+  margin-bottom: 25px;
+}
 .product-header {
   justify-content: space-between!important;
+}
+
+@media only screen and (max-width : 992px) {
+  .product .product-title .h1 {
+    font-size: 20px;
+  }
 }
 
 /* Images */

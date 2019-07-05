@@ -115,10 +115,16 @@
             </div>
             <div class="row container-description">
                 <div class="col-12">
-                    <h2>Descrpici&oacute;n</h2>
-                    <p>
-                        {{ product.description }}
-                    </p>
+                    {% if product.description %}
+                        <h2>Descrpici&oacute;n</h2>
+                        <p>
+                            {{ product.description }}
+                        </p>
+                    {% else %}
+                        <div class="no-description text-center">
+                            <h3>Producto sin descripcion</h3>
+                        </div>
+                        {% endif %}
                 </div>
             </div>
         </div>
