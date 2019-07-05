@@ -6,7 +6,7 @@ from .views import (delete_product, view_product, publish_product,
 urlpatterns = [
     url(r'^products$', search),
     url(r'^publish/$', publish_product),
-    url(r'^product/(?P<product_id>\d+)/$', view_product),
+    url(r'^product/(?P<product_slug>[\w\-]+)-(?P<product_id>\d+)/$', view_product),
     url(r'^product/(?P<product_id>\d+)/delete/$', delete_product),
     url(r'^product/(?P<product_id>\d+)/republish/$', republish_product),
     url(r'^product/(?P<product_id>\d+)/favorite/$', create_favorite)

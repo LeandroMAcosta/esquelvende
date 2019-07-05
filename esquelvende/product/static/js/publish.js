@@ -182,7 +182,7 @@ function sendPhotos(e) {
                     // Si ya existe un error lo borramos y ponemos el nuevo.
                     if (parent.querySelector("div.alert")) {
                         parent.removeChild(parent.querySelector("div.alert"));
-                    }
+                    }product
 
                     newDiv.classList.add("alert", "alert-danger");
 
@@ -194,7 +194,7 @@ function sendPhotos(e) {
                 /* Usar replace permite que la pagina actual no se
                    guarde en el historial de sesion, lo que significa
                    que no vamos a poder volver por el boton para atras. */
-                window.location.replace(`/product/${data.id_product}/`);
+                window.location.replace(`/product/${data.product_slug}-${data.product_id}/`);
             }
             
         },
