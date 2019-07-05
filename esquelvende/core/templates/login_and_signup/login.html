@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Login{% endblock %}
+{% block navbar %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/login_and_signup.css' %}"> 
+{% endblock%}
+
+{% block content %} 
+<div class="justify-content-center center-card bg-grad">
+  <div class="card custom-card">
+    <div class="container"> 
+      <div class="d-flex justify-content-between pb-3">
+        <span><h2>Iniciar sesión</h2></span>
+      </div>
+      {% include "./form_login.html" %}
+      <!-- Setarador -->      
+      <div class="text-center p-2">
+        <span class="text-muted">o</span>
+      </div>
+      <div class="row size-social">
+        <div class="col-6">
+          <a href="{% url 'social:begin' 'facebook' %}">
+            <button type="button" class="fab fa-facebook-square btn btn-block btn-facebook btn-outline-dark"></button>
+          </a>
+        </div>
+        <div class="col-6">     
+          <a href="{% url 'social:begin' 'google-oauth2' %}">
+            <button type="button" class="fab fa-google btn btn-block btn btn-google btn-outline-dark"></button>
+          </a>
+        </div>
+      </div>
+    </div> 
+  </div>
+</div>
+{% endblock %}

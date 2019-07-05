@@ -1,0 +1,30 @@
+{% load field_tag %}
+
+<form method="POST">
+  {% csrf_token %}
+
+  <!-- Mostramos los errores -->
+  {% if messages %}
+    {% for message in messages %}
+      <small class="alert-error">&#8226; {{ message }}</small>
+    {% endfor %}
+  {% endif %}
+  
+  <div class="form-group">
+    {{ form.username.errors }}
+    {{ form.username|add_attributes:"class:form-control form-control-size, placeholder:Usuario o Correo, autocomplete:off" }}
+  </div>
+  <div class="form-group">
+    {{ form.password.errors }}
+    {{ form.password|add_attributes:"class:form-control form-control-size, placeholder:Contraseña" }}
+  </div>
+  <div class="d-flex justify-content-between align-items-end">
+    <small class="form-text">
+      <a href="#" class="text-muted none">¿Olvidó su contraseña?</a>
+    </small>
+    <small><a href="/signup/" class="">Crear cuenta</a></small>
+  </div>
+  <button type="submit"
+          class="btn btn-block mt-5 btn-buttom form-control-size">Ingresar
+  </button>
+</form>

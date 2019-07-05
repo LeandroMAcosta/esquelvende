@@ -1,0 +1,9 @@
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit"
+            class="m-1" 
+            style="border: 0; cursor: pointer;"
+            onclick="republishProduct()"
+            value="{{ product.id }}"><i class="fas fa-redo"></i> Republicar
+    </button>
+</form>

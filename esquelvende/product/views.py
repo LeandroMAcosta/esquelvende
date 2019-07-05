@@ -46,7 +46,6 @@ def view_product(request, product_id):
             # Para que un usuario no tenga sus productos en su historial.
             obj = Product.objects.get(user=request.user, pk=product_id)
         except Exception as e:
-            print(e)
             History.add_to_history(request.user, product)
 
     images = product.imagesproduct_set.all()
@@ -63,25 +62,30 @@ def view_product(request, product_id):
     except Exception:
         context['favorite'] = False
 
-    return render(request, './product/view_product.html', context)
+    return render(request, './view_product.html', context)
 
 
 @login_required(login_url='/login/')
 def delete_product(request, product_id):
     product = get_object_or_404(Product, pk=product_id, user=request.user)
     if request.POST:
-        product.delete_product()
-
-        # Llama a la view user_products que devuelve los productos del usuario.
-        return user_products(request, './user_products/ajax_products.html')
+        try:
+            product.delete_product()
+        except Exception as e:
+            # Aca habria que devolver algun error http.
+            pass
+        return JsonResponse({'id_product': product.id})
 
 
 @login_required(login_url='/login/')
 def republish_product(request, product_id):
     product = get_object_or_404(Product, pk=product_id, user=request.user)
     if request.POST:
-        product.republish()
-
+        try:
+            product.republish()
+        except Exception as e:
+            # Aca habria que devolver algun error http.
+            pass
         # Llama a la view user_products que devuelve los productos del usuario.
         return user_products(request, './user_products/ajax_products.html')
 
@@ -138,7 +142,7 @@ def publish_product(request):
         second_form = FormImagesProduct()
 
         context = {'form': form, 'form_images': second_form}
-        return render(request, './product/publish_product.html', context)
+        return render(request, './publish_product.html', context)
 
 
 # @login_required(login_url='/login/')

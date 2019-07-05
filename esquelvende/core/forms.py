@@ -8,30 +8,13 @@ from account.models import Account
 
 
 class FormRegister(forms.ModelForm):
-    password2 = forms.CharField(widget=forms.PasswordInput(
-        attrs={'class': 'form-control',
-               'placeholder': u'Confirmar contraseña'}),
-    )
+    password2 = forms.CharField(widget=forms.PasswordInput())
 
     def __init__(self, *args, **kwargs):
         super(FormRegister, self).__init__(*args, **kwargs)
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True
-        self.fields['password'].widget = forms.PasswordInput(
-            attrs={'class': 'form-control', 'placeholder': u'Contraseña'}
-        )
-        self.fields['username'].widget = forms.TextInput(
-            attrs={'class': 'form-control', 'placeholder': 'Nombre de usuario'}
-        )
-        self.fields['first_name'].widget = forms.TextInput(
-            attrs={'class': 'form-control', 'placeholder': 'Nombre'}
-        )
-        self.fields['last_name'].widget = forms.TextInput(
-            attrs={'class': 'form-control', 'placeholder': 'Apellido'}
-        )
-        self.fields['email'].widget = forms.TextInput(
-            attrs={'class': 'form-control', 'placeholder': 'Email'}
-        )
+        self.fields['password'].widget = forms.PasswordInput()
 
     class Meta:
         model = User
@@ -44,10 +27,20 @@ class FormRegister(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data.get('email')
         username = self.cleaned_data.get('username')
+
+        if email:
+            email = email.lower()
+
         if (email and User.objects.filter(email=email).
                 exclude(username=username).exists()):
-            raise forms.ValidationError(u'Email ya esta en uso')
+            raise forms.ValidationError(u'Email ya esta en uso.')
         return email
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if username:
+            username = username.lower()
+        return username
 
     def password_matched(self):
         if self.data['password'] != self.data['password2']:
@@ -77,16 +70,19 @@ class FormRegister(forms.ModelForm):
 
 class FormLogin(AuthenticationForm):
 
-    def __init__(self, *args, **kwargs):
-        super(FormLogin, self).__init__(*args, **kwargs)
-        self.fields['username'].widget = forms.TextInput(
-            attrs={'class': 'form-control input-cstm',
-                   'placeholder': 'Nombre de usuario'}
-        )
-        self.fields['username'].label = ""
+    class Meta:
+        model = User
+        fields = ('username', 'password')
 
-        self.fields['password'].widget = forms.PasswordInput(
-            attrs={'class': 'form-control input-cstm',
-                   'placeholder': u'Contraseña'}
-        )
-        self.fields['password'].label = "¿Olvidó su contraseña?"
+    error_messages = {
+        'invalid_login': 'Usuario y contraseña incorrectos.'
+    }
+
+    def clean(self):
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+
+        if username:
+            self.cleaned_data['username'] = username.lower().strip()
+
+        return self.cleaned_data

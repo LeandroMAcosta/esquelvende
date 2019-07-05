@@ -1,0 +1,116 @@
+/* ######################################################################## */
+/*                                  Publish                                 */
+/* ######################################################################## */
+
+.label-contact {
+  font-size: 14px !important;
+}
+.user-contact {
+  background-color: #f5f5f5;
+}
+/* form-control es del input de django */
+.form-control-size {
+  font-size: 13px;
+}
+.select-category {
+  width: 212px;
+  overflow-y: auto;
+  border: none;
+  color: #0637b3 !important;
+}
+.div-category {
+  border: 1px solid #ccc;
+  height: 250px;
+  width: 230px;
+  padding: 8px;
+  border-radius: 3px;
+  margin-right: 4px;
+}
+.container-categories {
+  display: flex;
+  justify-content: flex-start;
+  overflow-x: auto !important;
+  white-space: nowrap;
+}
+select:focus {
+  outline: none;
+}
+option {
+  font-size: 15px !important;
+}
+@media only screen and (max-width : 992px) {
+  .div-category {
+    width: inherit;
+    padding: 20px;
+    border-radius: 1px;
+    margin:0 0 4px 0;
+  }
+  .container-categories {
+    all: unset;
+  }
+  .select-category {
+    width: 100%;
+    overflow-y: auto;
+    border: none;
+  }
+}
+.botton-publish {
+  border: 0px;
+  color:#fff;
+  background: #ED7710;
+  border-radius: 1px 1px 1px 1px !important;
+}
+.file-loader {
+  height: 120px;
+  width: 120px;
+}
+.form-control-file[type=file] {
+  width: inherit;
+  height: inherit;
+  font-size: 0;
+  cursor: pointer;
+  opacity: 0;
+}
+div.scroll-photos {
+  display: flex;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+.input-container {
+  border: 2px solid #dddfe2;
+  border-style: dashed;
+  height: 120px;
+  width: 120px;
+  position: relative;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.cam {
+  font-size: 40px;
+  color: #dddfe2;
+  padding: 7px;
+}
+.input-container:hover .cam {
+  color: #90949c;
+}
+#photos {
+  color: #90949c;
+  font-size: 15px;
+}
+#images {
+  display: flex;
+  height: inherit
+}
+.deleteImg {
+  height: 20px;
+  width: 20px;
+  border: none;
+  position: relative;
+  right: 28px;
+  top: 6px;
+  cursor: pointer;
+}

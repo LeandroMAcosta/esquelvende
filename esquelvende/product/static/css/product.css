@@ -242,7 +242,7 @@
   background-color: #f5f5f5;
 }
 /* form-control es del input de django */
-.form-control {
+.form-control-size {
   font-size: 13px;
 }
 .select-category {
@@ -273,7 +273,7 @@ option {
 }
 @media only screen and (max-width : 992px) {
   .div-category {
-    width: 100%;
+    width: inherit;
     padding: 20px;
     border-radius: 1px;
     margin:0 0 4px 0;
@@ -286,11 +286,6 @@ option {
     overflow-y: auto;
     border: none;
   }
-}
-.sheet {
-  background: #fff;
-  margin-top: 25px;
-  padding: 25px;
 }
 .botton-publish {
   border: 0px;

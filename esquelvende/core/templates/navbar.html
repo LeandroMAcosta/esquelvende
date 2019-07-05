@@ -2,14 +2,21 @@
     <div class="container">
         <nav class="navbar navbar-expand-lg custom-toggler">
             <div class="row">
-                <div class="col-2"><a class="navbar-brand" href="/">E</a></div>
+                <div class="col-2">
+                    <a class="navbar-brand" href="/">
+                        <img src="../../static/ev.svg" width="135" 
+                        style="position: absolute; top:0px;">
+                    </a>
+                </div>
                 <div class="col-9 col-lg-7">
                     <form action="/products" method="GET">
                         <div class="input-group shadow-sm">
-                        <input type="search" name="results" class="form-control" placeholder="Buscar">
+                        <input type="search" name="results" class="form-control" placeholder="Buscar productos" 
+                               autocomplete="off">
                         <div class="input-group-append">
-                            <button class="btn btn-default py-2 separator"
-                                    type="submit">B
+                            <button class="btn btn-default separator search-button"
+                                    type="submit">
+                                <img src="../../static/search.svg" width="16" height="16">
                             </button>
                         </div>
                         </div>
@@ -30,7 +37,7 @@
             </div>
             <div class="row">
                 <div class="collapse navbar-collapse" id="ntc">
-                    <div class="col-12 col-lg-7 offset-lg-2">
+                    <div class="col-12 col-lg-8 offset-lg-2">
                         <div class="navbar-nav a">
                             <a class="nav-item nav-link menu-categories" href="/categories/">Categorías</a>
                             <div class="dropdown">
@@ -43,22 +50,22 @@
                                 <!-- dropdownCategories = ddc-->
                                 <div class="dropdown-menu shadow-sm" aria-labelledby="ddc">
                                     {% for category in categories_navbar %}
-                                        <a class="dropdown-item" href="{{ category.slug }}">{{ category.name }}</a>
+                                        <a class="dropdown-item" href="/{{ category.slug }}">{{ category.name }}</a>
                                     {% endfor %}
                                     <a class="dropdown-item" href="/categories/" style="font-weight: bold;">Ver mas</a>
                                 </div>
                             </div>
                             <a class="nav-item nav-link" href="/account/history/">Tu historial</a>
                             <a class="nav-item nav-link" href="/account/products/">Tus publicaciones</a>
-                            <a class="nav-item nav-link" href="/account/favorites/">Mis favoritos</a>
+                            <a class="nav-item nav-link" href="/account/favorites/">Tus favoritos</a>
                             <a class="nav-item nav-link" href="/publish/">Vender</a>
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <div class="navbar-nav">
                             <span class="separator-collapse"></span>
                             {% if user.is_authenticated %}
-                                <a class="nav-item nav-link" href="/myaccount/">{{ user.username }}</a>
+                                <a class="nav-item nav-link" href="#">{{ user.username }}</a>
                                 <a class="nav-item nav-link separator" href="/logout/">Salir</a> 
                             {% else %}
                                 <a class="nav-item nav-link" href="/signup/">Registrate</a>

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/empty_product_query.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/simple_product_box.css' %}" />
+{% endblock%}
+
+{% block title %}Historial{% endblock %}
+
+{% block content %}
+<div class="container content">
+  {% if object_list %}
+  <div class="d-flex align-items-center">
+    <h5 class="title pr-3">Tu Historial</h5>
+    <a href="#" class="none">Eliminar historial</a>
+  </div>
+  <div class="row">
+    {% for product in object_list %}
+      <div class="col-xl-2 col-md-3 col-sm-4 col-6 mb-2">
+        {% include "./product_box/simple_product_box.html" with product=product %}        
+      </div>
+    {% endfor %}
+  </div>
+  <!-- Incluimos el paginador -->
+  {% include "pagination.html" %}
+  {% else %}
+    {% include "empty_product_query.html" with title="Tu historial está vacío" subtitle="Aquí se mostraran los productos que hayas visitado.¡Empezá a navegar en Esquel Vende!" %}
+  {% endif%}
+</div>
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript" src="{% static 'js/home.js' %}"></script>
+{% endblock %}

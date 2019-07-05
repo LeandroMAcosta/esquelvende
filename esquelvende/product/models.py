@@ -74,7 +74,11 @@ class Product(models.Model, HitCountMixin):
         return self.title
 
     def is_expired(self):
-        return timezone.now() > (self.updated_at + timedelta(days=30))
+        expired = timezone.now() > (self.updated_at + timedelta(days=30))
+        if expired:
+            self.active = False
+            self.save()
+        return expired
 
     def delete_product(self):
         """
@@ -110,12 +114,22 @@ class Favorite(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     product = models.OneToOneField(Product, on_delete=models.CASCADE)
 
+    @classmethod
+    def filter_products(cls, user):  # Devuelve productos activos y no vencidos.
+        favorites = cls.objects.filter(user=user)
+        products = [
+            f.product
+            for f in favorites
+            if not f.product.is_expired() and not f.product.delete
+        ]
+        return products
+
     def __str__(self):
         return self.product.title
 
 
 class History(models.Model):
-    MAX_HISTORY = 10
+    MAX_HISTORY = 10  # Numero max. de historial por usuario.
 
     user = models.ForeignKey(User)
     product = models.ForeignKey(Product)
@@ -131,6 +145,16 @@ class History(models.Model):
             histories = cls.objects.filter(user=user)
             if histories.count() >= cls.MAX_HISTORY:
                 histories[0].delete()
+
+    @classmethod
+    def filter_products(cls, user):  # Devuelve productos activos y no vencidos.
+        history = cls.objects.filter(user=user)
+        products = [
+            h.product
+            for h in history
+            if not h.product.is_expired() and not h.product.delete
+        ]
+        return products
 
     def __str__(self):
         return self.product.title

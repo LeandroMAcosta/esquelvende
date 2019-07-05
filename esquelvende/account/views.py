@@ -6,6 +6,9 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
+from django.views.generic.list import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 from .forms import FormAvatar, FormEditAccount, FormEditUser
 from .models import Account
@@ -48,22 +51,37 @@ def edit_user(request):
         return render(request, 'edit_user.html', context)
 
 
-def history(request):
-    history = History.objects.filter(user=request.user)
-    return render(request, 'list_history.html', {'history': history})
+class HistoryList(LoginRequiredMixin, ListView):
+    model = History
+    template_name = 'list_history.html'
+    paginate_by = 30
+
+    def get_queryset(self):
+        return History.filter_products(self.request.user)
 
 
-def favorites(request):
-    favorites = Favorite.objects.filter(user=request.user)
-    return render(request, 'list_favorites.html', {'favorites': favorites})
+class Favorites(LoginRequiredMixin, ListView):
+    model = Favorite
+    template_name = 'list_favorites.html'
+    paginate_by = 30
+
+    def get_queryset(self):
+        return Favorite.filter_products(self.request.user)
 
 
 @login_required(login_url='/login/')
 def user_products(request, template=None):
-    products = Product.objects.filter(
-        user=request.user,
-        delete=False
-    )
+    """
+    No filtramos productos por active=True porque ademas queremos
+    los que no estan activos.
+    Tambien, vemos si alguno supero el limite de publicacion y lo actulizamos.
+    """
+    products = [
+        product
+        for product in Product.objects.filter(user=request.user, delete=False)
+        if product.is_expired() or not product.is_expired()  # Skip (update products)
+    ]
+
     context = {'products': products}
     template = template or './user_products/list_of_products.html'
 

@@ -12,15 +12,15 @@ from product.models import Product, Favorite, History
 
 
 def home(request):
-    MAX_PRODUCTS = 2
-    products = Product.objects.all().order_by('-id')[:MAX_PRODUCTS]
+    MAX_PRODUCTS = 10
+    products = Product.objects.filter(active=True) \
+                              .order_by('-id')[:MAX_PRODUCTS]
     context = {'products': products}
     if request.user.is_authenticated:
-        favorites = Favorite.objects.filter(user=request.user)
-        history = History.objects.filter(user=request.user)
-        products_fav = [f.product for f in favorites]
-        products_his = [h.product for h in history]
-        context.update({'favorites': products_fav, 'history': products_his})
+        context.update({
+            'favorites': Favorite.filter_products(request.user),
+            'history': History.filter_products(request.user)
+        })
 
     return render(request, 'home.html', context)
 
@@ -34,28 +34,31 @@ def signup_user(request):
     else:
         form = FormRegister()
     context = {'form': form}
-    return render(request, 'create_user.html', context)
+    return render(request, 'login_and_signup/signup.html', context)
 
 
 def login_user(request):
+    if request.user.is_authenticated():
+        return redirect('/')
+
     if request.POST:
-        form = FormLogin(request.POST)
-        if form.is_valid:
-            username = request.POST['username']
-            key = request.POST['password']
-            access = authenticate(username=username, password=key)
+        form = FormLogin(data=request.POST)
+        if form.is_valid():
+            # Limpiamos los datos.
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            access = authenticate(username=username, password=password)
             if access is not None:
                 login(request, access)
-                url = request.GET.get('next', '/')
-                return redirect(url)
+                return redirect(request.GET.get('next', '/'))
             else:
-                messages.error(request, 'Usuario o contraseñas no validos')
-
-    elif request.user.is_authenticated():
-        return redirect('/')
+                messages.error(
+                    request,
+                    'Usuario o contraseña mal ingresado.'
+                )
     else:
         form = FormLogin()
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'login_and_signup/login.html', {'form': form})
 
 
 def logout_user(request):

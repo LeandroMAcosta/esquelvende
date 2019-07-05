@@ -1,9 +1,25 @@
-*.pyc
-test.html
+# Byte-compiled / optimized
+__pycache__/
+*.py[cod]
+
+# Unit Test
+.coverage
+.coverage.*
+htmlcov/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
 db.sqlite3
-*.jpg
-*.png
-migrations/
-avatar/
+
+# Environments
+.env
+
+# Media files
 media/
+
+# IDE files
 .vscode/

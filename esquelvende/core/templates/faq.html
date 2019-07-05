@@ -1,1 +1,83 @@
-<div>faq picante de ruta de nazi de rucula de neandertal</div>
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title%}Preguntas frecuentes{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/faq.css' %}"> 
+{% endblock%}
+{% block content %} 
+
+
+<div class="container faq-container">
+
+    <div class="card faq">
+
+
+    <div class="title text-center">
+        <h2>Preguntas frecuentes</h2>
+    </div>
+
+    <div class="row">
+        <div class="offset-md-2 col-md-8 col-12">
+            <div id="accordion">
+                
+                <div class="card">
+                    <div class="card-header">
+                        
+                        <a class="card-link" data-toggle="collapse" href="#collapseOne">
+                            <i class="fas fa-plus-circle"></i> 
+                            ¿Como vender un producto?
+                        </a>
+                    </div>
+                    {% if request.GET.section == "1" %}
+                        <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                    {% else %}  
+                        <div id="collapseOne" class="collapse " data-parent="#accordion">            
+                    {% endif %}
+                        <div class="card-body">
+                            Para vender un producto solo debes crear una cuenta o iniciar sesion, y luego haciendo click en "Vender", en la parte superior de la papgina principal
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
+                            <i class="fas fa-plus-circle"></i>
+                            ¿Como denunciar un producto?
+                        </a>
+                    </div>
+                    {% if request.GET.section == "2" %}
+                    <div id="collapseTwo" class="collapse show" data-parent="#accordion">
+                    {% else %}  
+                    <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                    {% endif %}
+                    
+                        <div class="card-body">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat vel non temporibus eveniet doloremque consequatur, ut nobis nesciunt, voluptatem in, ea sit. Molestias sit maiores quo culpa deleniti voluptatum saepe!
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="card">
+                    <div class="card-header">
+                        <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
+                            <i class="fas fa-plus-circle"></i>
+                            ¿Porque mi producto aparece como inactivo?
+                        </a>
+                    </div>
+                    <div id="collapseThree" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            Luego de 30 dias de publicar un producto, si no se vendio, se va a marcar como inactivo para que aparezcan los nuevos productos en el inicio
+                        </div>
+                    </div>
+                </div>
+                            
+            </div>
+            
+        </div>
+    </div>
+
+    </div>
+</div>
+
+{% endblock %}
