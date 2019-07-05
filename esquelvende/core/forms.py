@@ -74,10 +74,6 @@ class FormLogin(AuthenticationForm):
         model = User
         fields = ('username', 'password')
 
-    error_messages = {
-        'invalid_login': 'Usuario y contraseña incorrectos.'
-    }
-
     def clean(self):
         username = self.cleaned_data.get('username')
         password = self.cleaned_data.get('password')

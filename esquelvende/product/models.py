@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from datetime import datetime, timedelta
+from django.template.defaultfilters import slugify
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -21,6 +22,7 @@ class Product(models.Model, HitCountMixin):
     )
 
     title = models.CharField(max_length=30, default=None)
+    slug = models.SlugField()  # Title + id
     description = models.TextField(null=True, blank=True)
     active = models.BooleanField(default=True)
     # Cambiar este nombre delete creo que jode al delete() de django is_deleted
@@ -72,6 +74,10 @@ class Product(models.Model, HitCountMixin):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Product, self).save(*args, **kwargs)
 
     def is_expired(self):
         expired = timezone.now() > (self.updated_at + timedelta(days=30))

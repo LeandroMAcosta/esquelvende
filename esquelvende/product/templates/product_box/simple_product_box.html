@@ -5,7 +5,7 @@
       <i class="fab fa-whatsapp whatsapp disabled"></i>
     </a>
   {% endif %}
-  <a class="redirect-product" href="/product/{{ product.pk }}/"></a>
+  <a class="redirect-product" href="/product/{{ product.slug }}-{{ product.pk }}/"></a>
   <img src="/media/{{ first_image.image }}" class="item-image">
   <div class="d-flex flex-column pt-2">
     <span class="item-price">$ {{ product.price }}</span>
