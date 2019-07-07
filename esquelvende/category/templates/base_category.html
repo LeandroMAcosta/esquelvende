@@ -9,9 +9,18 @@
 <div class='categories container content'>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">Cat1</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Cat2</li>
+            <li class="breadcrumb-item active"><a href="/">Home</a></li>
+            {% for cat, slug, pth in path %}
+                {% if forloop.last or path.count == 1 %}
+                    <li class="breadcrumb-item active" aria-current="page">
+                        {{ cat }}
+                    </li>
+                {% else %}
+                    <li class="breadcrumb-item">
+                        <a href="/{% for bread in pth %}{{bread}}/{% endfor %}{{slug}}">{{ cat }}</a>
+                    </li>
+                {% endif%}
+            {% endfor %}
         </ol>
     </nav>
     <div class="row">
@@ -52,7 +61,7 @@
             <div class="field">
                 <h4>Categorias</h4>
                 {% for category in categories %}
-                    <a href="/{{ category.slug }}" class="a-blank">
+                    <a href="/{% for cat, slug, pth in path%}{{slug}}/{% endfor%}{{ category.slug }}" class="a-blank">
                         {{ category }}<br>
                     </a>
                 {% endfor %}

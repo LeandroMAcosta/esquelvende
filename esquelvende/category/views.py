@@ -90,6 +90,10 @@ def category(request, slug_category):
                'categories': category.suba_set.all(),
                'products': products,
                'quantity': len(products)}
+    context['path'] = [
+        (category, slug_category, []), 
+    ]
+    
     return render(request, 'base_category.html', context)
 
 
@@ -133,6 +137,10 @@ def sub_a(request, slug_category, slug_sub_a):
     products = Product.filter_products(search, filter_by)
     context['products'] = products
     context['quantity'] = len(products)
+    context['path'] = [
+        (category, slug_category, []), 
+        (sub_a, slug_sub_a, [slug_category])
+    ]
     return render(request, 'base_category.html', context)
 
 
@@ -163,4 +171,9 @@ def sub_b(request, slug_category, slug_sub_a, slug_sub_b):
     products = Product.filter_products(search, filter_by)
     context['products'] = products
     context['quantity'] = len(products)
+    context['path'] = [
+        (category, slug_category, []), 
+        (sub_a, slug_sub_a, [slug_category]),
+        (sub_b, slug_sub_b, [slug_category, slug_sub_a])
+    ]
     return render(request, 'base_category.html', context)
