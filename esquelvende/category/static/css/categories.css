@@ -13,3 +13,37 @@ div > ul {
         text-align: left;
     }
 }
+
+.field {
+    margin-bottom: 20px;
+}
+
+.link-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: block;
+}
+
+.product-container {
+    margin-top: 5px;
+}
+
+.badge-button {
+    font-family: 'Open Sans';
+    border-radius: 3px!important;
+    color: rgb(138, 138, 138);
+    background: white;
+}
+
+.categories .breadcrumb {
+    padding-left: 0px;
+}
+
+.categories .search {
+    margin-bottom: 40px;
+}
+
+.badges {
+    margin-bottom: 10px;
+}

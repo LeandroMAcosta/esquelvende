@@ -29,6 +29,16 @@ body {
 .sheet {
   background: #fff;
   padding: 25px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.09), 0 6px 6px rgba(0,0,0,0.09);
+}
+
+.a-blank {
+  color: #666;
+}
+
+.a-blank:hover {
+  text-decoration: none;
+  color: #333;
 }
 
 /* ######################################################################## */
@@ -89,10 +99,10 @@ div.dropdown-menu::before {
     all: unset;
   }
   .separator-collapse {
-        height: 1px;
-        margin: 9px 0;
-        overflow: hidden;
-        background-color: #e5e5e5;
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #e5e5e5;
   }
   .container {
     max-width: 100%;

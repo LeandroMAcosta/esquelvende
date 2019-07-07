@@ -4,6 +4,7 @@
     height: 150px;
     background: #fff;
     border-radius: 3px 3px 3px 3px;
+    text-overflow: ellipsis;
 }
 .item-price {
     color: #333;

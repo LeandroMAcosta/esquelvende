@@ -1,9 +1,89 @@
 {% extends "base.html" %}
-{% block css %}{% endblock%}
+{% load staticfiles %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/categories.css' %}" />
+
+{% endblock %}
 
 {% block content %}
-<div>
-    <h2>Ubicacion actual</h2>
+<div class='categories container content'>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">Cat1</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Cat2</li>
+        </ol>
+    </nav>
+    <div class="row">
+        <div class="col-md-3">
+            {% if request.GET.results %}
+                <div class="search">
+                    <h3>
+                        {{ request.GET.results }}
+                    </h3>
+                    <p class="text-secondary">
+                        {{ quantity}} resultado{% if quantity > 1%}s{%endif%}.
+                    </p>
+                </div>
+            {% endif %}
+
+            <form action="{{ request.path }}" id="form-results" method="GET">
+            <button type="submit" style="display: none"></button>
+
+            <div class="badges">
+                {% if request.GET.cond == "U" %}            
+                    <button name="cond" type="submit" value="" class="badge-button link-button a-blank">
+                        Usado <i class="fas fa-times"></i>
+                    </button>
+                {% elif request.GET.cond == "N" %}
+                    <button name="cond" type="submit" value="" class="badge-button link-button a-blank">
+                        Nuevo <i class="fas fa-times"></i>
+                    </button>
+                {% endif %}   
+            </div>
+             
+            {% if results%}
+                <div class="field">
+                    <h4>Busqueda</h4>
+                    <b>{{results}}</b>
+                </div>
+            {% endif %}
+            
+            <div class="field">
+                <h4>Categorias</h4>
+                {% for category in categories %}
+                    <a href="/{{ category.slug }}" class="a-blank">
+                        {{ category }}<br>
+                    </a>
+                {% endfor %}
+            </div>
+            
+            <div class="field">
+                <h4>Condicion</h4>
+                <button name="cond" type="submit" value="N" class="link-button a-blank">Nuevo</button>
+                <button name="cond" type="submit" value="U" class="link-button a-blank">Usado</button>
+            </div>
+            <div class="field">            
+                <h4>Precio</h4>
+                    <div class="input-group">
+                        <input id="results" type="text" name="results" value="{{ request.GET.results }}" style="display:none">
+                        <!-- <input id="cond" type="text" name="cond" value="{{ request.GET.cond }}" style="display:none"> -->
+                        <input id="min" type="number" name="min" value="{{request.GET.min}}" class="form-control" placeholder="minimo">
+                        <input id="max" type="number" name="max" value="{{request.GET.max}}" class="form-control" placeholder="maximo">
+                    </div>
+                    <input type="submit" style="display:none"/>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-9">
+            {% for product in products %}
+                <div class="product-container">
+                    {% include "./product_box/stretched_box_product.html" %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- <h2>Ubicacion actual</h2>
     {{ current_category }}
     <br>
     <h2>Productos</h2>
@@ -21,9 +101,31 @@
         {% for brand in brands %}
             <span>{{ brand }}</span>
         {% endfor%}
-    {% endif %}
+    {% endif %} -->
 </div>
 {% endblock%}
 
 {% block javascript %}
+
+<script >
+$(document).ready(function() {
+    function clean_parameters(e) {
+        if($("#results").val()=="") {
+            $("#results").remove();
+        }
+        if($("#min").val()=="") {
+            $("#min").remove();
+        }
+        if($("#max").val()=="") {
+            $("#max").remove();
+        }
+        if($("#cond").val()=="") {
+            $("#cond").remove();
+        }
+    }
+    $("#form-results").submit(function(e) {
+        clean_parameters();
+    });
+});
+</script>
 {% endblock%}

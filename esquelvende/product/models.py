@@ -95,6 +95,14 @@ class Product(models.Model, HitCountMixin):
             self.updated_at = timezone.now()
             self.save()
 
+    def get_primary_image(self):
+        return self.imagesproduct_set.all().first()
+
+    def get_status(self):
+        if self.status == 'U':
+            return "Usado"
+        return "Nuevo"     
+
     @classmethod
     def filter_products(cls, search=None, filter_by=None):
 

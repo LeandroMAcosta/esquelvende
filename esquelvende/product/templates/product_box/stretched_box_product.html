@@ -1,4 +1,10 @@
-{% with product.imagesproduct_set.all|first as first_image %}
+{% load staticfiles %}
+
+{% block css%}
+<link rel="stylesheet" type="text/css" href="{% static 'css/stretched_box_product.css' %}" />
+{% endblock %}
+
+{% with product.get_primary_image as first_image %}
 <div class="d-flex justify-content-between item shadow-sm p-3">
     <div class="d-flex">
         <a class="redirect-product" href="/product/{{ product.pk }}/">
@@ -6,9 +12,11 @@
         </a>
         <div class="d-flex flex-column px-3">
             <span class="item-title mb-auto">{{ product.title }}</span>
+            <span class="item-title mb-auto">{{ product.get_status }}</span>
             <span class="item-price">$ {{ product.price }}</span>
         </div>
     </div>
+    {% if product.user == request.user %}
     <div class="d-flex flex-column">
         {% if not product.active %}
             {% include "../republish_product.html" %}
@@ -20,5 +28,6 @@
         </span>
         {% include "../delete_product.html" %}
     </div>
+    {% endif %}
 </div>
 {% endwith %}

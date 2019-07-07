@@ -25,8 +25,12 @@ def search(request):
     try:
         products = Product.filter_products(search)
         categories = Category.objects.all()
-        context = {'categories': categories, 'products': products}
-        return render(request, 'search.html', context)
+        context = {
+            'categories': categories, 
+            'products': products,
+            'quantity': len(products)
+        }
+        return render(request, 'base_category.html', context)
     except Exception as e:
         print(e)
         return redirect('/')
