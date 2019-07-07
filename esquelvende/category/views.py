@@ -84,7 +84,16 @@ def category(request, slug_category):
     
     if request.GET.get('cond', None):
         filter_by['status'] = request.GET.get('cond', None)
-    
+
+    minim = request.GET.get('min', None)
+    maxim = request.GET.get('max', None)
+
+    if minim:
+        filter_by['price__gte'] = int(minim)
+
+    if maxim:
+        filter_by['price__lte'] = int(maxim)
+
     products = Product.filter_products(search, filter_by)
     context = {'current_category': category,
                'categories': category.suba_set.all(),
@@ -134,6 +143,14 @@ def sub_a(request, slug_category, slug_sub_a):
 
     filter_by.update({'category__slug': category.slug,
                       'sub_a__slug': sub_a.slug})
+
+    minim = request.GET.get('min', None)
+    maxim = request.GET.get('max', None)
+    if minim:
+        filter_by['price__gte'] = int(minim)
+
+    if maxim:
+        filter_by['price__lte'] = int(maxim)
     products = Product.filter_products(search, filter_by)
     context['products'] = products
     context['quantity'] = len(products)
@@ -141,6 +158,7 @@ def sub_a(request, slug_category, slug_sub_a):
         (category, slug_category, []), 
         (sub_a, slug_sub_a, [slug_category])
     ]
+
     return render(request, 'base_category.html', context)
 
 
@@ -168,6 +186,15 @@ def sub_b(request, slug_category, slug_sub_a, slug_sub_b):
     filter_by.update({'category__slug': category.slug,
                       'sub_a__slug': sub_a.slug,
                       'sub_b__slug': sub_b.slug})
+    minim = request.GET.get('min', None)
+    maxim = request.GET.get('max', None)
+
+    if minim:
+        filter_by['price__gte'] = int(minim)
+
+    if maxim:
+        filter_by['price__lte'] = int(maxim)
+
     products = Product.filter_products(search, filter_by)
     context['products'] = products
     context['quantity'] = len(products)
@@ -176,4 +203,5 @@ def sub_b(request, slug_category, slug_sub_a, slug_sub_b):
         (sub_a, slug_sub_a, [slug_category]),
         (sub_b, slug_sub_b, [slug_category, slug_sub_a])
     ]
+
     return render(request, 'base_category.html', context)

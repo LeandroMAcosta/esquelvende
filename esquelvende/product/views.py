@@ -23,7 +23,19 @@ def search(request):
         raise Http404
 
     try:
-        products = Product.filter_products(search)
+        filter_by = {}
+        minim = request.GET.get('min', None)
+        maxim = request.GET.get('max', None)
+        if request.GET.get('cond', None):
+            filter_by['status'] = request.GET.get('cond', None)
+
+        if minim:
+            filter_by['price__gte'] = int(minim)
+
+        if maxim:
+            filter_by['price__lte'] = int(maxim)
+
+        products = Product.filter_products(search, filter_by)
         categories = Category.objects.all()
         context = {
             'categories': categories, 

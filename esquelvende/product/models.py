@@ -109,6 +109,7 @@ class Product(models.Model, HitCountMixin):
         fields = ['title', 'category__slug', 'sub_a__slug', 'brand__slug',
                   'sub_b__slug']
         query = get_query(search, fields, filter_by)
+        print query
         products = cls.objects.filter(query)
         return products
 
