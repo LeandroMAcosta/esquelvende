@@ -48,7 +48,7 @@
                     <button name="cond" type="submit" value="" class="badge-button link-button a-blank">
                         Nuevo <i class="fas fa-times"></i>
                     </button>
-                {% endif %}   
+                {% endif %}
             </div>
              
             {% if results%}
@@ -58,6 +58,7 @@
                 </div>
             {% endif %}
             
+            {% if categories.count %}
             <div class="field">
                 <h4>Categorias</h4>
                 {% for category in categories %}
@@ -66,22 +67,35 @@
                     </a>
                 {% endfor %}
             </div>
+            {% endif %}
+
+            {% if brands.count %}
+            <div class="field">
+                <h4>Marcas</h4>
+                {% for brand in brands %}
+                    <button name="brand" type="submit" value="{{ brand.slug }}" class="button-blank">
+                        {{brand}}
+                    </button>
+                {% endfor %}
+            </div>
+            {% endif %}
             
             <div class="field">
                 <h4>Condicion</h4>
-                <button name="cond" type="submit" value="N" class="link-button a-blank">Nuevo</button>
                 <button name="cond" type="submit" value="U" class="link-button a-blank">Usado</button>
+                <button name="cond" type="submit" value="N" class="link-button a-blank">Nuevo</button>
             </div>
             <div class="field">            
                 <h4>Precio</h4>
-                    <div class="input-group">
-                        <input id="results" type="text" name="results" value="{{ request.GET.results }}" style="display:none">
-                        <!-- <input id="cond" type="text" name="cond" value="{{ request.GET.cond }}" style="display:none"> -->
-                        <input id="min" type="number" name="min" value="{{request.GET.min}}" class="form-control" placeholder="minimo">
-                        <input id="max" type="number" name="max" value="{{request.GET.max}}" class="form-control" placeholder="maximo">
-                    </div>
-                    <input type="submit" style="display:none"/>
+                <div class="input-group">
+                    <input id="results" type="text" name="results" value="{{ request.GET.results }}" style="display:none">
+                    <!-- <input id="cond" type="text" name="cond" value="{{ request.GET.cond }}" style="display:none"> -->
+                    <input id="brand" type="text" name="brand" value="{{ request.GET.brand }}" style="display:none">
+                    <input id="min" type="number" name="min" value="{{request.GET.min}}" class="form-control" placeholder="minimo">
+                    <input id="max" type="number" name="max" value="{{request.GET.max}}" class="form-control" placeholder="maximo">
                 </div>
+                <input type="submit" style="display:none"/>
+            </div>
             </form>
         </div>
         <div class="col-md-9">
@@ -92,25 +106,7 @@
             {% endfor %}
         </div>
     </div>
-    <!-- <h2>Ubicacion actual</h2>
-    {{ current_category }}
-    <br>
-    <h2>Productos</h2>
-    {% for product in products %}
-        <span>{{ product }}</span>
-    {% endfor%}
-    <br>
-    {% if categories %}
-    <h2>Categorias</h2>
-        {% for category in categories %}
-            <span>{{ category }}</span>
-        {% endfor%}
-    {% elif brands %}
-        <h2>Categorias</h2>
-        {% for brand in brands %}
-            <span>{{ brand }}</span>
-        {% endfor%}
-    {% endif %} -->
+
 </div>
 {% endblock%}
 
@@ -119,17 +115,20 @@
 <script >
 $(document).ready(function() {
     function clean_parameters(e) {
-        if($("#results").val()=="") {
+        if($("#results").val() == "") {
             $("#results").remove();
         }
-        if($("#min").val()=="") {
+        if($("#min").val() == "") {
             $("#min").remove();
         }
-        if($("#max").val()=="") {
+        if($("#max").val() == "") {
             $("#max").remove();
         }
-        if($("#cond").val()=="") {
+        if($("#cond").val() == "") {
             $("#cond").remove();
+        }
+        if($("#brand").val() == "") {
+            $("#brand").remove();
         }
     }
     $("#form-results").submit(function(e) {
