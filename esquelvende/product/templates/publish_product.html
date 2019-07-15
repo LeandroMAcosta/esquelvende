@@ -9,7 +9,7 @@
 {% block title %}Publicar{% endblock %}
 
 {% block content %}
-<div class="container content sheet">
+<div class="container content sheet shadow-sm">
   <h3 class="text-center mb-5">Contános, ¿Que vendes?</h3>
   <form method="POST" onsubmit="return sendPhotos(event)" class="post-form" enctype="multipart/form-data"> 
     {% csrf_token %}
@@ -20,8 +20,8 @@
           <small id="titleHelp" class="form-text text-muted">
            Usa palabras claves para que lo encuentren facilmente.
           </small>
-          {{ form.title|add_attributes:"class:form-control form-control-size, id:check, data-maxlength:30, autocomplete:off" }}
-          <small class="form-text text-muted" id="counter">Restan 30 caracteres.</small>
+          {{ form.title|add_attributes:"class:form-control form-control-size, id:check, data-maxlength:50, autocomplete:off" }}
+          <small class="form-text text-muted" id="counter">Restan 50 caracteres.</small>
         </div>
       </div>
     </div>  

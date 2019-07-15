@@ -78,19 +78,19 @@ class FormImagesProduct(forms.ModelForm):
 
     def save(self, product, file, commit=True):
         instance = super(FormImagesProduct, self).save(commit=False)
-
         try:
             obj = ImagesProduct.objects.get(pk=instance.pk)
             instance = ImagesProduct.objects.create(
                 product=product,
-                image=file
+                image=file,
             )
-        except Exception as e:
+        except Exception:
             instance.product = product
             instance.image = file
 
-        if commit:
-            instance.save()
+            if commit:
+                instance.save()
+
         return instance
 
 

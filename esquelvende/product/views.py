@@ -39,8 +39,6 @@ def view_product(request, product_slug, product_id):
         pk=product_id,
         active=True
     )
-    if product.is_expired():
-        raise Http404
 
     """
     Cada vez que un usuario hecha un vistazo a
@@ -137,7 +135,7 @@ def publish_product(request):
             for count, file in enumerate(files):
                 if count < 6:
                     second_form.save(product, file)
-            print(product.slug, product.id)
+
             return JsonResponse({'product_slug': product.slug, 'product_id': product.id})
         else:
             data = {'err_code': 'invalid_form', 'err_msg': form.errors, }

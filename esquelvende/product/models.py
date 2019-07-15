@@ -14,6 +14,13 @@ from hitcount.models import HitCount, HitCountMixin
 from category.models import Brand, Category, SubA, SubB
 from search import get_query
 
+from PIL import Image
+from io import BytesIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.core.files.base import ContentFile
+import sys
+import os
+
 
 class Product(models.Model, HitCountMixin):
     STATUS_CHOICES = (
@@ -21,7 +28,7 @@ class Product(models.Model, HitCountMixin):
         ('N', 'Nuevo')
     )
 
-    title = models.CharField(max_length=30, default=None)
+    title = models.CharField(max_length=50, default=None)
     slug = models.SlugField()  # Title + id
     description = models.TextField(null=True, blank=True)
     active = models.BooleanField(default=True)
@@ -113,7 +120,72 @@ class Product(models.Model, HitCountMixin):
 
 class ImagesProduct(models.Model):
     product = models.ForeignKey(Product)
-    image = models.ImageField(upload_to='product/', blank=True)
+    image = models.ImageField(upload_to='images/', blank=True)
+    thumbnail = models.ImageField(upload_to='images/thumbnail', blank=True)
+
+    def save(self, *args, **kwargs):
+        # Redimensionar self.image
+        self.image = self.handle_file(600)
+        # Generamos thumbnail
+        self.handle_file(180, True)
+        super(ImagesProduct, self).save(*args, **kwargs)
+
+    def handle_file(self, base_width, thumbnail=None):
+        # Abrir la imagen cargada.
+        im = Image.open(self.image)
+
+        # Modificamos la imagen
+        im.thumbnail((base_width, base_width), Image.ANTIALIAS)
+
+        filename, file_ext = os.path.splitext(self.image.name)
+        file_ext = file_ext.lower()
+
+        # Obtenemos alto y ancho
+        heigth = im.size[0]
+        weight = im.size[1]
+
+        # Creamos una imagen cuadrada y le pegaromos la del usuario.
+        new_img = Image.new('RGB', (base_width, base_width), "white")
+        new_img.paste(im, ((base_width-heigth)/2, (base_width-weight)/2))
+        im = new_img
+
+        if thumbnail:
+            filename = filename.replace('images/', '')
+
+        full_filename = filename + file_ext
+
+        if file_ext in ['.jpg', '.jpeg']:
+            FTYPE = 'JPEG'
+        elif file_ext == '.gif':
+            FTYPE = 'GIF'
+        elif file_ext == '.png':
+            FTYPE = 'PNG'
+        else:
+            raise Exception('Extesion incorrecta.')
+
+        # Despues de modificarlo, lo guardamos en la salida.
+        output = BytesIO()
+        im.save(output, format=FTYPE, quality=100)
+        output.seek(0)
+
+        if thumbnail is None:
+            # Cambiar image para que sea el valor de la imagen recien modificada.
+            self.image = InMemoryUploadedFile(
+                output,
+                'ImageField',
+                "%s" % full_filename,
+                'image/jpeg',
+                sys.getsizeof(output),
+                None
+            )
+            return self.image
+        else:
+            self.thumbnail.save(
+                full_filename,
+                ContentFile(output.read()),
+                save=False
+            )
+            output.close()
 
 
 class Favorite(models.Model):

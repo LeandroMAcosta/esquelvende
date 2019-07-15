@@ -6,7 +6,7 @@
     </a>
   {% endif %}
   <a class="redirect-product" href="/product/{{ product.slug }}-{{ product.pk }}/"></a>
-  <img src="/media/{{ first_image.image }}" class="item-image">
+  <img src="/media/{{ first_image.thumbnail }}" class="item-image">
   <div class="d-flex flex-column pt-2">
     <span class="item-price">$ {{ product.price }}</span>
     <span class="item-title p-1 pl-2">{{ product.title }}</span>
