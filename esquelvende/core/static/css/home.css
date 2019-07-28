@@ -1,18 +1,9 @@
-.caption {
-  color:#666;
-  font-weight: 300;
-  font-size: 26px;
-  font-family: 'Open Sans';
-}
 .redirect-product {
   width: 160px;
   height: 230px;
   position: absolute;
 }
 @media only screen and (max-width : 540px) {
-  .caption {
-    font-size: 18px;
-  }
   .section {
     justify-content: space-between;
   }

@@ -3,10 +3,10 @@
     <div class="d-flex">
         {% if product.active %}
             <a class="redirect-product" href="/product/{{ product.slug }}-{{ product.pk }}/">
-                <img src="/media/{{ first_image.image }}" class="item-image">
+                <img src="/media/{{ first_image.thumbnail }}" class="item-image">
             </a>
         {% else %}
-            <img src="/media/{{ first_image.image }}" class="item-image">
+            <img src="/media/{{ first_image.thumbnail }}" class="item-image">
         {% endif %}
         <div class="d-flex flex-column px-3">
             <span class="item-title mb-auto">{{ product.title }}</span>

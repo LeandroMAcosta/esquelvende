@@ -135,7 +135,7 @@ function sendPhotos(e) {
     var fd = new FormData();
 
     // Para hacer un POST django nos pide el csrf.
-    var $csrf = $('[name=csrfmiddlewaretoken]');
+    var csrf = $('[name=csrfmiddlewaretoken]');
 
     var fields = {
         'title': $('[name=title]').val(),
@@ -159,7 +159,7 @@ function sendPhotos(e) {
         fd.append('image', file);
     }
 
-    fd.append('csrfmiddlewaretoken', $csrf.attr('value'))
+    fd.append('csrfmiddlewaretoken', csrf.attr('value'))
 
     $.ajax({
         url: "/publish/",
