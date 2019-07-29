@@ -143,14 +143,13 @@ function sendPhotos(e) {
         'sub_a': $('[name=sub_a]').val(),
         'sub_b': $('[name=sub_b]').val(),
         'brand': $('[name=brand]').val(),
-        'status': $('[name=status]').val(),
+        'status': $('[name=status]:checked').val(),
         'contact_phone': $('[name=contact_phone]').val(),
         'whatsapp': $('[name=whatsapp]').val(),
         'contact_email': $('[name=contact_email]').val(),
         'description': $('[name=description]').val(),
         'price': $('[name=price]').val()
     }
-    console.log(fields)
     for (let [key, value] of Object.entries(fields)) {
         if (value) fd.append(key, value);
     }
@@ -182,7 +181,7 @@ function sendPhotos(e) {
                     // Si ya existe un error lo borramos y ponemos el nuevo.
                     if (parent.querySelector("div.alert")) {
                         parent.removeChild(parent.querySelector("div.alert"));
-                    }product
+                    }
 
                     newDiv.classList.add("alert", "alert-danger");
 

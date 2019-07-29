@@ -291,3 +291,8 @@ div.scroll-photos {
   top: 6px;
   cursor: pointer;
 }
+
+
+.border-left-none {
+  border-left: none;
+}

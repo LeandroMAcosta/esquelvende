@@ -58,7 +58,7 @@ class Product(models.Model, HitCountMixin):
         blank=True,
         on_delete=models.CASCADE,
     )
-    whatsapp = models.CharField(max_length=50, null=True, blank=True)
+    whatsapp = models.CharField(max_length=13, null=True, blank=True)
     contact_phone = models.CharField(max_length=50, null=True, blank=True)
     contact_email = models.EmailField()
     status = models.CharField(
