@@ -81,7 +81,7 @@ def category(request, slug_category):
     category = get_object_or_404(Category, slug=slug_category)
 
     filter_by = {'category__slug': category.slug}
-    
+
     if request.GET.get('cond', None):
         filter_by['status'] = request.GET.get('cond', None)
 
@@ -100,9 +100,9 @@ def category(request, slug_category):
                'products': products,
                'quantity': len(products)}
     context['path'] = [
-        (category, slug_category, []), 
+        (category, slug_category, []),
     ]
-    
+
     return render(request, 'base_category.html', context)
 
 
@@ -121,7 +121,6 @@ def sub_a(request, slug_category, slug_sub_a):
     brand = request.GET.get('brand', None)
     context, filter_by = {}, {}
 
-    category = get_object_or_404(Category, slug=slug_category)
     sub_a = get_object_or_404(
         SubA,
         slug=slug_sub_a,
@@ -155,7 +154,7 @@ def sub_a(request, slug_category, slug_sub_a):
     context['products'] = products
     context['quantity'] = len(products)
     context['path'] = [
-        (category, slug_category, []), 
+        (category, slug_category, []),
         (sub_a, slug_sub_a, [slug_category])
     ]
 
@@ -167,7 +166,6 @@ def sub_b(request, slug_category, slug_sub_a, slug_sub_b):
     brand = request.GET.get('brand', None)
     context, filter_by = {}, {}
 
-    category = get_object_or_404(Category, slug=slug_category)
     sub_a = get_object_or_404(
         SubA,
         slug=slug_sub_a,
@@ -183,7 +181,7 @@ def sub_b(request, slug_category, slug_sub_a, slug_sub_b):
         context.update({'brands': sub_b.brand.all(),
                         'current_category': sub_b})
 
-    filter_by.update({'category__slug': category.slug,
+    filter_by.update({'category__slug': sub_a.category.slug,
                       'sub_a__slug': sub_a.slug,
                       'sub_b__slug': sub_b.slug})
     minim = request.GET.get('min', None)
@@ -199,7 +197,7 @@ def sub_b(request, slug_category, slug_sub_a, slug_sub_b):
     context['products'] = products
     context['quantity'] = len(products)
     context['path'] = [
-        (category, slug_category, []), 
+        (category, slug_category, []),
         (sub_a, slug_sub_a, [slug_category]),
         (sub_b, slug_sub_b, [slug_category, slug_sub_a])
     ]
