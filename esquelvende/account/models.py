@@ -6,7 +6,7 @@ from django.db import models
 
 
 class Account(models.Model):
-    user = models.OneToOneField(User)
-    phone = models.CharField(max_length=20, default="2945")
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=20)
     avatar = models.ImageField(upload_to='avatar/',
                                default='avatar/default.jpg')

@@ -1,11 +1,11 @@
-{% with product.imagesproduct_set.all|first as first_image %}
+{% with product.images.all|first as first_image %}
 <div class="item shadow-sm zoom" style="overflow: hidden;">
   {% if product.whatsapp %}
     <a href="https://wa.me/{{ product.whatsapp }}?text=Hola.%20Estoy%20interesado%20por%20el%20producto%20que%20mire%20por%20Esquel%20Vende: www.google.com" class="whatsapp-link disabled shadow-sm">
       <i class="fab fa-whatsapp whatsapp disabled"></i>
     </a>
   {% endif %}
-  <a class="redirect-product" href="/product/{{ product.slug }}-{{ product.pk }}/"></a>
+  <a class="redirect-product" href="{{ product.get_url }}"></a>
   <img src="/media/{{ first_image.thumbnail }}" class="item-image">
   <div class="d-flex flex-column pt-2">
     <span class="item-price">$ {{ product.price }}</span>

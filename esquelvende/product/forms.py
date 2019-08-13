@@ -1,6 +1,7 @@
 from django import forms
 
 from django.forms import ModelChoiceField
+from django.template.defaultfilters import slugify
 from .models import ImagesProduct, Product, Favorite
 
 from django.core.exceptions import ValidationError
@@ -70,6 +71,7 @@ class FormProduct(forms.ModelForm):
     def save(self, commit=True):
         instance = super(FormProduct, self).save(commit=False)
         instance.user = self.user
+        instance.slug = slugify(instance.title)
 
         if commit:
             instance.save()
@@ -81,23 +83,6 @@ class FormImagesProduct(forms.ModelForm):
     class Meta:
         model = ImagesProduct
         fields = ('image',)
-
-    def save(self, product, file, commit=True):
-        instance = super(FormImagesProduct, self).save(commit=False)
-        try:
-            obj = ImagesProduct.objects.get(pk=instance.pk)
-            instance = ImagesProduct.objects.create(
-                product=product,
-                image=file,
-            )
-        except Exception:
-            instance.product = product
-            instance.image = file
-
-            if commit:
-                instance.save()
-
-        return instance
 
 
 class FormEditProduct(forms.ModelForm):

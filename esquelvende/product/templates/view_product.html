@@ -14,6 +14,7 @@
             <div class="product-title">
                 <h5 style="word-wrap: break-word;">{{ product.title }}</h5>
             </div>
+            <!--
             <div class="flex-seller user-picture-container">
                 <div class="user-picture">
                     <img src="/media/{{ product.user.account.avatar }}" class="rounded-circle img-responsive" alt="picture">
@@ -24,6 +25,7 @@
                     </h5>
                 </div>
             </div>
+        -->
         </div>
         
         <div class="row row-eq-height">
@@ -115,18 +117,6 @@
             </div>
         </div>
     </div>
-
-        <!-- <div>
-            {% load hitcount_tags %}
-            visitas: {% get_hit_count for product %}   
-        </div> -->
-        
-        <!-- {{ product.description }} <br>
-        {{ product.price }} <br>
-
-        <a href="/reportar/{{ product.id }}"> Denunciar </a>
-        {% include "./favorite_product.html" %}
-         -->
 
     </div>  <!-- Container-->
 {% endblock%}

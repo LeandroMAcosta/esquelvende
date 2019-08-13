@@ -10,8 +10,8 @@
 
 {% block content %}
 <div class="container content sheet shadow-sm">
-  <h3 class="text-center mb-5">Contános, ¿Qué vendes?</h3>
-  <form method="POST" onsubmit="return sendPhotos(event)" class="post-form" enctype="multipart/form-data"> 
+  <h3 class="text-center mb-5">Contanos, ¿Qué vendés?</h3>
+  <form method="POST" onsubmit="return sendForm(event)" class="post-form" enctype="multipart/form-data"> 
     {% csrf_token %}
     <div class="row">
       <div class="col-12 col-lg-5">
@@ -33,23 +33,43 @@
             <div id="d-id_category" class="div-category">
               {{ form.category|add_attributes:"onchange:categorySelector(event), size:11, class:select-category, required: true" }}
             </div>
+            <!--
             <div class="d-flex align-items-center">
               <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
             </div>
+          -->
           </div>
         </div>
       </div>
     </div>
+
     <div class="form-group">
       <label for="images">Agregá fotos</label>
+
       <div class="scroll-photos">
         <div id="images"></div>
+
+        <!-- Ver esto -->
+        <div id="loadingImages">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+
         <div class="input-container" title="Elige un archivo para subir">
           <div style="position: absolute; text-align: center;">
             <i class="fas fa-camera cam"></i>
             <h5 id="photos">+6 fotos</h5>
           </div>
-          {{ form_images.image|add_attributes:"class:form-control-file, onchange:uploadFile(this.files); displacement(), accept: image/*, multiple:true"}}
+          <input
+            type="file"
+            name="image"
+            id="id_image"
+            class="form-control-file"
+            onchange="uploadFile(this.files); displacement()"
+            accept="image/*"
+            multiple="true"
+          >
         </div>
       </div>
     </div> 

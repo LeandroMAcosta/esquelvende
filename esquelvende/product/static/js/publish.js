@@ -1,24 +1,49 @@
 const images = document.querySelector("div#images");
-const urlCreator = window.URL || window.webkitURL;
 var obj = {};
 let size = 0;
 
 function uploadFile(files) {
-    for(let i = 0; i < files.length && Object.keys(obj).length < 6; ++i) {
-        obj[i + size++] = files.item(i);
+    var fd = new FormData(),
+        csrf = $('[name=csrfmiddlewaretoken]');
+
+    new_images = {}
+    for(var i = 0; i < files.length && Object.keys(new_images).length < 6; ++i) {
+        new_images[i] = files.item(i)
+        fd.append('image', new_images[i])
     }
-    renderFiles();
+
+    fd.append('csrfmiddlewaretoken', csrf.attr('value'));
+
+    $.ajax({
+        url: "/product/upload-image/",
+        type: 'POST',
+        data: fd,
+        cache: false,
+        processData: false,
+        contentType: false,
+        enctype: 'multipart/form-data',
+        success: function(data, status, xhr) {
+            console.log(data)
+            for(var i = 0; i < files.length && Object.keys(obj).length < 6; ++i) {
+                obj[size++] = data[i];
+            }
+            renderFiles();
+        },
+        error: function(xhr, status, error) {
+            alert("Ocurrio un error. Recarge la pagina.");
+        }
+    });
 }
 
 function deleteFile(div, key) {
-    changeNumberImages(1)
+    numberImages(1)
     delete obj[key];
     images.removeChild(images.querySelector(`div#images div.id${key}`));
 }
 
 function renderFiles() {
-    for (let [key, file] of Object.entries(obj)) {
-        
+    for (let [key, url] of Object.entries(obj)) {
+        console.log(url)
         // If it already exists move to the next file.
         if(document.querySelector(`div#images img.id${key}`)) continue;
 
@@ -36,8 +61,7 @@ function renderFiles() {
 
         deleteImage.onclick = () => { deleteFile(newImage, key) };
 
-        const imageUrl = urlCreator.createObjectURL(file);
-        newImage.src = imageUrl;
+        newImage.src = `/media/${url['url']}`;
 
         parent.appendChild(newImage);
         parent.appendChild(deleteImage);
@@ -46,10 +70,21 @@ function renderFiles() {
         // clean entry. 
         document.getElementsByClassName("form-control-file")[0].value = "";
 
-        changeNumberImages(0)
+        numberImages(0)
     }
 }
 
+// Spinner
+var loading = $('#loadingImages').hide();
+$(document)
+.ajaxStart(function () {
+    loading.show();
+})
+.ajaxStop(function () {
+    loading.hide();
+});
+
+// Muetra la cantidad de letras que restan.
 $('#check').keyup( function() {
     var value = $(this).val(),
         maxlength = $(this).data("maxlength"),
@@ -118,10 +153,9 @@ function displacement() {
     $(".scroll-photos").scrollLeft(1000);
 }
 
-function changeNumberImages(isDelete) {
+function numberImages(isDelete) {
     var countImages = $('#images').children().length;
     if (isDelete) {
-        console.log(countImages, 6 - countImages)
         countImages = 6 - countImages + 1;
     } else {
         countImages = 6 - countImages;
@@ -129,13 +163,14 @@ function changeNumberImages(isDelete) {
     $("#photos").html(`+${countImages} fotos`);
 }
 
-function sendPhotos(e) {
-    // Cancela el POST del formulario para usar solo AJAX.
+function sendForm(e) {
     e.preventDefault();
-    var fd = new FormData();
-
-    // Para hacer un POST django nos pide el csrf.
-    var csrf = $('[name=csrfmiddlewaretoken]');
+    /*
+    Creamos un fd y le agregamos las imagenes, csrf y todos los
+    valores de los campos.
+    */
+    var fd = new FormData(),
+        csrf = $('[name=csrfmiddlewaretoken]');
 
     var fields = {
         'title': $('[name=title]').val(),
@@ -150,12 +185,12 @@ function sendPhotos(e) {
         'description': $('[name=description]').val(),
         'price': $('[name=price]').val()
     }
+
     for (let [key, value] of Object.entries(fields)) {
         if (value) fd.append(key, value);
     }
-
     for (let [key, file] of Object.entries(obj)) {
-        fd.append('image', file);
+        fd.append('image', file['id']);
     }
 
     fd.append('csrfmiddlewaretoken', csrf.attr('value'))
@@ -170,13 +205,14 @@ function sendPhotos(e) {
         enctype: 'multipart/form-data',
 
         success: function(data, status, xhr) {
+            console.log(data, status, xhr)
             if (data.err_code) {
                 for(var key in data.err_msg) {
-                    let newDiv = document.createElement("div");
-                    let newMsg = document.createTextNode(`${data.err_msg[key][0]}`)
+                    var newDiv = document.createElement("div"),
+                        newMsg = document.createTextNode(`${data.err_msg[key][0]}`)
 
-                    elem = document.querySelector(`[for=${key}]`);
-                    parent = elem.parentElement;
+                    var elem = document.querySelector(`[for=${key}]`),
+                        parent = elem.parentElement;
                     
                     // Si ya existe un error lo borramos y ponemos el nuevo.
                     if (parent.querySelector("div.alert")) {
@@ -193,12 +229,12 @@ function sendPhotos(e) {
                 /* Usar replace permite que la pagina actual no se
                    guarde en el historial de sesion, lo que significa
                    que no vamos a poder volver por el boton para atras. */
-                window.location.replace(`/product/${data.product_slug}-${data.product_id}/`);
+                window.location.replace(data.url);
             }
             
         },
         error: function(xhr, status, error) {
-            alert("Algo salio mal, vuelva a recargar la pagina.");
+            alert("Ocurrio un error. Recarge la pagina.");
         }
     });
 

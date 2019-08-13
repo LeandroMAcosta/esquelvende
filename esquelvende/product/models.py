@@ -2,10 +2,10 @@
 from __future__ import unicode_literals
 
 from datetime import datetime, timedelta
-from django.template.defaultfilters import slugify
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.urls import reverse
 from django.core.validators import MinValueValidator
 
 from django.contrib.contenttypes.fields import GenericRelation
@@ -13,7 +13,9 @@ from hitcount.models import HitCount, HitCountMixin
 
 from category.models import Brand, Category, SubA, SubB
 from search import get_query
+import constants
 
+# Para trabajar con las imagenes.
 from PIL import Image
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
@@ -32,7 +34,7 @@ class Product(models.Model, HitCountMixin):
     slug = models.SlugField()  # Title + id
     description = models.TextField(null=True, blank=True)
     active = models.BooleanField(default=True)
-    # Cambiar este nombre delete creo que jode al delete() de django is_deleted
+    # Cambiar este nombre delete creo que jode al delete() de django a is_deleted
     delete = models.BooleanField(default=False)
     count_report = models.IntegerField(default=0)
     user = models.ForeignKey(
@@ -82,10 +84,6 @@ class Product(models.Model, HitCountMixin):
     def __str__(self):
         return self.title
 
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
-        super(Product, self).save(*args, **kwargs)
-
     def is_expired(self):
         expired = timezone.now() > (self.updated_at + timedelta(days=30))
         if expired:
@@ -94,10 +92,6 @@ class Product(models.Model, HitCountMixin):
         return expired
 
     def delete_product(self):
-        """
-            Un producto eliminado no se mostrara a ningun usuario, es como
-            si no existiera, pero lo guardamos por razones.
-        """
         self.delete = True
         self.active = False
         self.save()
@@ -117,55 +111,51 @@ class Product(models.Model, HitCountMixin):
         products = cls.objects.filter(query)
         return products
 
+    def get_url(self):
+        return reverse("product_detail", args=(self.slug, self.id))
+
+    # Filter favorite or history products by user
+    @classmethod
+    def get_products_by_user(self, **filter):
+        return Product.objects.filter(delete=False, active=True, **filter)
+
 
 class ImagesProduct(models.Model):
-    product = models.ForeignKey(Product)
+    product = models.ForeignKey(
+        Product,
+        null=True,
+        blank=True,
+        related_name='images'
+    )
     image = models.ImageField(upload_to='images/', blank=True)
     thumbnail = models.ImageField(upload_to='images/thumbnail', blank=True)
 
-    def save(self, *args, **kwargs):
-        # Redimensionar self.image
-        self.image = self.handle_file(600)
-        # Generamos thumbnail
-        self.handle_file(180, True)
+    def save(self, product=None, *args, **kwargs):
+        if product is None:
+            self.image = self.handle_file(600)
+            self.handle_file(180, True)
         super(ImagesProduct, self).save(*args, **kwargs)
 
     def handle_file(self, base_width, thumbnail=None):
-        # Abrir la imagen cargada.
-        im = Image.open(self.image)
-
-        # Modificamos la imagen
-        im.thumbnail((base_width, base_width), Image.ANTIALIAS)
+        img = Image.open(self.image)
+        img.thumbnail((base_width, base_width), Image.ANTIALIAS)
+        img = self.standardize_image(img, base_width)
 
         filename, file_ext = os.path.splitext(self.image.name)
         file_ext = file_ext.lower()
-
-        # Obtenemos alto y ancho
-        heigth = im.size[0]
-        weight = im.size[1]
-
-        # Creamos una imagen cuadrada y le pegaromos la del usuario.
-        new_img = Image.new('RGB', (base_width, base_width), "white")
-        new_img.paste(im, ((base_width-heigth)/2, (base_width-weight)/2))
-        im = new_img
 
         if thumbnail:
             filename = filename.replace('images/', '')
 
         full_filename = filename + file_ext
 
-        if file_ext in ['.jpg', '.jpeg']:
-            FTYPE = 'JPEG'
-        elif file_ext == '.gif':
-            FTYPE = 'GIF'
-        elif file_ext == '.png':
-            FTYPE = 'PNG'
-        else:
-            raise Exception('Extesion incorrecta.')
+        try:
+            ftype = constants.CHECK_EXTENSION[file_ext]
+        except KeyError:
+            raise ('Wrong extension.')
 
-        # Despues de modificarlo, lo guardamos en la salida.
         output = BytesIO()
-        im.save(output, format=FTYPE, quality=100)
+        img.save(output, format=ftype, quality=100)
         output.seek(0)
 
         if thumbnail is None:
@@ -187,52 +177,39 @@ class ImagesProduct(models.Model):
             )
             output.close()
 
+    def standardize_image(self, image, base_width):
+        heigth, weight = image.size[0], image.size[1]
+        new_img = Image.new('RGB', (base_width, base_width), "white")
+        new_img.paste(image, ((base_width-heigth)/2, (base_width-weight)/2))
+        return new_img
+
 
 class Favorite(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    product = models.OneToOneField(Product, on_delete=models.CASCADE)
-
-    @classmethod
-    def filter_products(cls, user):  # Devuelve productos activos y no vencidos.
-        favorites = cls.objects.filter(user=user)
-        products = [
-            f.product
-            for f in favorites
-            if not f.product.is_expired() and not f.product.delete
-        ]
-        return products
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.product.title
 
 
 class History(models.Model):
-    MAX_HISTORY = 10  # Numero max. de historial por usuario.
-
-    user = models.ForeignKey(User)
-    product = models.ForeignKey(Product)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     @classmethod
     def add_to_history(cls, user, product):
-        _, created = cls.objects.get_or_create(
-            user=user,
-            product=product
-        )
+        try:
+            obj = Product.objects.get(user=user, pk=product.id)
+        except Product.DoesNotExist:
+            _, created = cls.objects.get_or_create(
+                user=user,
+                product=product
+            )
 
-        if created:
-            histories = cls.objects.filter(user=user)
-            if histories.count() >= cls.MAX_HISTORY:
-                histories[0].delete()
-
-    @classmethod
-    def filter_products(cls, user):  # Devuelve productos activos y no vencidos.
-        history = cls.objects.filter(user=user)
-        products = [
-            h.product
-            for h in history
-            if not h.product.is_expired() and not h.product.delete
-        ]
-        return products
+            if created:
+                histories = cls.objects.filter(user=user)
+                if histories.count() >= constants.MAX_HISTORY:
+                    histories[0].delete()
 
     def __str__(self):
         return self.product.title

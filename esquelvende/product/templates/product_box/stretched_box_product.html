@@ -1,8 +1,8 @@
-{% with product.imagesproduct_set.all|first as first_image %}
+{% with product.images.all|first as first_image %}
 <div class="d-flex justify-content-between item shadow-sm p-3">
     <div class="d-flex">
         {% if product.active %}
-            <a class="redirect-product" href="/product/{{ product.slug }}-{{ product.pk }}/">
+            <a class="redirect-product" href="{{ product.get_url }}">
                 <img src="/media/{{ first_image.thumbnail }}" class="item-image">
             </a>
         {% else %}

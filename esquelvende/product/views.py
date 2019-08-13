@@ -2,18 +2,126 @@
 from __future__ import unicode_literals
 
 from django.contrib.auth.decorators import login_required
-from django.forms import modelformset_factory
+# from django.forms import modelformset_factory
 from django.http import Http404, JsonResponse
 from django.shortcuts import HttpResponse, redirect, get_object_or_404, render
 
-from hitcount.models import HitCount
-from hitcount.views import HitCountMixin
+# from hitcount.models import HitCount
+# from hitcount.views import HitCountMixin
 
+import constants
 from category.models import Category, SubA, SubB, Brand
-from reports.forms import FormReport
 from .forms import FormEditProduct, FormImagesProduct, FormProduct
 from .models import Product, ImagesProduct, Favorite, History
 from account.views import user_products
+
+
+@login_required(login_url='/login/')
+def publish_product(request):
+    if request.method == 'POST':
+        form = FormProduct(request.POST, user=request.user)
+        if form.is_valid():
+            images = request.POST.getlist('image')
+            product = form.save()
+            for count, id_file in enumerate(images):
+                if count < constants.MAX_IMAGES:
+                    try:
+                        obj = ImagesProduct.objects.get(
+                            pk=int(id_file),
+                            product=product.pk
+                        )
+                        return HttpResponse(status=400)
+                    except Exception:
+                        obj = ImagesProduct.objects.get(pk=int(id_file))
+                        obj.product = product
+                        obj.save(product)
+            return JsonResponse({"url": product.get_url()})
+
+        data = {'err_code': constants.INVALID_FORM, 'err_msg': form.errors}
+        return Response(data)
+    else:
+        form = FormProduct(initial={'contact_email': request.user.email})
+        return render(request, './publish_product.html', {'form': form})
+
+
+@login_required(login_url='/login/')
+def upload_image(request):
+    if request.method == 'POST':
+        form = FormImagesProduct(request.FILES)
+        if form.is_valid():
+            images = request.FILES.getlist('image')
+            data = []
+            for count, file in enumerate(images):
+                tmp = {}
+                if count < 6:
+                    image = ImagesProduct.objects.create(image=file,)
+                    tmp['id'] = image.id
+                    tmp['url'] = image.thumbnail.name
+                    data.append(tmp)
+            return JsonResponse(data, safe=False)
+        return HttpResponse(status=400)
+
+
+@login_required(login_url='/login/')
+def delete_product(request, product_id=None):
+    product = get_object_or_404(Product, pk=product_id, user=request.user)
+    if request.POST:
+        try:
+            product.delete_product()
+        except Exception:
+            return HttpResponse(status=400)
+        return JsonResponse({'product_id': product.id})
+
+
+@login_required(login_url='/login/')
+def republish_product(request, product_id=None):
+    product = get_object_or_404(Product, pk=product_id, user=request.user)
+    if request.POST:
+        try:
+            product.republish()
+        except Exception:
+            return HttpResponse(status=400)
+        return user_products(request, './user_products/ajax_products.html')
+
+
+def view_product(request, product_slug=None, product_id=None):
+    product = get_object_or_404(
+        Product,
+        slug=product_slug,
+        pk=product_id,
+        active=True
+    )
+
+    context = {"product": product, "images": product.images.all()}
+
+    if request.user.is_authenticated:
+        History.add_to_history(request.user, product)
+        context["has_favorite"] = Favorite.objects.filter(product=product.id,
+                                                          user=request.user
+                                                          ).exists()
+    return render(request, './view_product.html', context)
+
+
+def create_favorite(request, product_id=None):
+
+    if request.POST:
+        product = get_object_or_404(Product, pk=product_id)
+        if not request.user.is_authenticated:
+            return JsonResponse(
+                {'url': '/login/?next=/product/%s-%s/' % (product.slug, product.pk)}
+            )
+        try:
+            favorite = Favorite.objects.get(
+                product=product_id,
+                user=request.user
+            )
+            favorite.delete()
+        except Favorite.DoesNotExist:
+            favorite = Favorite.objects.create(
+                product=product,
+                user=request.user
+            )
+            return HttpResponse(status=201)
 
 
 def search(request):
@@ -27,126 +135,8 @@ def search(request):
         categories = Category.objects.all()
         context = {'categories': categories, 'products': products}
         return render(request, 'search.html', context)
-    except Exception as e:
-        print(e)
-        return redirect('/')
-
-
-def view_product(request, product_slug, product_id):
-    product = get_object_or_404(
-        Product,
-        slug=product_slug,
-        pk=product_id,
-        active=True
-    )
-
-    """
-    Cada vez que un usuario hecha un vistazo a
-    un producto se agrega a su historial.
-    """
-    if request.user.is_authenticated:
-        try:
-            # Para que un usuario no tenga sus productos en su historial.
-            obj = Product.objects.get(user=request.user, pk=product_id)
-        except Exception as e:
-            History.add_to_history(request.user, product)
-
-    images = product.imagesproduct_set.all()
-    hit_count = HitCount.objects.get_for_object(product)
-    hit_count_response = HitCountMixin.hit_count(request, hit_count)
-
-    context = {'product': product, 'images': images}
-    try:
-        favorite = Favorite.objects.get(
-            product=product_id,
-            user=request.user
-        )
-        context['favorite'] = True
     except Exception:
-        context['favorite'] = False
-
-    return render(request, './view_product.html', context)
-
-
-@login_required(login_url='/login/')
-def delete_product(request, product_id):
-    product = get_object_or_404(Product, pk=product_id, user=request.user)
-    if request.POST:
-        try:
-            product.delete_product()
-        except Exception as e:
-            # Aca habria que devolver algun error http.
-            pass
-        return JsonResponse({'id_product': product.id})
-
-
-@login_required(login_url='/login/')
-def republish_product(request, product_id):
-    product = get_object_or_404(Product, pk=product_id, user=request.user)
-    if request.POST:
-        try:
-            product.republish()
-        except Exception as e:
-            # Aca habria que devolver algun error http.
-            pass
-        # Llama a la view user_products que devuelve los productos del usuario.
-        return user_products(request, './user_products/ajax_products.html')
-
-
-def create_favorite(request, product_id):
-    if not request.user.is_authenticated:
-        data = {'url': '/login/?next=/product/%s/' % product_id}
-        return JsonResponse(data, status=200)  # status: Requiere auth de user.
-
-    if request.POST:
-        product = get_object_or_404(Product, pk=product_id)
-        try:
-            favorite = Favorite.objects.get(
-                product=product_id,
-                user=request.user
-            )
-
-            if favorite:
-                favorite.delete()
-            return HttpResponse(status=204)  # status: Recurso Elim. con exito.
-        except Exception as e:
-            # print(e)
-            favorite = Favorite.objects.create(
-                product=product,
-                user=request.user
-            )
-            return HttpResponse(status=201)  # status: objecto creado.
-    return HttpResponse(status=400)
-
-
-@login_required(login_url='/login/')
-def publish_product(request):
-    if request.method == 'POST':
-        form = FormProduct(request.POST, user=request.user)
-        second_form = FormImagesProduct(request.FILES)
-        if form.is_valid() and second_form.is_valid():
-            product = form.save()
-            files = request.FILES.getlist('image')
-            """
-            Contamos hasta 6 porque por ahora solo nos interesa
-            guardar esa cantidad de imagenes, (deberia ser
-            una constante).
-            """
-            for count, file in enumerate(files):
-                if count < 6:
-                    second_form.save(product, file)
-
-            return JsonResponse({'product_slug': product.slug, 'product_id': product.id})
-        else:
-            data = {'err_code': 'invalid_form', 'err_msg': form.errors, }
-            return JsonResponse(data)
-    else:
-        data = {'contact_email': request.user.email}
-        form = FormProduct(initial=data)
-        second_form = FormImagesProduct()
-
-        context = {'form': form, 'form_images': second_form}
-        return render(request, './publish_product.html', context)
+        return redirect('/')
 
 
 # @login_required(login_url='/login/')
