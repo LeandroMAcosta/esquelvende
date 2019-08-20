@@ -166,12 +166,12 @@ def sub_b(request, slug_category, slug_sub_a, slug_sub_b):
     brand = request.GET.get('brand', None)
     context, filter_by = {}, {}
 
-    sub_a = get_object_or_404(
-        SubA,
-        slug=slug_sub_a,
-        category__slug=slug_category
+    sub_b = get_object_or_404(
+        SubB
+        slug=sub_b.slug,
+        sub_a__slug=sub_a.slug,
+        sub_a__category__slug=category.slug
     )
-    sub_b = get_object_or_404(SubB, slug=slug_sub_b, sub_a__slug=slug_sub_a)
 
     if brand:
         brand = get_object_or_404(Brand, slug=brand)
@@ -181,8 +181,8 @@ def sub_b(request, slug_category, slug_sub_a, slug_sub_b):
         context.update({'brands': sub_b.brand.all(),
                         'current_category': sub_b})
 
-    filter_by.update({'category__slug': sub_a.category.slug,
-                      'sub_a__slug': sub_a.slug,
+    filter_by.update({'category__slug': sub_b.sub_a.category.slug,
+                      'sub_a__slug': sub_b..sub_a.slug,
                       'sub_b__slug': sub_b.slug})
     minim = request.GET.get('min', None)
     maxim = request.GET.get('max', None)

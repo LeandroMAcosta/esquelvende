@@ -38,7 +38,7 @@ def search(request):
         products = Product.filter_products(search, filter_by)
         categories = Category.objects.all()
         context = {
-            'categories': categories, 
+            'categories': categories,
             'products': products,
             'quantity': len(products)
         }
