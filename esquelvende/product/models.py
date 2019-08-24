@@ -120,6 +120,14 @@ class Product(models.Model, HitCountMixin):
             self.updated_at = timezone.now()
             self.save()
 
+    def get_primary_image(self):
+        return self.images.all().first()
+
+    def get_status(self):
+        if self.status == 'U':
+            return "Usado"
+        return "Nuevo"
+
     def get_url(self):
         return reverse("product_detail", args=(self.slug, self.id))
 

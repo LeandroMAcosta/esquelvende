@@ -82,9 +82,26 @@ def category(request, slug_category):
 
     filter_by = {'category__slug': category.slug}
 
+    if request.GET.get('cond', None):
+        filter_by['status'] = request.GET.get('cond', None)
+
+    minim = request.GET.get('min', None)
+    maxim = request.GET.get('max', None)
+
+    if minim:
+        filter_by['price__gte'] = int(minim)
+
+    if maxim:
+        filter_by['price__lte'] = int(maxim)
+
     context = {'current_category': category,
                'categories': category.suba_set.all(),
-               'products': Product.actives.custom_filter(search, filter_by)}
+               'products': Product.actives.custom_filter(search, filter_by),
+               'quantity': len(products)}
+    context['path'] = [
+        (category, slug_category, []),
+    ]
+
     return render(request, 'base_category.html', context)
 
 
@@ -103,7 +120,6 @@ def sub_a(request, slug_category, slug_sub_a):
     brand = request.GET.get('brand', None)
     context, filter_by = {}, {}
 
-    category = get_object_or_404(Category, slug=slug_category)
     sub_a = get_object_or_404(
         SubA,
         slug=slug_sub_a,
@@ -125,7 +141,23 @@ def sub_a(request, slug_category, slug_sub_a):
 
     filter_by.update({'category__slug': category.slug,
                       'sub_a__slug': sub_a.slug})
-    context['products'] = Product.actives.custom_filter(search, filter_by)
+
+    minim = request.GET.get('min', None)
+    maxim = request.GET.get('max', None)
+    if minim:
+        filter_by['price__gte'] = int(minim)
+
+    if maxim:
+        filter_by['price__lte'] = int(maxim)
+
+    products = Product.actives.custom_filter(search, filter_by)
+    context['products'] = products
+    context['quantity'] = len(products)
+    context['path'] = [
+        (category, slug_category, []),
+        (sub_a, slug_sub_a, [slug_category])
+    ]
+
     return render(request, 'base_category.html', context)
 
 
@@ -134,13 +166,12 @@ def sub_b(request, slug_category, slug_sub_a, slug_sub_b):
     brand = request.GET.get('brand', None)
     context, filter_by = {}, {}
 
-    category = get_object_or_404(Category, slug=slug_category)
-    sub_a = get_object_or_404(
-        SubA,
-        slug=slug_sub_a,
-        category__slug=slug_category
+    sub_b = get_object_or_404(
+        SubB
+        slug=sub_b.slug,
+        sub_a__slug=sub_a.slug,
+        sub_a__category__slug=category.slug
     )
-    sub_b = get_object_or_404(SubB, slug=slug_sub_b, sub_a__slug=slug_sub_a)
 
     if brand:
         brand = get_object_or_404(Brand, slug=brand)
@@ -150,8 +181,25 @@ def sub_b(request, slug_category, slug_sub_a, slug_sub_b):
         context.update({'brands': sub_b.brand.all(),
                         'current_category': sub_b})
 
-    filter_by.update({'category__slug': category.slug,
-                      'sub_a__slug': sub_a.slug,
+    filter_by.update({'category__slug': sub_b.sub_a.category.slug,
+                      'sub_a__slug': sub_b..sub_a.slug,
                       'sub_b__slug': sub_b.slug})
-    context['products'] = Product.actives.custom_filter(search, filter_by)
+    minim = request.GET.get('min', None)
+    maxim = request.GET.get('max', None)
+
+    if minim:
+        filter_by['price__gte'] = int(minim)
+
+    if maxim:
+        filter_by['price__lte'] = int(maxim)
+
+    products = Product.actives.custom_filter(search, filter_by)
+    context['products'] = products
+    context['quantity'] = len(products)
+    context['path'] = [
+        (category, slug_category, []),
+        (sub_a, slug_sub_a, [slug_category]),
+        (sub_b, slug_sub_b, [slug_category, slug_sub_a])
+    ]
+
     return render(request, 'base_category.html', context)

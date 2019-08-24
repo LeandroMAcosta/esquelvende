@@ -1,29 +1,174 @@
 {% extends "base.html" %}
-{% block css %}{% endblock%}
+{% load staticfiles %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/categories.css' %}" />
+{% endblock %}
 
 {% block content %}
-<div>
-    <h2>Ubicacion actual</h2>
-    {{ current_category }}
-    <br>
-    <h2>Productos</h2>
-    {% for product in products %}
-        <span>{{ product }}</span>
-    {% endfor%}
-    <br>
-    {% if categories %}
-    <h2>Categorias</h2>
-        {% for category in categories %}
-            <span>{{ category }}</span>
-        {% endfor%}
-    {% elif brands %}
-        <h2>Categorias</h2>
-        {% for brand in brands %}
-            <span>{{ brand }}</span>
-        {% endfor%}
-    {% endif %}
+<div class='categories container content'>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active"><a href="/">Home</a></li>
+            {% for cat, slug, pth in path %}
+                {% if forloop.last or path.count == 1 %}
+                    <li class="breadcrumb-item active" aria-current="page">
+                        {{ cat }}
+                    </li>
+                {% else %}
+                    <li class="breadcrumb-item">
+                        <a href="/{% for bread in pth %}{{bread}}/{% endfor %}{{slug}}{% if request.GET %}?{% endif %}{{ request.GET.urlencode }}">{{ cat }}</a>
+                    </li>
+                {% endif%}
+            {% endfor %}
+        </ol>
+    </nav>
+    <div class="row">
+        <div class="col-md-3">
+            {% if request.GET.results %}
+                <div class="search">
+                    <h3>
+                        {{ request.GET.results }}
+                    </h3>
+                    <p class="text-secondary">
+                        {{ quantity}} resultado{% if quantity > 1%}s{%endif%}.
+                    </p>
+                </div>
+            {% endif %}
+
+
+            <!-- Insignias -->
+            <div class="badges">
+                {% if request.GET.type == "U" %}            
+                    <button
+                        onclick="genUrl(name, true)"
+                        name="type"
+                        type="submit"
+                        class="badge-button link-button a-blank">
+                        Usado<i class="fas fa-times"></i>
+                    </button>
+                {% elif request.GET.type == "N" %}
+                    <button
+                        onclick="genUrl(name, true)"
+                        name="type"
+                        type="submit"
+                        class="badge-button link-button a-blank">
+                        Nuevo <i class="fas fa-times"></i>
+                    </button>
+                {% endif %}
+            </div>
+
+            {% if results%}
+                <div class="field">
+                    <h4>Busqueda</h4>
+                    <b>{{results}}</b>
+                </div>
+            {% endif %}
+            {{ request.GET.urlencode }}
+            {% if categories.count %}
+            <div class="field">
+                <h4>Categorias</h4>
+                {% for category in categories %}
+                    <a href="/{% for cat, slug, pth in path%}{{slug}}/{% endfor%}{{ category.slug }}{% if request.GET %}?{% endif %}{{ request.GET.urlencode }}" class="a-blank">
+                        {{ category }}<br>
+                    </a>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if brands.count %}
+            <div class="field">
+                <h4>Marcas</h4>
+                {% for brand in brands %}
+                    <button name="brand" type="submit" value="{{ brand.slug }}" class="button-blank">
+                        {{brand}}
+                    </button>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+
+
+            <!-- Condiones -->
+            <div class="field">
+                <h4>Condicion</h4>
+                <button
+                    name="cond"
+                    onclick="genUrl({type:'U'})"
+                    value="U"
+                    class="link-button a-blank">Usado
+                </button>
+                <button
+                    name="cond"
+                    onclick="genUrl({type:'N'})"
+                    value="N"
+                    class="link-button a-blank">Nuevo
+                </button>
+            </div>
+            <!-- Precio -->
+            <form
+                action="javascript:genUrl({min:this.min.value, max:this.max.value})"
+                method="GET">
+                <div class="field">
+                    <h4>Precio</h4>
+                    <div class="input-group">
+                        <!-- <input id="cond" type="text" name="cond" value="{{ request.GET.cond
+}}" style="display:none"> -->
+                        <!--
+                        <input id="results" type="text" name="results" value="{{ request.GET.results }}" style="display:none">
+                        <input id="brand" type="text" name="brand" value="{{ request.GET.brand }}" style="display:none">
+                        -->
+                        <input
+                            id="min"
+                            type="number"
+                            name="min"
+                            value="{{request.GET.min}}"
+                            class="form-control"
+                            placeholder="minimo">
+                        <input
+                            id="max"
+                            type="number"
+                            name="max"
+                            value="{{request.GET.max}}"
+                            class="form-control"
+                            placeholder="maximo">
+                    </div>
+                    <input type="submit" style="display:none"/>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-9">
+            {% for product in products %}
+                <div class="product-container">
+                    {% include "./product_box/stretched_box_product.html" %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
 </div>
 {% endblock%}
 
 {% block javascript %}
+<script>
+    function genUrl(params=false, del=false) {
+        // Creamos una instancia de URL.
+        var url = new URL(window.location.href);
+        console.log(url)
+        // Si hay parametros y no los queremos borrar, los agregamos.
+        if (params && !del) {
+            var searchParams = new URLSearchParams(params);
+            console.log(searchParams)
+            for(var pair of searchParams.entries()) {
+                url.searchParams.set(pair[0], pair[1]);
+            }
+        }
+        // De lo contrario lo eliminamos de la URL.
+        else if (params && del) {
+            url.searchParams.delete(params);
+        }
+        // Redirigimos
+        window.location.href = url.href;
+    }
+</script>
 {% endblock%}
