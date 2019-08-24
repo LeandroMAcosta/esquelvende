@@ -52,37 +52,27 @@ def edit_user(request):
 
 
 class HistoryList(LoginRequiredMixin, ListView):
-    model = History
+    model = Product
     template_name = 'list_history.html'
     paginate_by = 30
 
     def get_queryset(self):
-        return History.filter_products(self.request.user)
+        return Product.actives.filter(history__user=self.request.user.pk)
 
 
 class Favorites(LoginRequiredMixin, ListView):
-    model = Favorite
+    model = Product
     template_name = 'list_favorites.html'
     paginate_by = 30
 
     def get_queryset(self):
-        return Favorite.filter_products(self.request.user)
+        return Product.actives.filter(favorite__user=self.request.user.pk)
 
 
 @login_required(login_url='/login/')
 def user_products(request, template=None):
-    """
-    No filtramos productos por active=True porque ademas queremos
-    los que no estan activos.
-    Tambien, vemos si alguno supero el limite de publicacion y lo actulizamos.
-    """
-    products = [
-        product
-        for product in Product.objects.filter(user=request.user, delete=False)
-        if product.is_expired() or not product.is_expired()  # Skip (update products)
-    ]
-
-    context = {'products': products}
+    context = {}
+    context['products_actives'] = Product.actives.filter(user=request.user.pk)
+    context['products_inactives'] = Product.inactives.filter(user=request.user.pk)
     template = template or './user_products/list_of_products.html'
-
     return render(request, template, context)

@@ -84,7 +84,7 @@ def category(request, slug_category):
 
     context = {'current_category': category,
                'categories': category.suba_set.all(),
-               'products': Product.filter_products(search, filter_by)}
+               'products': Product.actives.custom_filter(search, filter_by)}
     return render(request, 'base_category.html', context)
 
 
@@ -125,7 +125,7 @@ def sub_a(request, slug_category, slug_sub_a):
 
     filter_by.update({'category__slug': category.slug,
                       'sub_a__slug': sub_a.slug})
-    context['products'] = Product.filter_products(search, filter_by)
+    context['products'] = Product.actives.custom_filter(search, filter_by)
     return render(request, 'base_category.html', context)
 
 
@@ -153,5 +153,5 @@ def sub_b(request, slug_category, slug_sub_a, slug_sub_b):
     filter_by.update({'category__slug': category.slug,
                       'sub_a__slug': sub_a.slug,
                       'sub_b__slug': sub_b.slug})
-    context['products'] = Product.filter_products(search, filter_by)
+    context['products'] = Product.actives.custom_filter(search, filter_by)
     return render(request, 'base_category.html', context)

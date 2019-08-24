@@ -31,8 +31,8 @@
     -o-object-fit: contain;
     -webkit-object-fit: contain;
     border-radius: 3px 3px 0 0;
-    width: 160px;
-    height: 160px;
+    max-width: 160px;
+    max-height: 160px;
 }
 .whatsapp {
     font-size: 23px;
@@ -67,20 +67,12 @@
 }
 
 @media only screen and (max-width : 992px) {
-    .item {
-        height: 200px;
-    }
     .item-price {
         color: #333;
         font-size: 18px;
     }
     .item-title {
         font-size: 13px;
-    }
-    .item-image {
-        width: 135px;
-        height: 135px;
-        border-radius: 0;
     }
     .whatsapp {
         font-size: 20px;

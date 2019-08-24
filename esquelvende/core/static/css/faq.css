@@ -1,9 +1,8 @@
 .faq .card{  
-    box-shadow: none!important;
+    box-shadow: none;
 }
 .faq {
-    margin-top: 40px!important;
-    padding: 50px 0px!important;
+    padding: 50px 0px;
 }
 .faq .title {
     margin-bottom: 30px;
@@ -12,7 +11,7 @@
     border: none;
 }
 .faq .card-header {
-    background-color: white!important;
+    background-color: white;
 }
 .faq a {
     color: #666;
@@ -20,17 +19,3 @@
 .faq .fas {
     color:#333;
 }
-
-@media only screen and (max-width : 992px) {
-    .faq {
-      margin-top: 0px!important;
-      padding: 80px 0px!important;
-    }
-    .faq-container {
-        padding-left: 0px!important;
-        padding-right: 0px!important;
-    }
-    .faq-container .card {
-        box-shadow: none!important;
-    }
-  }

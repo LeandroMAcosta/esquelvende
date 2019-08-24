@@ -13,15 +13,11 @@ from product.models import Product, Favorite, History
 
 def home(request):
     MAX_PRODUCTS = 10
-    products = Product.objects.filter(active=True) \
-                              .order_by('-id')[:MAX_PRODUCTS]
+    products = Product.actives.order_by('-id')[:MAX_PRODUCTS]
     context = {'products': products}
     if request.user.is_authenticated:
-        context.update({
-            'favorites': Favorite.filter_products(request.user),
-            'history': History.filter_products(request.user)
-        })
-
+        context['favorites'] = Product.actives.filter(favorite__user=request.user.pk)
+        context['history'] = Product.actives.filter(history__user=request.user.pk)
     return render(request, 'home.html', context)
 
 
@@ -44,7 +40,6 @@ def login_user(request):
     if request.POST:
         form = FormLogin(data=request.POST)
         if form.is_valid():
-            # Limpiamos los datos.
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             access = authenticate(username=username, password=password)

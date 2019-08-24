@@ -9,9 +9,9 @@
 {% block title %}Publicar{% endblock %}
 
 {% block content %}
-<div class="container content sheet">
-  <h3 class="text-center mb-5">Contános, ¿Que vendes?</h3>
-  <form method="POST" onsubmit="return sendPhotos(event)" class="post-form" enctype="multipart/form-data"> 
+<div class="container content sheet shadow-sm">
+  <h3 class="text-center mb-5">Contanos, ¿Qué vendés?</h3>
+  <form method="POST" onsubmit="return sendForm(event)" class="post-form" enctype="multipart/form-data"> 
     {% csrf_token %}
     <div class="row">
       <div class="col-12 col-lg-5">
@@ -20,8 +20,8 @@
           <small id="titleHelp" class="form-text text-muted">
            Usa palabras claves para que lo encuentren facilmente.
           </small>
-          {{ form.title|add_attributes:"class:form-control form-control-size, id:check, data-maxlength:30, autocomplete:off" }}
-          <small class="form-text text-muted" id="counter">Restan 30 caracteres.</small>
+          {{ form.title|add_attributes:"class:form-control form-control-size, id:check, data-maxlength:50, autocomplete:off" }}
+          <small class="form-text text-muted" id="counter">Restan 50 caracteres.</small>
         </div>
       </div>
     </div>  
@@ -33,23 +33,43 @@
             <div id="d-id_category" class="div-category">
               {{ form.category|add_attributes:"onchange:categorySelector(event), size:11, class:select-category, required: true" }}
             </div>
+            <!--
             <div class="d-flex align-items-center">
               <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
             </div>
+          -->
           </div>
         </div>
       </div>
     </div>
+
     <div class="form-group">
       <label for="images">Agregá fotos</label>
+
       <div class="scroll-photos">
         <div id="images"></div>
+
+        <!-- Ver esto -->
+        <div id="loadingImages">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+
         <div class="input-container" title="Elige un archivo para subir">
           <div style="position: absolute; text-align: center;">
             <i class="fas fa-camera cam"></i>
             <h5 id="photos">+6 fotos</h5>
           </div>
-          {{ form_images.image|add_attributes:"class:form-control-file, onchange:uploadFile(this.files); displacement(), accept: image/*, multiple:true"}}
+          <input
+            type="file"
+            name="image"
+            id="id_image"
+            class="form-control-file"
+            onchange="uploadFile(this.files); displacement()"
+            accept="image/*"
+            multiple="true"
+          >
         </div>
       </div>
     </div> 
@@ -71,7 +91,12 @@
         {{ form.price.errors }}
         <label for="price">Precio</label>
         <div class="form-group">
-          {{ form.price|add_attributes:"class:form-control form-control-size" }}
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text form-control-size" id="basic-addon2">$</span>
+            </div>
+            {{ form.price|add_attributes:"class:form-control form-control-size, aria-describedby:basic-addon2" }}
+          </div>
         </div>
       </div>
       <div class="col-12 col-lg-5">
@@ -104,9 +129,17 @@
             </div>
           </div>
           <div class="form-group row">
-            <label class="col-2 col-lg-1 col-form-label label-contact">Whatsapp:</label>
+            <label for="whatsapp" class="col-2 col-lg-1 col-form-label label-contact">Whatsapp:</label>
             <div class="col-12 col-lg-3 ">
-              {{ form.whatsapp|add_attributes:"class:form-control form-control-size, title:Se creara un enlace que permetira al comprador comenzar un chat contigo sin necesidad de tener tu numero agendado." }}
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text form-control-size bg-white" id="basic-addon3" style="border-right:none">+54 9</span>
+                </div>
+                {{ form.whatsapp|add_attributes:"class:form-control form-control-size border-left-none, title:Se creara un enlace que permetira al comprador comenzar un chat contigo sin necesidad de tener tu numero agendado., aria-describedby:basic-addon3, placeholder: ej. 2945766912" }}
+                <small id="whatsappHelp" class="form-text text-muted">
+                 Escriba la caracteristica y luego el numero sin guiones y espacios.
+                </small>
+              </div>
             </div>
           </div>
           <div class="form-group mb-0 row">
