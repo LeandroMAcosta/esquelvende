@@ -94,10 +94,9 @@ def category(request, slug_category):
     if maxim:
         filter_by['price__lte'] = int(maxim)
 
-    products = Product.filter_products(search, filter_by)
     context = {'current_category': category,
                'categories': category.suba_set.all(),
-               'products': products,
+               'products': Product.actives.custom_filter(search, filter_by),
                'quantity': len(products)}
     context['path'] = [
         (category, slug_category, []),
@@ -150,7 +149,8 @@ def sub_a(request, slug_category, slug_sub_a):
 
     if maxim:
         filter_by['price__lte'] = int(maxim)
-    products = Product.filter_products(search, filter_by)
+
+    products = Product.actives.custom_filter(search, filter_by)
     context['products'] = products
     context['quantity'] = len(products)
     context['path'] = [
@@ -193,7 +193,7 @@ def sub_b(request, slug_category, slug_sub_a, slug_sub_b):
     if maxim:
         filter_by['price__lte'] = int(maxim)
 
-    products = Product.filter_products(search, filter_by)
+    products = Product.actives.custom_filter(search, filter_by)
     context['products'] = products
     context['quantity'] = len(products)
     context['path'] = [

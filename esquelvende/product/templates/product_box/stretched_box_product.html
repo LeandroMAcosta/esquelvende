@@ -7,9 +7,13 @@
 {% with product.get_primary_image as first_image %}
 <div class="d-flex justify-content-between item shadow-sm p-3">
     <div class="d-flex">
-        <a class="redirect-product" href="/product/{{ product.pk }}/">
-            <img src="/media/{{ first_image.image }}" class="item-image">
-        </a>
+        {% if active %}
+            <a class="redirect-product" href="{{ product.get_url }}">
+                <img src="/media/{{ first_image.thumbnail }}" class="item-image">
+            </a>
+        {% else %}
+            <img src="/media/{{ first_image.thumbnail }}" class="item-image">
+        {% endif %}
         <div class="d-flex flex-column px-3">
             <span class="item-title mb-auto">{{ product.title }}</span>
             <span class="item-title mb-auto">{{ product.get_status }}</span>
@@ -18,7 +22,7 @@
     </div>
     {% if product.user == request.user %}
     <div class="d-flex flex-column">
-        {% if not product.active %}
+        {% if not active %}
             {% include "../republish_product.html" %}
         {% endif %}
         <span class="m-1" style="cursor: pointer;">

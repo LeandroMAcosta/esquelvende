@@ -12,20 +12,27 @@ body {
   font-family: 'Roboto', Helvetica, Arial, sans-serif;
 }
 .ev-orange {
-  background-color: #ed7710!important;
+  background-color: #ed7710;
 }
 .ev-white {
-  background-color: #ebebeb!important;
+  background-color: #ebebeb;
 }
+
+/* Titulos estandar de lista de productos, home, historial, favoritos y faq */
 .title {
-  text-transform: capitalize;
-  padding-bottom: 30px;
+  color:#666;
+  font-weight: 300;
+  font-size: 26px;
+  font-family: 'Open Sans';
 }
+
 /* Para el footer */
 .content {
   flex: 1 0 auto;
   margin-top: 40px;
 }
+
+/* Hoja blanca estandar */
 .sheet {
   background: #fff;
   padding: 25px;
@@ -56,6 +63,20 @@ body {
 /* ######################################################################## */
 /*                                  Header                                  */
 /* ######################################################################## */
+.logo_simple {
+   display: none;
+}
+
+@media only screen and (max-width: 992px){
+   .logo_default {
+     display: none;
+   }
+
+   .logo_simple {
+     display: block;
+   }
+}
+
 
 header {
   background: #ED7710;
@@ -70,11 +91,12 @@ input[type="search"] {
   color: #666 !important;
   border: 0px;
 }
-form button {
+
+.search-button {
   border-radius: 0px 1px 1px 0px !important;
   background: #fff;
-  color: #999; /* Esto cuando se ponga el icono del buscar se elimina */
 }
+
 button.separator::after {
   border-left: 1px solid #999; 
 }

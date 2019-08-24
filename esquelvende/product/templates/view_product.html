@@ -1,153 +1,124 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/product.css' %}"> 
 {% endblock%}
 
+{% block title %}{{ product.title }}{% endblock %}
+
 {% block content %}
-
-<div class="product">
-    <div class="container">
-        <div class="card product-card">
-            <div class="product-header d-flex">
-                <div class="product-title">                
-                    <div class="h1">{{ product.title }}</div>
-                </div>
-                
-                <div class="flex-seller user-picture-container">
-                    
-                    <div class="user-picture">
-                        <img src="/media/{{ product.user.account.avatar }}" class="rounded-circle img-responsive" alt="picture">
-                    </div>
-                    <div class="user-name text-center">
-                        <h5>
-                            {{ product.user.first_name }} {{ product.user.last_name }}
-                        </h5>
-                    </div>
-                </div>                
-                
+<div class="product container content sheet shadow-sm">
+    <div class="product-card">
+        <div class="product-header">
+            <div class="product-title">
+                <h5 style="word-wrap: break-word;">{{ product.title }}</h5>
             </div>
-            
-            <div class="row row-eq-height">
-                <div class="col-12 col-lg-6 container-product-image">
-
-                    <div id="carousel-indicator" class="carousel" data-ride="carousel">
-
-                        <div class="carousel-inner">
-                            
-                            {% for image in images %}
-                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                    <img class="d-block w-100" src="/media/{{ image.image }}">
-                                </div>
-                            {% endfor %}
-
-                        </div>
-                        
-                        <a class="carousel-control-prev" href="#carousel-indicator" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        
-                        <a class="carousel-control-next" href="#carousel-indicator" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                        <ol class="carousel-indicators">
-                            {% for image in images %}
-                                <img src="/media/{{ image.image }}"  data-target="#carousel-indicator" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %} indicator" height="45" width="45">
-                            {% endfor %}
-                        </ol>
-                    </div>
-                    
-
-
+            <!--
+            <div class="flex-seller user-picture-container">
+                <div class="user-picture">
+                    <img src="/media/{{ product.user.account.avatar }}" class="rounded-circle img-responsive" alt="picture">
                 </div>
-                <div class="col-12 col-lg-6 container-data">
-                    <div class="data">
-                        
-                        <!-- <div class="data-item">
-                            <div class="title text-center h2">
-                                Contacto
-                            </div>
-                        </div> -->
-                        
-                        <div class="data-item d-flex justify-content-between">
-                            <div class="price h1">
-                                ${{ product.price }}222222222
-                            </div>
-                            <div>
-                                {% include "./favorite_product.html" %}
-                            </div>
-                        </div>
-                        
-                        {% if product.whatsapp %}
-                        <div class="data-item">
-                            <a href="https://wa.me/{{ product.whatsapp }}?text=Hola.%20Estoy%20interesado%20por%20el%20producto%20que%20mire%20por%20Esquel%20Vende:www.esquelvende.com{{ request.get_full_path }}" class="whatsapp-link disabled"> 
-                                <button type="button" class="btn btn-success">
-                                    <i class="fab fa-whatsapp whatsapp"></i> Whatsapp
-                                </button>
-                            </a>
-                        </div>
-                        {% endif %}
-                        
-                        {% if product.contact_email %}
-                        <div class="data-item">
-                            {{ product.contact_email }}
-                        </div>
-                        {% endif %}
-
-                        {% if product.contact_phone %}
-                        <div class="data-item">                            
-                            {{ product.contact_phone }}
-                        </div>
-                        {% endif %}
-
-                        <!-- <div class="data-item">                        
-                        {% include "./favorite_product.html" %}
-                        </div> -->
-                        
-                    </div>
-                    <div class="esquelvende-text">
-                        Esquel vende no participa en la venta o negociacion de este articulo. Solo se limita a la publicacion de anuncios de sus usuarios.
-                    </div>
-    
+                <div class="user-name text-center">
+                    <h5>
+                        {{ product.user.first_name }} {{ product.user.last_name }}
+                    </h5>
                 </div>
             </div>
-            <div class="row container-description">
-                <div class="col-12">
-                    {% if product.description %}
-                        <h2>Descrpici&oacute;n</h2>
-                        <p>
-                            {{ product.description }}
-                        </p>
-                    {% else %}
-                        <div class="no-description text-center">
-                            <h3>Producto sin descripcion</h3>
-                        </div>
-                        {% endif %}
+        -->
+        </div>
+        
+        <div class="row row-eq-height">
+            <div class="col-12 col-lg-6 container-product-image">
+                <div id="carousel-indicator" class="carousel" data-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for image in images %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <img class="d-block w-100" src="/media/{{ image.image }}">
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <a class="carousel-control-prev" href="#carousel-indicator" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carousel-indicator" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                    <ol class="carousel-indicators">
+                        {% for image in images %}
+                            <img src="/media/{{ image.image }}"  data-target="#carousel-indicator" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %} indicator" height="45" width="45">
+                        {% endfor %}
+                    </ol>
                 </div>
+            </div>
+            <div class="col-12 col-lg-6 container-data">
+                <div class="data">
+                    <!-- <div class="data-item">
+                        <div class="title text-center h2">
+                            Contacto
+                        </div>
+                    </div> -->
+                    <div class="data-item d-flex justify-content-between">
+                        <div class="price h1">
+                            ${{ product.price }}
+                        </div>
+                        <div>
+                            {% include "./favorite_product.html" %}
+                        </div>
+                    </div>
+                    
+                    {% if product.whatsapp %}
+                    <div class="data-item">
+                        <a href="https://wa.me/{{ product.whatsapp }}?text=Hola.%20Estoy%20interesado%20por%20el%20producto%20que%20mire%20por%20Esquel%20Vende:www.esquelvende.com{{ request.get_full_path }}" class="whatsapp-link disabled"> 
+                            <button type="button" class="btn btn-success">
+                                <i class="fab fa-whatsapp whatsapp"></i> Whatsapp
+                            </button>
+                        </a>
+                    </div>
+                    {% endif %}
+                    
+                    {% if product.contact_email %}
+                    <div class="data-item">
+                        {{ product.contact_email }}
+                    </div>
+                    {% endif %}
+
+                    {% if product.contact_phone %}
+                    <div class="data-item">                            
+                        {{ product.contact_phone }}
+                    </div>
+                    {% endif %}
+
+                    <!-- <div class="data-item">                        
+                    {% include "./favorite_product.html" %}
+                    </div> -->
+                    
+                </div>
+                <div class="esquelvende-text">
+                    Esquel vende no participa en la venta o negociacion de este articulo. Solo se limita a la publicacion de anuncios de sus usuarios.
+                </div>
+
             </div>
         </div>
+        <div class="row container-description">
+            <div class="col-12 description">
+                {% if product.description %}
+                    <h2>Descrpici&oacute;n</h2>
+                    <p>
+                        {{ product.description }}
+                    </p>
+                {% else %}
+                    <div class="no-description text-center">
+                        <h3>Producto sin descripcion</h3>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
-            <!-- <div>
-                {% load hitcount_tags %}
-                visitas: {% get_hit_count for product %}   
-            </div> -->
-            
-            <!-- {{ product.description }} <br>
-            {{ product.price }} <br>
-
-            <a href="/reportar/{{ product.id }}"> Denunciar </a>
-            {% include "./favorite_product.html" %}
-             -->
-
-        </div>  <!-- Container-->
-    
-    
-</div>  <!-- Product -->
-
-
-
+    </div>  <!-- Container-->
 {% endblock%}
 
 {% block javascript %}

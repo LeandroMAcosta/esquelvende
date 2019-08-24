@@ -1,17 +1,15 @@
 function deleteProduct(){
     event.preventDefault();
     var obj = event.target,
-        id_product = obj.value,
+        product_id = obj.value,
         csrf = obj.parentElement.firstElementChild.value;
     $.ajax({
-        url: `/product/${id_product}/delete/`,
+        url: `/product/${product_id}/delete/`,
         type: "POST",
-        data: {
-            'csrfmiddlewaretoken': csrf
-        }
+        data: { 'csrfmiddlewaretoken': csrf }
     })
     .done(function(data) {
-        var node = data['id_product'];
+        var node = data['product_id'];
         document.getElementById(node).remove();
     })
     .fail(function(xhr) {
