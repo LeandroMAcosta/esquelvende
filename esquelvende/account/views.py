@@ -57,9 +57,7 @@ class HistoryList(LoginRequiredMixin, ListView):
     paginate_by = 30
 
     def get_queryset(self):
-        return Product.get_products_by_user(
-            **{'history__user': self.request.user}
-        )
+        return Product.actives.filter(history__user=self.request.user.pk)
 
 
 class Favorites(LoginRequiredMixin, ListView):
@@ -68,13 +66,13 @@ class Favorites(LoginRequiredMixin, ListView):
     paginate_by = 30
 
     def get_queryset(self):
-        return Product.get_products_by_user(
-            **{'favorite__user': self.request.user}
-        )
+        return Product.actives.filter(favorite__user=self.request.user.pk)
 
 
 @login_required(login_url='/login/')
 def user_products(request, template=None):
-    products = request.user.product_set.filter(delete=False)
+    context = {}
+    context['products_actives'] = Product.actives.filter(user=request.user.pk)
+    context['products_inactives'] = Product.inactives.filter(user=request.user.pk)
     template = template or './user_products/list_of_products.html'
-    return render(request, template, {'products': products})
+    return render(request, template, context)

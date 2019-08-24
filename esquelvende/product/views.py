@@ -75,7 +75,11 @@ def delete_product(request, product_id=None):
 
 @login_required(login_url='/login/')
 def republish_product(request, product_id=None):
-    product = get_object_or_404(Product, pk=product_id, user=request.user)
+    product = get_object_or_404(
+        Product.actives,
+        pk=product_id,
+        user=request.user
+    )
     if request.POST:
         try:
             product.republish()
@@ -86,10 +90,9 @@ def republish_product(request, product_id=None):
 
 def view_product(request, product_slug=None, product_id=None):
     product = get_object_or_404(
-        Product,
+        Product.actives,
         slug=product_slug,
         pk=product_id,
-        active=True
     )
 
     context = {"product": product, "images": product.images.all()}
@@ -105,7 +108,7 @@ def view_product(request, product_slug=None, product_id=None):
 def create_favorite(request, product_id=None):
 
     if request.POST:
-        product = get_object_or_404(Product, pk=product_id)
+        product = get_object_or_404(Product.actives, pk=product_id)
         if not request.user.is_authenticated:
             return JsonResponse(
                 {'url': '/login/?next=/product/%s-%s/' % (product.slug, product.pk)}
@@ -131,7 +134,7 @@ def search(request):
         raise Http404
 
     try:
-        products = Product.filter_products(search)
+        products = Product.actives.custom_filter(search)
         categories = Category.objects.all()
         context = {'categories': categories, 'products': products}
         return render(request, 'search.html', context)

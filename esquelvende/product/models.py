@@ -24,6 +24,29 @@ import sys
 import os
 
 
+class ProductInactivesManager(models.Manager):
+    def get_queryset(self):
+        return super(ProductInactivesManager, self).get_queryset().filter(
+            updated_at__date__lt=timezone.now() - timedelta(days=30),
+            is_deleted=False
+        )
+
+
+class ProductActivesManager(models.Manager):
+    def get_queryset(self):
+        return super(ProductActivesManager, self).get_queryset().filter(
+            updated_at__date__gt=timezone.now() - timedelta(days=30),
+            is_deleted=False
+        )
+
+    def custom_filter(self, search=None, filter_by=None):
+        fields = ['title', 'category__slug', 'sub_a__slug', 'brand__slug',
+                  'sub_b__slug']
+        query = get_query(search, fields, filter_by)
+        products = self.filter(query)
+        return products
+
+
 class Product(models.Model, HitCountMixin):
     STATUS_CHOICES = (
         ('U', 'Usado'),
@@ -33,9 +56,7 @@ class Product(models.Model, HitCountMixin):
     title = models.CharField(max_length=50, default=None)
     slug = models.SlugField()  # Title + id
     description = models.TextField(null=True, blank=True)
-    active = models.BooleanField(default=True)
-    # Cambiar este nombre delete creo que jode al delete() de django a is_deleted
-    delete = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False)
     count_report = models.IntegerField(default=0)
     user = models.ForeignKey(
         User,
@@ -78,46 +99,29 @@ class Product(models.Model, HitCountMixin):
         default=0,
         validators=[MinValueValidator(0)],
     )
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField()
     created_date = models.DateTimeField(auto_now_add=True)
+    actives = ProductActivesManager()
+    inactives = ProductInactivesManager()
+    objects = models.Manager()
 
     def __str__(self):
         return self.title
 
     def is_expired(self):
-        expired = timezone.now() > (self.updated_at + timedelta(days=30))
-        if expired:
-            self.active = False
-            self.save()
-        return expired
+        return timezone.now() > (self.updated_at + timedelta(days=30))
 
     def delete_product(self):
-        self.delete = True
-        self.active = False
+        self.is_deleted = True
         self.save()
 
     def republish(self):
         if self.is_expired():
-            self.active = True
             self.updated_at = timezone.now()
             self.save()
 
-    @classmethod
-    def filter_products(cls, search=None, filter_by=None):
-
-        fields = ['title', 'category__slug', 'sub_a__slug', 'brand__slug',
-                  'sub_b__slug']
-        query = get_query(search, fields, filter_by)
-        products = cls.objects.filter(query)
-        return products
-
     def get_url(self):
         return reverse("product_detail", args=(self.slug, self.id))
-
-    # Filter favorite or history products by user
-    @classmethod
-    def get_products_by_user(self, **filter):
-        return Product.objects.filter(delete=False, active=True, **filter)
 
 
 class ImagesProduct(models.Model):
@@ -199,7 +203,7 @@ class History(models.Model):
     @classmethod
     def add_to_history(cls, user, product):
         try:
-            obj = Product.objects.get(user=user, pk=product.id)
+            obj = Product.actives.get(user=user, pk=product.id)
         except Product.DoesNotExist:
             _, created = cls.objects.get_or_create(
                 user=user,

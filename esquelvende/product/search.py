@@ -50,6 +50,6 @@ def get_query(query_string, fields, filter_by):
             else:
                 query = query & or_query
     if query is not None:
-        query = query & Q(active=True, delete=False)
+        query = query
 
     return query
