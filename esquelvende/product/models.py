@@ -101,7 +101,7 @@ class Product(models.Model, HitCountMixin):
     def get_status(self):
         if self.status == 'U':
             return "Usado"
-        return "Nuevo"     
+        return "Nuevo"
 
     @classmethod
     def filter_products(cls, search=None, filter_by=None):
