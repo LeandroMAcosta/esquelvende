@@ -7,11 +7,11 @@
 {% block content %}
 <div class="container content sheet">
     <div class="row">
-      {% for category, queryset_sub_a in categories.items %}
+      {% for category in categories %}
         <div class="col-md-4 col-sm-4 col-0">
           <h5 class="title">{{ category }}</h5>
           <ul>
-          {% for sub_a in queryset_sub_a %}
+          {% for sub_a in category.categories.all %}
             <li>
               <a href="/{{ category.slug }}/{{ sub_a.slug }}" class="none">{{ sub_a }}</a>
             </li>

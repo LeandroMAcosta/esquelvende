@@ -3,8 +3,8 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.decorators import login_required
 # from django.forms import modelformset_factory
-from django.http import Http404, JsonResponse
-from django.shortcuts import HttpResponse, redirect, get_object_or_404, render
+from django.http import JsonResponse
+from django.shortcuts import HttpResponse, get_object_or_404, render
 
 # from hitcount.models import HitCount
 # from hitcount.views import HitCountMixin
@@ -14,38 +14,6 @@ from category.models import Category, SubA, SubB, Brand
 from .forms import FormEditProduct, FormImagesProduct, FormProduct
 from .models import Product, ImagesProduct, Favorite, History
 from account.views import user_products
-
-
-def search(request):
-    search = request.GET.get('results', None)
-
-    if search is None:
-        raise Http404
-
-    try:
-        filter_by = {}
-        minim = request.GET.get('min', None)
-        maxim = request.GET.get('max', None)
-        if request.GET.get('cond', None):
-            filter_by['status'] = request.GET.get('cond', None)
-
-        if minim:
-            filter_by['price__gte'] = int(minim)
-
-        if maxim:
-            filter_by['price__lte'] = int(maxim)
-
-        products = Product.filter_products(search, filter_by)
-        categories = Category.objects.all()
-        context = {
-            'categories': categories,
-            'products': products,
-            'quantity': len(products)
-        }
-        return render(request, 'base_category.html', context)
-    except Exception as e:
-        print(e)
-        return redirect('/')
 
 
 @login_required(login_url='/login/')

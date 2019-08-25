@@ -40,10 +40,14 @@ class ProductActivesManager(models.Manager):
         )
 
     def custom_filter(self, search=None, filter_by=None):
+        # Retrun queryset or empty list
         fields = ['title', 'category__slug', 'sub_a__slug', 'brand__slug',
                   'sub_b__slug']
         query = get_query(search, fields, filter_by)
-        products = self.filter(query)
+        if query:
+            products = self.filter(query)
+        else:
+            products = self.all()
         return products
 
 

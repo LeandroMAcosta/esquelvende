@@ -24,10 +24,10 @@ class Brand(Categories):
 
 
 class SubA(Categories):
-    category = models.ForeignKey(Category)
+    category = models.ForeignKey(Category, related_name='categories')
     brand = models.ManyToManyField(Brand)
 
 
 class SubB(Categories):
-    sub_a = models.ForeignKey(SubA)
+    sub_a = models.ForeignKey(SubA, related_name='categories')
     brand = models.ManyToManyField(Brand)

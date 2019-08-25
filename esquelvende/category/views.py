@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, HttpResponse
 from django.http import JsonResponse
 
 from .models import Category, SubA, SubB, Brand
 from product.models import Product
+from .abstract_category import AbstractCategory
 
 
 def load_categories(request):
@@ -40,166 +41,74 @@ def load_categories(request):
         return JsonResponse(data)
 
 
-# La view categories devuelve cada categoria con sus sub_a.
 def categories(request):
-    categories = Category.objects.all()
-    res = {}
-
-    for category in categories:
-        res[category] = SubA.objects.filter(category=category)
-
-    context = {'categories': res}
+    context = {'categories': Category.objects.all()}
     return render(request, 'categories.html', context)
 
 
-"""
-IMPORTANTE.
-
-Las siguientes views, retornan por contexto
-1) Ubicacion actual
-2) Productos
-3) Categorias o marcas o nada
-
-Para el 1er elemento si se encuentra en /electrodomestico/telefonos/
-la ubicacion actual es telefonos.
-
-Para el 2do elemento, los productos son filtrados por search o solo
-por las categorias en el caso de que no exista search o bien ambos.
-
-Para el 3er elemento.
-- Retornar categorias sigifica que la ubicacion actual tiene o bien sub_a
-  o sub_b como hijos.
-- Retornar marcas quiere decir que un sub_a, tiene hijos pero son marcas y
-  lo mismo para un sub_b.
-- No retornar categorias o marcas significa que la ubicacion
-  actual no tiene hijos relacionados.
-"""
-
-
 def category(request, slug_category):
-    search = request.GET.get('results', None)
+    # TODO: paginador
     category = get_object_or_404(Category, slug=slug_category)
 
-    filter_by = {'category__slug': category.slug}
-
-    if request.GET.get('cond', None):
-        filter_by['status'] = request.GET.get('cond', None)
-
-    minim = request.GET.get('min', None)
-    maxim = request.GET.get('max', None)
-
-    if minim:
-        filter_by['price__gte'] = int(minim)
-
-    if maxim:
-        filter_by['price__lte'] = int(maxim)
-
-    context = {'current_category': category,
-               'categories': category.suba_set.all(),
-               'products': Product.actives.custom_filter(search, filter_by),
-               'quantity': len(products)}
-    context['path'] = [
-        (category, slug_category, []),
-    ]
+    base = AbstractCategory(request, {'category': category})
+    context = {}
+    context['current_category'] = category
+    context['products'] = base.resolve_products()
+    context['quantity'] = base.resolve_quantity_products()
+    context['path'] = base.resolve_path()
 
     return render(request, 'base_category.html', context)
 
 
-"""
-Las vistas sub_a y sub_b trabajan como si estuviera en la ruta
-/categoria/slug_sub_a o .../sub_a/?brand=brand y
-/categoria/slug_sub_a/slug_sub_b o .../slug_sub_b?brand=brand respectivamente.
-
-Por conveniencia vimos que era mejor tratar a las marcas por GET y no
-como las demas categorias.
-"""
-
-
 def sub_a(request, slug_category, slug_sub_a):
-    search = request.GET.get('results', None)
-    brand = request.GET.get('brand', None)
-    context, filter_by = {}, {}
-
+    # TODO: paginador.
     sub_a = get_object_or_404(
         SubA,
         slug=slug_sub_a,
         category__slug=slug_category
     )
 
-    if brand:
-        brand = get_object_or_404(Brand, slug=brand)
-        filter_by['brand__slug'] = brand
-        context['current_category'] = brand
-    else:
-        categories = sub_a.subb_set.all()
-        if categories.exists():
-            context['categories'] = categories
-        else:
-            # Al no encontrar sub_b relacionados entonces hay marcas.
-            context['brands'] = sub_a.brand.all()
-        context['current_category'] = sub_a
-
-    filter_by.update({'category__slug': category.slug,
-                      'sub_a__slug': sub_a.slug})
-
-    minim = request.GET.get('min', None)
-    maxim = request.GET.get('max', None)
-    if minim:
-        filter_by['price__gte'] = int(minim)
-
-    if maxim:
-        filter_by['price__lte'] = int(maxim)
-
-    products = Product.actives.custom_filter(search, filter_by)
-    context['products'] = products
-    context['quantity'] = len(products)
-    context['path'] = [
-        (category, slug_category, []),
-        (sub_a, slug_sub_a, [slug_category])
-    ]
+    base = AbstractCategory(request, {'category': sub_a.category, 'sub_a': sub_a})
+    context = {
+        'current_category': sub_a,
+        'products': base.resolve_products(),
+        'quantity': base.resolve_quantity_products(),
+        'path': base.resolve_path()
+    }
 
     return render(request, 'base_category.html', context)
 
 
 def sub_b(request, slug_category, slug_sub_a, slug_sub_b):
-    search = request.GET.get('results', None)
-    brand = request.GET.get('brand', None)
-    context, filter_by = {}, {}
-
+    # TODO: paginador.
     sub_b = get_object_or_404(
-        SubB
-        slug=sub_b.slug,
-        sub_a__slug=sub_a.slug,
-        sub_a__category__slug=category.slug
+        SubB,
+        slug=slug_sub_b,
+        sub_a__slug=slug_sub_a,
+        sub_a__category__slug=slug_category
     )
 
-    if brand:
-        brand = get_object_or_404(Brand, slug=brand)
-        filter_by['brand__slug'] = brand
-        context['current_category'] = brand
-    else:
-        context.update({'brands': sub_b.brand.all(),
-                        'current_category': sub_b})
+    base = AbstractCategory(
+        request,
+        {'category': sub_b.sub_a.category, 'sub_a': sub_b.sub_a, 'sub_b': sub_b}
+    )
+    context = {
+        'current_category': sub_b,
+        'products': base.resolve_products(),
+        'quantity': base.resolve_quantity_products(),
+        'path': base.resolve_path()
+    }
 
-    filter_by.update({'category__slug': sub_b.sub_a.category.slug,
-                      'sub_a__slug': sub_b..sub_a.slug,
-                      'sub_b__slug': sub_b.slug})
-    minim = request.GET.get('min', None)
-    maxim = request.GET.get('max', None)
+    return render(request, 'base_category.html', context)
 
-    if minim:
-        filter_by['price__gte'] = int(minim)
 
-    if maxim:
-        filter_by['price__lte'] = int(maxim)
-
-    products = Product.actives.custom_filter(search, filter_by)
-    context['products'] = products
-    context['quantity'] = len(products)
-    context['path'] = [
-        (category, slug_category, []),
-        (sub_a, slug_sub_a, [slug_category]),
-        (sub_b, slug_sub_b, [slug_category, slug_sub_a])
-    ]
+def products(request):
+    # TODO: paginador.
+    base = AbstractCategory(request)
+    context = {
+        'categories': Category.objects.all(),
+        'products': base.resolve_products(),
+        'quantity': base.resolve_quantity_products()
+    }
 
     return render(request, 'base_category.html', context)

@@ -7,22 +7,24 @@
 
 {% block content %}
 <div class='categories container content'>
+
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item active"><a href="/">Home</a></li>
-            {% for cat, slug, pth in path %}
-                {% if forloop.last or path.count == 1 %}
+            {% for path_category in path %}
+                {% if forloop.last %}
                     <li class="breadcrumb-item active" aria-current="page">
-                        {{ cat }}
+                        {{ path_category|last }}
                     </li>
-                {% else %}
+                {% else  %}
                     <li class="breadcrumb-item">
-                        <a href="/{% for bread in pth %}{{bread}}/{% endfor %}{{slug}}{% if request.GET %}?{% endif %}{{ request.GET.urlencode }}">{{ cat }}</a>
+                        <a href="{% for bread in path_category %}/{{bread.slug}}{% endfor %}{% if request.GET %}?{% endif %}{{ request.GET.urlencode }}">{{ path_category|last }}</a>
                     </li>
-                {% endif%}
+                {% endif %}
             {% endfor %}
         </ol>
     </nav>
+
     <div class="row">
         <div class="col-md-3">
             {% if request.GET.results %}
@@ -39,7 +41,17 @@
 
             <!-- Insignias -->
             <div class="badges">
-                {% if request.GET.type == "U" %}            
+                {% if request.GET.brand %}
+                    <button
+                        onclick="genUrl(name, true)"
+                        name="brand"
+                        type="submit"
+                        class="badge-button link-button a-blank">
+                        {{request.GET.brand}} <i class="fas fa-times"></i>
+                    </button>
+                {% endif %}
+                <br>
+                {% if request.GET.type == "U" %}
                     <button
                         onclick="genUrl(name, true)"
                         name="type"
@@ -57,54 +69,54 @@
                     </button>
                 {% endif %}
             </div>
-
-            {% if results%}
-                <div class="field">
-                    <h4>Busqueda</h4>
-                    <b>{{results}}</b>
-                </div>
-            {% endif %}
-            {{ request.GET.urlencode }}
-            {% if categories.count %}
+            
+            <!-- Categorias -->
             <div class="field">
-                <h4>Categorias</h4>
-                {% for category in categories %}
-                    <a href="/{% for cat, slug, pth in path%}{{slug}}/{% endfor%}{{ category.slug }}{% if request.GET %}?{% endif %}{{ request.GET.urlencode }}" class="a-blank">
-                        {{ category }}<br>
-                    </a>
-                {% endfor %}
-            </div>
-            {% endif %}
-
-            {% if brands.count %}
-            <div class="field">
-                <h4>Marcas</h4>
-                {% for brand in brands %}
-                    <button name="brand" type="submit" value="{{ brand.slug }}" class="button-blank">
-                        {{brand}}
+                {% if current_category.categories.all %}
+                    <h4>Categorias</h4>
+                    {% for category in current_category.categories.all %}
+                        <a href="{{request.path}}/{{category.slug}}{% if request.GET %}?{% endif %}{{ request.GET.urlencode }}" class="a-blank">
+                            {{ category }}<br>
+                        </a>
+                    {% endfor %}
+                {% elif current_category.brand.all %}
+                    <h4>Marcas</h4>
+                    {% for brand in current_category.brand.all %}
+                        <button
+                            name="brand"
+                            type="submit"
+                            onclick="genUrl({'brand':'{{brand.slug}}'})"
+                            value="{{ brand.slug }}"
+                            class="button-blank">{{brand}}
                     </button>
-                {% endfor %}
+                    {% endfor %}
+                {% elif categories %}
+                    <h4>Categorias</h4>
+                    {% for category in categories %}
+                        <a href="{{category.slug}}{% if request.GET %}?{% endif %}{{ request.GET.urlencode }}" class="a-blank">
+                            {{ category }}<br>
+                        </a>
+                    {% endfor %}
+                {% endif %}
             </div>
-            {% endif %}
-
-
 
             <!-- Condiones -->
             <div class="field">
                 <h4>Condicion</h4>
                 <button
-                    name="cond"
+                    name="status"
                     onclick="genUrl({type:'U'})"
                     value="U"
                     class="link-button a-blank">Usado
                 </button>
                 <button
-                    name="cond"
+                    name="status"
                     onclick="genUrl({type:'N'})"
                     value="N"
                     class="link-button a-blank">Nuevo
                 </button>
             </div>
+
             <!-- Precio -->
             <form
                 action="javascript:genUrl({min:this.min.value, max:this.max.value})"
@@ -112,12 +124,6 @@
                 <div class="field">
                     <h4>Precio</h4>
                     <div class="input-group">
-                        <!-- <input id="cond" type="text" name="cond" value="{{ request.GET.cond
-}}" style="display:none"> -->
-                        <!--
-                        <input id="results" type="text" name="results" value="{{ request.GET.results }}" style="display:none">
-                        <input id="brand" type="text" name="brand" value="{{ request.GET.brand }}" style="display:none">
-                        -->
                         <input
                             id="min"
                             type="number"
@@ -154,7 +160,7 @@
     function genUrl(params=false, del=false) {
         // Creamos una instancia de URL.
         var url = new URL(window.location.href);
-        console.log(url)
+        console.log(params)
         // Si hay parametros y no los queremos borrar, los agregamos.
         if (params && !del) {
             var searchParams = new URLSearchParams(params);

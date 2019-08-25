@@ -33,7 +33,6 @@ def get_query(query_string, fields, filter_by):
                 query = q
             else:
                 query = query & q
-
     if query_string:
         terms = normalize_query(query_string)
         for term in terms:
