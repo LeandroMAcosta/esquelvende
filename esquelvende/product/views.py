@@ -60,8 +60,8 @@ def upload_image(request):
 
 
 @login_required(login_url='/login/')
-def delete_product(request, product_id=None):
-    product = get_object_or_404(Product, pk=product_id, user=request.user)
+def delete_product(request, pk=None):
+    product = get_object_or_404(Product, pk=pk, user=request.user)
     if request.POST:
         try:
             product.delete_product()
@@ -71,10 +71,10 @@ def delete_product(request, product_id=None):
 
 
 @login_required(login_url='/login/')
-def republish_product(request, product_id=None):
+def republish_product(request, pk=None):
     product = get_object_or_404(
         Product.actives,
-        pk=product_id,
+        pk=pk,
         user=request.user
     )
     if request.POST:
@@ -85,11 +85,11 @@ def republish_product(request, product_id=None):
         return user_products(request, './user_products/ajax_products.html')
 
 
-def view_product(request, product_slug=None, product_id=None):
+def view_product(request, slug=None, pk=None):
     product = get_object_or_404(
         Product.actives,
-        slug=product_slug,
-        pk=product_id,
+        slug=slug,
+        pk=pk,
     )
 
     context = {"product": product, "images": product.images.all()}
@@ -102,17 +102,17 @@ def view_product(request, product_slug=None, product_id=None):
     return render(request, './view_product.html', context)
 
 
-def create_favorite(request, product_id=None):
+def create_favorite(request, pk=None):
 
     if request.POST:
-        product = get_object_or_404(Product.actives, pk=product_id)
+        product = get_object_or_404(Product.actives, pk=pk)
         if not request.user.is_authenticated:
             return JsonResponse(
                 {'url': '/login/?next=/product/%s-%s/' % (product.slug, product.pk)}
             )
         try:
             favorite = Favorite.objects.get(
-                product=product_id,
+                product=pk,
                 user=request.user
             )
             favorite.delete()
