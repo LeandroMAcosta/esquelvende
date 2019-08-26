@@ -24,10 +24,16 @@ class Brand(Categories):
 
 
 class SubA(Categories):
-    category = models.ForeignKey(Category, related_name='categories')
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE,
+        related_name='categories')
     brand = models.ManyToManyField(Brand)
 
 
 class SubB(Categories):
-    sub_a = models.ForeignKey(SubA, related_name='categories')
+    sub_a = models.ForeignKey(
+        SubA,
+        on_delete=models.CASCADE,
+        related_name='categories')
     brand = models.ManyToManyField(Brand)

@@ -6,6 +6,7 @@ from .models import ImagesProduct, Product, Favorite
 
 from django.core.exceptions import ValidationError
 from category.models import Category, SubA, SubB, Brand
+from .constants import *
 import slug
 
 

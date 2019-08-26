@@ -2,12 +2,12 @@
 from __future__ import unicode_literals
 
 from django.contrib.auth import authenticate, login, logout
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.shortcuts import redirect, render
 from django.contrib import messages
 
-from forms import FormRegister, FormLogin
-from utils import my_login
+from .forms import FormRegister, FormLogin
+from .utils import my_login
 from product.models import Product, Favorite, History
 
 
@@ -34,7 +34,7 @@ def signup_user(request):
 
 
 def login_user(request):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         return redirect('/')
 
     if request.POST:

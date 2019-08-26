@@ -9,11 +9,10 @@ from django.urls import reverse
 from django.core.validators import MinValueValidator
 
 from django.contrib.contenttypes.fields import GenericRelation
-from hitcount.models import HitCount, HitCountMixin
 
 from category.models import Brand, Category, SubA, SubB
-from search import get_query
-import constants
+from .search import get_query
+from .constants import *
 
 # Para trabajar con las imagenes.
 from PIL import Image
@@ -51,7 +50,7 @@ class ProductActivesManager(models.Manager):
         return products
 
 
-class Product(models.Model, HitCountMixin):
+class Product(models.Model):
     STATUS_CHOICES = (
         ('U', 'Usado'),
         ('N', 'Nuevo')
@@ -66,7 +65,11 @@ class Product(models.Model, HitCountMixin):
         User,
         on_delete=models.CASCADE,
     )
-    category = models.ForeignKey(Category, null=True, blank=True)
+    category = models.ForeignKey(
+        Category,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE)
     sub_a = models.ForeignKey(
         SubA,
         null=True,
@@ -94,16 +97,11 @@ class Product(models.Model, HitCountMixin):
         null=True,
         blank=True,
     )
-    hit_count = GenericRelation(
-        HitCount,
-        object_id_field='object_pk',
-        related_query_name='hit_count_relation',
-    )
     price = models.PositiveIntegerField(
         default=0,
         validators=[MinValueValidator(0)],
     )
-    updated_at = models.DateTimeField()
+    updated_at = models.DateTimeField(auto_now_add=True)
     created_date = models.DateTimeField(auto_now_add=True)
     actives = ProductActivesManager()
     inactives = ProductInactivesManager()
@@ -113,7 +111,7 @@ class Product(models.Model, HitCountMixin):
         return self.title
 
     def is_expired(self):
-        return timezone.now() > (self.updated_at + timedelta(days=30))
+        return timezone.now() > (self.updviolatesated_at + timedelta(days=30))
 
     def delete_product(self):
         self.is_deleted = True
@@ -141,7 +139,8 @@ class ImagesProduct(models.Model):
         Product,
         null=True,
         blank=True,
-        related_name='images'
+        related_name='images',
+        on_delete=models.CASCADE
     )
     image = models.ImageField(upload_to='images/', blank=True)
     thumbnail = models.ImageField(upload_to='images/thumbnail', blank=True)
@@ -166,7 +165,7 @@ class ImagesProduct(models.Model):
         full_filename = filename + file_ext
 
         try:
-            ftype = constants.CHECK_EXTENSION[file_ext]
+            ftype = CHECK_EXTENSION[file_ext]
         except KeyError:
             raise ('Wrong extension.')
 
@@ -196,7 +195,7 @@ class ImagesProduct(models.Model):
     def standardize_image(self, image, base_width):
         heigth, weight = image.size[0], image.size[1]
         new_img = Image.new('RGB', (base_width, base_width), "white")
-        new_img.paste(image, ((base_width-heigth)/2, (base_width-weight)/2))
+        new_img.paste(image, (int((base_width-heigth)/2), int((base_width-weight)/2)))
         return new_img
 
 
@@ -224,7 +223,7 @@ class History(models.Model):
 
             if created:
                 histories = cls.objects.filter(user=user)
-                if histories.count() >= constants.MAX_HISTORY:
+                if histories.count() >= MAX_HISTORY:
                     histories[0].delete()
 
     def __str__(self):

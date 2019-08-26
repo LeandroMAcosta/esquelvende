@@ -1,5 +1,5 @@
 import dj_database_url
-from base import *
+from .base import *
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 

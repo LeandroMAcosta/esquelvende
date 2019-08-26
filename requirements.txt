@@ -3,7 +3,7 @@ certifi==2019.3.9
 chardet==3.0.4
 decorator==4.4.0
 dj-database-url==0.5.0
-Django==1.11.7
+Django==2.2.4
 django-hitcount==1.2.4
 enum34==1.1.6
 gunicorn==19.9.0
@@ -15,7 +15,7 @@ olefile==0.46
 pathlib2==2.3.3
 pexpect==4.6.0
 pickleshare==0.7.5
-Pillow==4.3.0
+Pillow==6.1.0
 prompt-toolkit==1.0.15
 psycopg2==2.7.4
 psycopg2-binary==2.7.7
@@ -24,7 +24,7 @@ pycodestyle==2.5.0
 Pygments==2.3.1
 PyJWT==1.7.1
 python-openid==2.2.5
-pytz==2018.9
+pytz==2019.2
 requests==2.21.0
 requests-oauthlib==1.2.0
 scandir==1.10.0
@@ -36,3 +36,5 @@ traitlets==4.3.2
 urllib3==1.24.1
 wcwidth==0.1.7
 whitenoise==4.1.2
+sqlparse==0.3.0
+slug==2.0

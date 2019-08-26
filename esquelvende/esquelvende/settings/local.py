@@ -1,4 +1,4 @@
-from base import *
+from .base import *
 
 SECRET_KEY = 'i4nb&02v%0_pb+9931ci-z@bjo1t!$u0072zt55hk0j#3+)7(2'
 

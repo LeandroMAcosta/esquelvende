@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'core',
     'account',
     'reports',
-    'hitcount',
     'social_django',
 ]
 

@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.views.generic.list import ListView
@@ -71,8 +71,9 @@ class Favorites(LoginRequiredMixin, ListView):
 
 @login_required(login_url='/login/')
 def user_products(request, template=None):
-    context = {}
-    context['products_actives'] = Product.actives.filter(user=request.user.pk)
-    context['products_inactives'] = Product.inactives.filter(user=request.user.pk)
+    context = {
+        'products_actives': Product.actives.filter(user=request.user.pk),
+        'products_inactives': Product.inactives.filter(user=request.user.pk)
+    }
     template = template or './user_products/list_of_products.html'
     return render(request, template, context)

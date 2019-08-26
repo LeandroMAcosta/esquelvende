@@ -6,10 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import HttpResponse, get_object_or_404, render
 
-# from hitcount.models import HitCount
-# from hitcount.views import HitCountMixin
-
-import constants
+from .constants import *
 from category.models import Category, SubA, SubB, Brand
 from .forms import FormEditProduct, FormImagesProduct, FormProduct
 from .models import Product, ImagesProduct, Favorite, History
@@ -24,7 +21,7 @@ def publish_product(request):
             images = request.POST.getlist('image')
             product = form.save()
             for count, id_file in enumerate(images):
-                if count < constants.MAX_IMAGES:
+                if count < MAX_IMAGES:
                     try:
                         obj = ImagesProduct.objects.get(
                             pk=int(id_file),

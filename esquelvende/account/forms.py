@@ -1,5 +1,4 @@
 # -- coding: utf-8 --
-import StringIO
 from PIL import Image
 
 from django import forms

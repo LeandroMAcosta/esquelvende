@@ -27,7 +27,7 @@ def get_query(query_string, fields, filter_by):
     """
     query = None
     if filter_by:
-        for k, v in filter_by.iteritems():
+        for k, v in filter_by.items():
             q = Q(**{"%s" % k: v})
             if query is None:
                 query = q
