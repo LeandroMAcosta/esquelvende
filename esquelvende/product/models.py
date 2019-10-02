@@ -25,7 +25,7 @@ import os
 
 class ProductInactivesManager(models.Manager):
     def get_queryset(self):
-        return super(ProductInactivesManager, self).get_queryset().filter(
+        return super().get_queryset().filter(
             updated_at__date__lt=timezone.now() - timedelta(days=30),
             is_deleted=False
         )
@@ -33,7 +33,7 @@ class ProductInactivesManager(models.Manager):
 
 class ProductActivesManager(models.Manager):
     def get_queryset(self):
-        return super(ProductActivesManager, self).get_queryset().filter(
+        return super().get_queryset().filter(
             updated_at__date__gt=timezone.now() - timedelta(days=30),
             is_deleted=False
         )
@@ -55,9 +55,8 @@ class Product(models.Model):
         ('U', 'Usado'),
         ('N', 'Nuevo')
     )
-
-    title = models.CharField(max_length=50, default=None)
-    slug = models.SlugField()  # Title + id
+    title = models.CharField(max_length=50)
+    slug = models.SlugField()
     description = models.TextField(null=True, blank=True)
     is_deleted = models.BooleanField(default=False)
     count_report = models.IntegerField(default=0)
@@ -103,15 +102,12 @@ class Product(models.Model):
     )
     updated_at = models.DateTimeField(auto_now_add=True)
     created_date = models.DateTimeField(auto_now_add=True)
+    objects = models.Manager()
     actives = ProductActivesManager()
     inactives = ProductInactivesManager()
-    objects = models.Manager()
-
-    def __str__(self):
-        return self.title
 
     def is_expired(self):
-        return timezone.now() > (self.updviolatesated_at + timedelta(days=30))
+        return timezone.now() > (self.updated_at + timedelta(days=30))
 
     def delete_product(self):
         self.is_deleted = True
@@ -122,16 +118,11 @@ class Product(models.Model):
             self.updated_at = timezone.now()
             self.save()
 
-    def get_primary_image(self):
-        return self.images.all().first()
-
-    def get_status(self):
-        if self.status == 'U':
-            return "Usado"
-        return "Nuevo"
-
     def get_url(self):
         return reverse("product_detail", args=(self.slug, self.id))
+
+    def __str__(self):
+        return self.title
 
 
 class ImagesProduct(models.Model):
@@ -201,7 +192,11 @@ class ImagesProduct(models.Model):
 
 class Favorite(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(
+        Product,
+        related_name='favorites',
+        on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return self.product.title
@@ -209,22 +204,22 @@ class Favorite(models.Model):
 
 class History(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE
+    )
 
     @classmethod
     def add_to_history(cls, user, product):
-        try:
-            obj = Product.actives.get(user=user, pk=product.id)
-        except Product.DoesNotExist:
-            _, created = cls.objects.get_or_create(
+        if product.user.pk != user.pk:
+            _, created = product.history_set.get_or_create(
                 user=user,
                 product=product
             )
-
             if created:
-                histories = cls.objects.filter(user=user)
-                if histories.count() >= MAX_HISTORY:
-                    histories[0].delete()
+                history = product.history_set.filter(user=user)
+                if history.count() >= MAX_HISTORY:
+                    history[0].delete()
 
     def __str__(self):
         return self.product.title

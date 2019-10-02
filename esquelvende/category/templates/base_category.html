@@ -40,36 +40,37 @@
 
 
             <!-- Insignias -->
-            <div class="badges">
-                {% if request.GET.brand %}
-                    <button
-                        onclick="genUrl(name, true)"
-                        name="brand"
-                        type="submit"
-                        class="badge-button link-button a-blank">
-                        {{request.GET.brand}} <i class="fas fa-times"></i>
-                    </button>
-                {% endif %}
-                <br>
-                {% if request.GET.type == "U" %}
-                    <button
-                        onclick="genUrl(name, true)"
-                        name="type"
-                        type="submit"
-                        class="badge-button link-button a-blank">
-                        Usado<i class="fas fa-times"></i>
-                    </button>
-                {% elif request.GET.type == "N" %}
-                    <button
-                        onclick="genUrl(name, true)"
-                        name="type"
-                        type="submit"
-                        class="badge-button link-button a-blank">
-                        Nuevo <i class="fas fa-times"></i>
-                    </button>
-                {% endif %}
-            </div>
-            
+            {% if request.GET %}
+                <div class="badges">
+                    {% if request.GET.brand %}
+                        <button
+                            onclick="genUrl(name, true)"
+                            name="brand"
+                            type="submit"
+                            class="badge-button link-button a-blank">
+                            {{request.GET.brand}} <i class="fas fa-times pl-1"></i>
+                        </button>
+                    {% endif %}
+                    <br>
+                    {% if request.GET.type == "U" %}
+                        <button
+                            onclick="genUrl(name, true)"
+                            name="type"
+                            type="submit"
+                            class="badge-button link-button a-blank">
+                            Usado<i class="fas fa-times pl-1"></i>
+                        </button>
+                    {% elif request.GET.type == "N" %}
+                        <button
+                            onclick="genUrl(name, true)"
+                            name="type"
+                            type="submit"
+                            class="badge-button link-button a-blank">
+                            Nuevo <i class="fas fa-times pl-1"></i>
+                        </button>
+                    {% endif %}
+                </div>
+            {% endif %}
             <!-- Categorias -->
             <div class="field">
                 {% if current_category.categories.all %}
@@ -87,7 +88,7 @@
                             type="submit"
                             onclick="genUrl({'brand':'{{brand.slug}}'})"
                             value="{{ brand.slug }}"
-                            class="button-blank">{{brand}}
+                            class="button-blank a-blank">{{brand}}
                     </button>
                     {% endfor %}
                 {% elif categories %}
@@ -143,15 +144,21 @@
                 </div>
             </form>
         </div>
+        {% if products %}
         <div class="col-md-9">
             {% for product in products %}
                 <div class="product-container">
-                    {% include "./product_box/stretched_box_product.html" %}
+                    {% include "./product_box/stretched_box_product.html" with active=True%}
                 </div>
             {% endfor %}
         </div>
+        {% else %}
+        <div class="col-md-9">
+          {% include "empty_product_query.html" with title="No se encontraron produtos" subtitle="Sé el primero en publicar en Esquel Vende!" namelink="Vender" url="product/publish/" %}
+        </div>
+        {% endif %}
     </div>
-
+    {% include "pagination.html" with page_obj=products%}
 </div>
 {% endblock%}
 

@@ -1,5 +1,5 @@
-{% if is_paginated %}
-  <nav aria-label="Page navigation">
+{% if page_obj.paginator.num_pages > 1 %}
+  <nav aria-label="Page navigation" class="pt-2">
     <ul class="pagination justify-content-center">
       {% if page_obj.has_previous %}
         <li class="page-item ">
@@ -10,7 +10,7 @@
           <a class="page-link" href="#" tabindex="-1">&laquo;</a>
         </li>
       {% endif %}
-      {% for i in paginator.page_range %}
+      {% for i in page_obj.paginator.page_range %}
         <li class="page-item {% if page_obj.number == i %}active{% endif %}">
           <a class="page-link" href="?page={{ i }}">{{ i }}</a>
         </li>

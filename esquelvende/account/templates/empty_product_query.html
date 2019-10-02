@@ -1,4 +1,10 @@
+{% load staticfiles %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/empty_product_query.css' %}" />
+{% endblock %}
+
 <div style="text-align: center; padding: 70px 0;">
     <h1 class="title">{{ title }}</h1>
     <span class="subtitle">{{ subtitle }}</span>
+    <a href={{ url }} style="font-size: 18px">{{ namelink }}</a>
 </div>

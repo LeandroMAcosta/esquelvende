@@ -4,19 +4,18 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/stretched_box_product.css' %}" />
 {% endblock %}
 
-{% with product.get_primary_image as first_image %}
 <div class="d-flex justify-content-between item shadow-sm p-3">
     <div class="d-flex">
         {% if active %}
             <a class="redirect-product" href="{{ product.get_url }}">
-                <img src="/media/{{ first_image.thumbnail }}" class="item-image">
+                <img src="/media/{{ product.images.first.thumbnail }}" class="item-image">
             </a>
         {% else %}
-            <img src="/media/{{ first_image.thumbnail }}" class="item-image">
+            <img src="/media/{{ product.images.first.thumbnail }}" class="item-image">
         {% endif %}
         <div class="d-flex flex-column px-3">
             <span class="item-title mb-auto">{{ product.title }}</span>
-            <span class="item-title mb-auto">{{ product.get_status }}</span>
+            <span class="item-title mb-auto">{{ product.get_status_display }}</span>
             <span class="item-price">$ {{ product.price }}</span>
         </div>
     </div>
@@ -34,4 +33,3 @@
     </div>
     {% endif %}
 </div>
-{% endwith %}

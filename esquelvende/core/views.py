@@ -13,11 +13,16 @@ from product.models import Product, Favorite, History
 
 def home(request):
     MAX_PRODUCTS = 10
-    products = Product.actives.order_by('-id')[:MAX_PRODUCTS]
-    context = {'products': products}
+    favorites, history = None, None
     if request.user.is_authenticated:
-        context['favorites'] = Product.actives.filter(favorite__user=request.user.pk)
-        context['history'] = Product.actives.filter(history__user=request.user.pk)
+        favorites = Product.actives.filter(favorites__user=request.user.pk)
+        history = Product.actives.filter(history__user=request.user.pk)
+
+    context = {
+        'products': Product.actives.order_by('-created_date')[:MAX_PRODUCTS],
+        'favorites': favorites,
+        'history': history
+    }
     return render(request, 'home.html', context)
 
 

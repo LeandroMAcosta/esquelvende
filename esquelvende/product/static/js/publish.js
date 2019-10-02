@@ -15,7 +15,7 @@ function uploadFile(files) {
     fd.append('csrfmiddlewaretoken', csrf.attr('value'));
 
     $.ajax({
-        url: "/product/upload-image/",
+        url: "/product/upload/image/",
         type: 'POST',
         data: fd,
         cache: false,
@@ -52,7 +52,7 @@ function renderFiles() {
             newImage = document.createElement("img"),
             deleteImage = document.createElement("img");
 
-        deleteImage.setAttribute("src", "../static/remove.svg");
+        deleteImage.setAttribute("src", "../../static/remove.svg");
         deleteImage.setAttribute("title", "Eliminar foto");
 
         parent.classList.add(`id${key}`, "d-flex", "justify-content-end");
@@ -196,7 +196,7 @@ function sendForm(e) {
     fd.append('csrfmiddlewaretoken', csrf.attr('value'))
 
     $.ajax({
-        url: "/publish/",
+        url: "/product/publish/",
         type: 'POST',
         data: fd,
         cache: false,

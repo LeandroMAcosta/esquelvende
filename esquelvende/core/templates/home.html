@@ -11,7 +11,7 @@
 {% block content %}
 <div class="container content">
   {% if products %}
-    {% include "carousel_products.html" with title="Ultimas publicaciones" subtitle="Ver mas" url_subtitle="#" list_product=products %}
+    {% include "carousel_products.html" with title="Ultimas publicaciones" subtitle="Ver mas" url_subtitle="/products" list_product=products %}
   {% endif %}
 
   {% if history %}

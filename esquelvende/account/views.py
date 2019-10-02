@@ -66,7 +66,7 @@ class Favorites(LoginRequiredMixin, ListView):
     paginate_by = 30
 
     def get_queryset(self):
-        return Product.actives.filter(favorite__user=self.request.user.pk)
+        return Product.actives.filter(favorites__user=self.request.user.pk)
 
 
 @login_required(login_url='/login/')

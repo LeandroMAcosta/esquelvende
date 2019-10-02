@@ -28,7 +28,7 @@ def publish_product(request):
                             product=product.pk
                         )
                         return HttpResponse(status=400)
-                    except Exception:
+                    except ImagesProduct.DoesNotExist:
                         obj = ImagesProduct.objects.get(pk=int(id_file))
                         obj.product = product
                         obj.save(product)
@@ -38,11 +38,11 @@ def publish_product(request):
         return Response(data)
     else:
         form = FormProduct(initial={'contact_email': request.user.email})
-        return render(request, './publish_product.html', {'form': form})
+        return render(request, 'publish_product.html', {'form': form})
 
 
 @login_required(login_url='/login/')
-def upload_image(request):
+def upload_product_image(request):
     if request.method == 'POST':
         form = FormImagesProduct(request.FILES)
         if form.is_valid():
@@ -61,8 +61,8 @@ def upload_image(request):
 
 @login_required(login_url='/login/')
 def delete_product(request, pk=None):
-    product = get_object_or_404(Product, pk=pk, user=request.user)
-    if request.POST:
+    product = get_object_or_404(Product.actives, pk=pk, user=request.user)
+    if request.method == 'POST':
         try:
             product.delete_product()
         except Exception:
@@ -72,12 +72,8 @@ def delete_product(request, pk=None):
 
 @login_required(login_url='/login/')
 def republish_product(request, pk=None):
-    product = get_object_or_404(
-        Product.actives,
-        pk=pk,
-        user=request.user
-    )
-    if request.POST:
+    product = get_object_or_404(Product.actives, pk=pk, user=request.user)
+    if request.method == 'POST':
         try:
             product.republish()
         except Exception:
@@ -85,43 +81,49 @@ def republish_product(request, pk=None):
         return user_products(request, './user_products/ajax_products.html')
 
 
-def view_product(request, slug=None, pk=None):
-    product = get_object_or_404(
-        Product.actives,
-        slug=slug,
-        pk=pk,
-    )
+def product_detail(request, slug=None, pk=None):
+    product = get_object_or_404(Product.actives, slug=slug, pk=pk)
 
-    context = {"product": product, "images": product.images.all()}
-
+    has_favorite = None
     if request.user.is_authenticated:
-        History.add_to_history(request.user, product)
-        context["has_favorite"] = Favorite.objects.filter(product=product.id,
-                                                          user=request.user
-                                                          ).exists()
-    return render(request, './view_product.html', context)
+        has_favorite = product.favorites.filter(user=request.user).exists()
+
+    context = {
+        "product": product,
+        "images": product.images.all(),
+        "has_favorite": has_favorite,
+        # TODO: published: Mostrar hace cuanto esta publicado.
+        # TODO: status: Mostrar el estado del producto.
+        # TODO: path: Mostrar la ruta de categorias del producto.
+    }
+    return render(request, 'view_product.html', context)
 
 
-def create_favorite(request, pk=None):
-
-    if request.POST:
+def favorite_product(request, pk=None):
+    if request.method == 'POST':
         product = get_object_or_404(Product.actives, pk=pk)
         if not request.user.is_authenticated:
             return JsonResponse(
-                {'url': '/login/?next=/product/%s-%s/' % (product.slug, product.pk)}
+                {'url': '/login/?next={}'.format(product.get_url())}
             )
-        try:
-            favorite = Favorite.objects.get(
-                product=pk,
-                user=request.user
-            )
+
+        favorite, created = product.favorites.get_or_create(user=request.user)
+        if not created:
             favorite.delete()
-        except Favorite.DoesNotExist:
-            favorite = Favorite.objects.create(
-                product=product,
-                user=request.user
+            return HttpResponse(status=200)
+        return HttpResponse(status=201)
+
+
+def history_product(request, pk=None):
+    if request.method == 'POST':
+        product = get_object_or_404(Product.actives, pk=pk)
+        if not request.user.is_authenticated:
+            return JsonResponse(
+                {'url': '/login/?next={}'.format(product.get_url())}
             )
-            return HttpResponse(status=201)
+
+        History.add_to_history(request.user, product)
+        return HttpResponse(status=200)
 
 
 # @login_required(login_url='/login/')

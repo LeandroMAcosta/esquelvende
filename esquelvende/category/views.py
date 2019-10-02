@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from .models import Category, SubA, SubB, Brand
 from product.models import Product
 from .abstract_category import AbstractCategory
+import json
 
 
 def load_categories(request):
@@ -47,21 +48,20 @@ def categories(request):
 
 
 def category(request, slug_category):
-    # TODO: paginador
     category = get_object_or_404(Category, slug=slug_category)
 
     base = AbstractCategory(request, {'category': category})
-    context = {}
-    context['current_category'] = category
-    context['products'] = base.resolve_products()
-    context['quantity'] = base.resolve_quantity_products()
-    context['path'] = base.resolve_path()
+    context = {
+        'current_category': category,
+        'products': base.resolve_products(),
+        'quantity': base.resolve_quantity_products(),
+        'path': base.resolve_path()
+    }
 
     return render(request, 'base_category.html', context)
 
 
 def sub_a(request, slug_category, slug_sub_a):
-    # TODO: paginador.
     sub_a = get_object_or_404(
         SubA,
         slug=slug_sub_a,
@@ -80,7 +80,6 @@ def sub_a(request, slug_category, slug_sub_a):
 
 
 def sub_b(request, slug_category, slug_sub_a, slug_sub_b):
-    # TODO: paginador.
     sub_b = get_object_or_404(
         SubB,
         slug=slug_sub_b,
@@ -103,7 +102,6 @@ def sub_b(request, slug_category, slug_sub_a, slug_sub_b):
 
 
 def products(request):
-    # TODO: paginador.
     base = AbstractCategory(request)
     context = {
         'categories': Category.objects.all(),

@@ -1,4 +1,5 @@
 from product.models import Product
+from django.core.paginator import Paginator
 
 
 class AbstractCategory:
@@ -9,6 +10,8 @@ class AbstractCategory:
         self.max_price = request.GET.get('max', None)
         self.status = request.GET.get('status', None)
         self.brand = request.GET.get('brand', None)
+        # Paginator
+        self.page = request.GET.get('page', None)
 
     def _resolve_categories(self):
         if not self.categories:
@@ -37,7 +40,9 @@ class AbstractCategory:
 
     def resolve_products(self):
         filter_by = self.resolve_filter_by()
-        return Product.actives.custom_filter(self.search, filter_by)
+        products = Product.actives.custom_filter(self.search, filter_by)
+        paginator = Paginator(products, 2)
+        return paginator.get_page(self.page)
 
     def resolve_path(self):
         path = []

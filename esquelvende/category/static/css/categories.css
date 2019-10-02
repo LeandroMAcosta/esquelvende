@@ -37,7 +37,8 @@ div > ul {
 }
 
 .categories .breadcrumb {
-    padding-left: 0px;
+    padding: 0px;
+
 }
 
 .categories .search {
