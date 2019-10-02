@@ -96,8 +96,6 @@ def product_detail(request, slug=None, pk=None):
         # TODO: status: Mostrar el estado del producto.
         # TODO: path: Mostrar la ruta de categorias del producto.
     }
-
-
     return render(request, 'view_product.html', context)
 
 
